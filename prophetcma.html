@@ -16,13 +16,16 @@
     </div>
   </section>
 
-  <!-- Abstract Section -->
-  <section class="px-6 py-10 bg-gray-50">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-4">📄 Abstract</h2>
-      <p class="text-gray-700 leading-relaxed">
-        <!-- 🔽 Replace this with your actual abstract below -->
-        This project explores the application of machine learning (ML) for automating the Comparative Market Analysis (CMA) process in real estate valuation. Using a cleaned dataset of residential properties, we aimed to develop a predictive model that estimates the fair market price of a home based on characteristics such as square footage, number of bedrooms and bathrooms, acreage, and type of property. The goal was to provide real estate professionals, property investors, and homebuyers with a tool that can automate price prediction, removing the reliance on manual appraisals.
+ <!-- Abstract Section -->
+<section class="px-6 py-10 bg-gray-50">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">📄 Abstract</h2>
+    
+    <!-- Collapsible Content -->
+    <div>
+      <p id="abstractText" class="text-gray-700 leading-relaxed max-h-60 overflow-hidden transition-all duration-500 ease-in-out">
+        <!-- 🔽 Replace this with your actual abstract -->
+  This project explores the application of machine learning (ML) for automating the Comparative Market Analysis (CMA) process in real estate valuation. Using a cleaned dataset of residential properties, we aimed to develop a predictive model that estimates the fair market price of a home based on characteristics such as square footage, number of bedrooms and bathrooms, acreage, and type of property. The goal was to provide real estate professionals, property investors, and homebuyers with a tool that can automate price prediction, removing the reliance on manual appraisals.
 
 We employed several supervised learning models, including Linear Regression, k-Nearest Neighbors (kNN), Random Forest, Gradient Boosting Machines (GBM), and XGBoost, followed by performance evaluation using Root Mean Square Error (RMSE) and Mean Absolute Error (MAE). Our best outcome came from blending the models, with an optimized blend of 15% XGBoost and 85% GBM, which achieved an Optimized Blend MAE of 6776.11 and an Optimized Blend RMSE of 11166.11. However, it’s important to note that the earlier, better results were likely due to overfitting, especially in specific price ranges.
 
@@ -32,11 +35,18 @@ Challenges and Limitations: Clustering Issues: Data clustering was initially use
 
 Overfitting: The earlier successes in model performance, especially with MAE and RMSE, were found to be a result of overfitting, particularly in the $130k to $185k price range. The model performed well within this price range but struggled to generalize for properties outside this range.
 
-Missing Features: The dataset, while comprehensive in basic real estate features (square footage, number of rooms, acreage), lacked important attributes such as year built, renovations, and additional property features like garages and pools. These gaps in data contributed to some inaccuracy in predictions, particularly for properties that had special features not captured in the dataset.
-         <!-- 🔼 -->
+Missing Features: The dataset, while comprehensive in basic real estate features (square footage, number of rooms, acreage), lacked important attributes such as year built, renovations, and additional property features like garages and pools. These gaps in data contributed to some inaccuracy in predictions, particularly for properties that had special features not captured in the dataset.        <!-- 🔼 -->
       </p>
+      <button 
+        onclick="toggleAbstract()" 
+        class="mt-4 text-blue-600 hover:underline focus:outline-none text-sm font-medium"
+        id="toggleButton">
+        See more ▼
+      </button>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- PNG Visuals -->
   <section class="px-6 py-10 bg-white">
