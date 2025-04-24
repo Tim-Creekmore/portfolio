@@ -21,6 +21,8 @@
         <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
         <a href="resume.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Résumé</a>
         <a href="coverletter.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Cover Letter</a>
+        <a href="#" onclick="toggleAbout()" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
+
       </div>
     </div>
   </section>
@@ -58,6 +60,30 @@
   <footer class="text-center text-gray-500 text-sm py-6">
     Built with 💻 and ☕ by Timothy Creekmore
   </footer>
+<!-- About Me Overlay -->
+<div id="aboutOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+  <div class="bg-white max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-8 shadow-lg relative">
+    <button onclick="toggleAbout()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+    <h2 class="text-2xl font-bold mb-4">👨‍💻 About Me</h2>
+    <p class="mb-4">
+      I’m a data scientist passionate about solving real-world problems using machine learning, automation, and data-driven storytelling. My projects reflect a commitment to impactful, clean, and interpretable results.
+    </p>
+    <ul class="list-disc list-inside text-gray-700 space-y-2">
+      <li><strong>Languages:</strong> Python, R, SQL</li>
+      <li><strong>Tools:</strong> Scikit-learn, XGBoost, Seaborn, Power BI, GitHub</li>
+      <li><strong>Fields:</strong> Machine Learning, Data Cleaning, Visualization</li>
+    </ul>
+  </div>
+</div>
 
+<script>
+  function toggleAbout() {
+    const overlay = document.getElementById("aboutOverlay");
+    overlay.classList.toggle("hidden");
+    overlay.classList.toggle("flex");
+  }
+</script>
+
+  
 </body>
 </html>
