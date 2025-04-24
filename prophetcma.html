@@ -82,5 +82,23 @@ Missing Features: The dataset, while comprehensive in basic real estate features
     Built with 💻 and ☕ by Timothy Creekmore
   </footer>
 
+<script>
+  function toggleAbstract() {
+    const container = document.getElementById('abstractContainer');
+    const button = document.getElementById('toggleButton');
+
+    if (container.classList.contains('max-h-60')) {
+      container.classList.remove('max-h-60');
+      container.classList.add('max-h-[2000px]'); // make it taller if necessary
+      button.textContent = 'See less ▲';
+    } else {
+      container.classList.remove('max-h-[2000px]');
+      container.classList.add('max-h-60');
+      button.textContent = 'See more ▼';
+    }
+  }
+</script>
+
+  
 </body>
 </html>
