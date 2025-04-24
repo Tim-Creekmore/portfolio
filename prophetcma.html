@@ -21,10 +21,10 @@
   <div class="max-w-4xl mx-auto">
     <h2 class="text-2xl font-semibold mb-4">📄 Abstract</h2>
     
-    <!-- Collapsible Content -->
     <div>
-      <p id="abstractText" class="text-gray-700 leading-relaxed max-h-60 overflow-hidden transition-all duration-500 ease-in-out">
-        <!-- 🔽 Replace this with your actual abstract -->
+      <div id="abstractContainer" class="overflow-hidden max-h-60 transition-all duration-500 ease-in-out">
+        <p class="text-gray-700 leading-relaxed" id="abstractText">
+          <!-- 🔽 Paste your full abstract here -->
   This project explores the application of machine learning (ML) for automating the Comparative Market Analysis (CMA) process in real estate valuation. Using a cleaned dataset of residential properties, we aimed to develop a predictive model that estimates the fair market price of a home based on characteristics such as square footage, number of bedrooms and bathrooms, acreage, and type of property. The goal was to provide real estate professionals, property investors, and homebuyers with a tool that can automate price prediction, removing the reliance on manual appraisals.
 
 We employed several supervised learning models, including Linear Regression, k-Nearest Neighbors (kNN), Random Forest, Gradient Boosting Machines (GBM), and XGBoost, followed by performance evaluation using Root Mean Square Error (RMSE) and Mean Absolute Error (MAE). Our best outcome came from blending the models, with an optimized blend of 15% XGBoost and 85% GBM, which achieved an Optimized Blend MAE of 6776.11 and an Optimized Blend RMSE of 11166.11. However, it’s important to note that the earlier, better results were likely due to overfitting, especially in specific price ranges.
@@ -37,10 +37,11 @@ Overfitting: The earlier successes in model performance, especially with MAE and
 
 Missing Features: The dataset, while comprehensive in basic real estate features (square footage, number of rooms, acreage), lacked important attributes such as year built, renovations, and additional property features like garages and pools. These gaps in data contributed to some inaccuracy in predictions, particularly for properties that had special features not captured in the dataset.        <!-- 🔼 -->
       </p>
+      </div>
       <button 
+        id="toggleButton" 
         onclick="toggleAbstract()" 
-        class="mt-4 text-blue-600 hover:underline focus:outline-none text-sm font-medium"
-        id="toggleButton">
+        class="mt-4 text-blue-600 hover:underline focus:outline-none text-sm font-medium">
         See more ▼
       </button>
     </div>
@@ -53,8 +54,7 @@ Missing Features: The dataset, while comprehensive in basic real estate features
     <div class="max-w-5xl mx-auto">
       <h2 class="text-2xl font-semibold mb-6">📸 Visualizations</h2>
       <div class="grid md:grid-cols-2 gap-6">
-        <img src="projects/prophetcma/chart1.png" alt="Visualization 1" class="rounded-xl shadow" />
-        <img src="projects/prophetcma/chart2.png" alt="Visualization 2" class="rounded-xl shadow" />
+        <img src="projects/prophetcma/MAEresults.png" alt="Visualization 1" class="rounded-xl shadow" />
         <!-- ➕ Add more <img> tags as needed -->
       </div>
     </div>
