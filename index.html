@@ -14,20 +14,28 @@
   <!-- Vanta Background -->
   <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
 
-  <!-- Hero Section -->
-  <section class="relative z-10 min-h-screen flex items-center justify-center px-4">
-    <div class="text-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4">
-        Timothy Creekmore
-      </h1>
-      <p class="text-xl md:text-2xl text-gray-600 mb-6">
-        Data Scientist | Machine Learning Enthusiast | Python & R Developer
-      </p>
-      <div class="flex justify-center gap-4">
-        <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
-        <a href="resume.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Résumé</a>
-        <a href="coverletter.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Cover Letter</a>
-        <a href="#" onclick="toggleAbout()" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
+   <!-- Projects Section -->
+  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- ProphetCMA Project Card -->
+        <a href="prophetcma.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">🏡 ProphetCMA: Real Estate Price Prediction</h3>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate the CMA process to predict house sale prices based on historical data and key property features.</p>
+          <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</p>
+          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
+        </a>
+
+        <!-- Signature Data Extraction Project Card -->
+        <a href="signature-extraction.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">Signature Data Extraction</h3>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure, EDA, Machine Learning, OCR</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Take scanned signature sheets and put the contents in a CSV file for later use.</p>
+          <p class="text-sm text-gray-700"><strong>Result:</strong> Completed in-part. Handwritten signatures proved a challenge in this context.</p>
+          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
+        </a>
       </div>
     </div>
   </section>
