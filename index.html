@@ -11,6 +11,27 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
+  <!-- Navigation Bar -->
+<nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex">
+        <div class="flex-shrink-0 flex items-center">
+          <span class="font-bold text-xl">Timothy Creekmore</span> <!-- You can customize this -->
+        </div>
+        <div class="hidden sm:-my-px sm:ml-10 sm:flex space-x-8">
+          <a href="#about" class="text-gray-700 hover:text-blue-500 font-medium">About</a>
+          <a href="#skills" class="text-gray-700 hover:text-blue-500 font-medium">Skills</a>
+          <a href="#projects" class="text-gray-700 hover:text-blue-500 font-medium">Projects</a>
+          <a href="#contact" class="text-gray-700 hover:text-blue-500 font-medium">Contact</a>
+          <a href="resume.pdf" class="text-gray-700 hover:text-blue-500 font-medium">Resume</a>
+          <a href="coverletter.pdf" class="text-gray-700 hover:text-blue-500 font-medium">Cover Letter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>  
+
  <!-- Vanta Background -->
   <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
 
@@ -25,8 +46,6 @@
       </p>
       <div class="flex justify-center gap-4">
         <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
-        <a href="resume.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Résumé</a>
-        <a href="coverletter.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Cover Letter</a>
         <a href="#" onclick="toggleAbout()" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
       </div>
     </div>
@@ -170,6 +189,51 @@
     </div>
   </section>
 
+  <!-- Contact Section -->
+<section id="contact" class="px-6 py-16 bg-gray-100">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-10">Contact Me</h2>
+
+    <div class="text-center mb-8">
+      <p class="text-lg text-gray-700">📧 Email me at: 
+        <a href="mailto:timcreekmore2002@gmail.com" class="text-blue-600 hover:underline">
+          timcreekmore2002@gmail.com
+        </a>
+      </p>
+      <!-- You could add a number here if you really want, but not recommended for public security -->
+    </div>
+
+    <form action="https://formspree.io/f/yourformid" method="POST" class="grid gap-6">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+      </div>
+
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (optional)</label>
+        <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email" id="email" name="_replyto" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
+          Send Message
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+
   <!-- Social + Contact Links -->
   <div class="relative z-10 flex justify-center gap-6 py-8">
     <a href="https://github.com/Tim-Creekmore" target="_blank" class="text-gray-600 hover:text-black text-2xl" title="GitHub">
@@ -177,9 +241,6 @@
     </a>
     <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl" title="LinkedIn">
       <i class="fab fa-linkedin"></i>
-    </a>
-    <a href="mailto:Timcreekmore2002@gmail.com" class="text-red-500 hover:text-red-700 text-2xl" title="Email Me">
-      <i class="fas fa-envelope"></i>
     </a>
   </div>
 
