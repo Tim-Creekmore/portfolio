@@ -8,16 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-
-
-
 </head>
 <body class="bg-gray-100 text-gray-800">
-<div id="vanta-bg" class="fixed inset-0 -z-10"></div>
-  
+
+  <!-- Vanta Background -->
+  <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
 
   <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center px-4">
+  <section class="relative z-10 min-h-screen flex items-center justify-center px-4">
     <div class="text-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-4">
         Timothy Creekmore
@@ -30,125 +28,106 @@
         <a href="resume.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Résumé</a>
         <a href="coverletter.pdf" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">Download Cover Letter</a>
         <a href="#" onclick="toggleAbout()" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
-
       </div>
     </div>
   </section>
 
   <!-- Projects Section -->
-<section id="projects" class="px-6 py-16 bg-white">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
+  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- ProphetCMA Project Card -->
+        <a href="prophetcma.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">🏡 ProphetCMA: Real Estate Price Prediction</h3>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate the CMA process to predict house sale prices based on historical data and key property features.</p>
+          <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</p>
+          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
+        </a>
 
-    <!-- Project Cards -->
-    <div class="grid md:grid-cols-2 gap-8">
-      <!-- ProphetCMA Project Card -->
-      <a href="prophetcma.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">🏡 ProphetCMA: Real Estate Price Prediction</h3>
-        <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
-        <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate the CMA process to predict house sale prices based on historical data and key property features.</p>
-        <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</p>
-        <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-      </a>
-
-      <!-- Signature Data Extraction Project Card -->
-      <a href="signature-extraction.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">Signature Data Extraction</h3>
-        <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure, EDA, Machine Learning, OCR</p>
-        <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Take scanned signature sheets and put the contents in a CSV file for later use.</p>
-        <p class="text-sm text-gray-700"><strong>Result:</strong> Completed in-part. Handwritten signatures proved a challenge in this context.</p>
-        <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-      </a>
+        <!-- Signature Data Extraction Project Card -->
+        <a href="signature-extraction.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">Signature Data Extraction</h3>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure, EDA, Machine Learning, OCR</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Take scanned signature sheets and put the contents in a CSV file for later use.</p>
+          <p class="text-sm text-gray-700"><strong>Result:</strong> Completed in-part. Handwritten signatures proved a challenge in this context.</p>
+          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Social + Contact Links -->
-<div class="flex justify-center gap-6 py-8">
-  <!-- GitHub -->
-  <a href="https://github.com/Tim-Creekmore" target="_blank" class="text-gray-600 hover:text-black text-2xl" title="GitHub">
-    <i class="fab fa-github"></i>
-  </a>
+  <div class="relative z-10 flex justify-center gap-6 py-8">
+    <a href="https://github.com/Tim-Creekmore" target="_blank" class="text-gray-600 hover:text-black text-2xl" title="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl" title="LinkedIn">
+      <i class="fab fa-linkedin"></i>
+    </a>
+    <a href="mailto:Timcreekmore2002@gmail.com" class="text-red-500 hover:text-red-700 text-2xl" title="Email Me">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
 
-  <!-- LinkedIn -->
-  <a href="https://www.linkedin.com/in/timcreekmore"
-    <i class="fab fa-linkedin"></i>
-  </a>
-
-  <!-- Email -->
-  <a href="mailto:Timcreekmore2002@gmail.com" class="text-red-500 hover:text-red-700 text-2xl" title="Email Me">
-    <i class="fas fa-envelope"></i>
-  </a>
-</div>
-
-
-  <!-- Optional Footer -->
-  <footer class="text-center text-gray-500 text-sm py-6">
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm py-6 relative z-10">
     Built with 💻 and ☕ by Timothy Creekmore
   </footer>
-<!-- About Me Overlay -->
-<div id="aboutOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-  <div class="bg-white max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-8 shadow-lg relative">
-    <button onclick="toggleAbout()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
 
-    <h2 class="text-2xl font-bold mb-4">👨‍💻 About Me</h2>
-
-    <p class="mb-4">
-      Hey, I'm Timothy Creekmore — a Data/Computer Scientist with a love for all things technical. Whether it’s computers, the intricacies of sports, or the stock market, it really doesn't matter — I find joy in things with a high skill ceiling that I can improve at over time.
-    </p>
-
-    <p class="mb-4">
-      This probably all started when I was 12. I played (and still do) the online game <em>World of Tanks</em> on an old Acer laptop my parents gave me. That laptop constantly overheated, so I had to take it apart and clean out the exhaust fan. After that, it worked great. From then on, I’ve always had a love for computers.
-    </p>
-
-    <p class="mb-4">
-      As I got older, my dad roped me into becoming an appliance repair technician at 16. I worked for his company — Alpine Appliance — off and on for about six years while juggling school and college. That job helped me develop real technical skills in diagnosing and solving problems. Eventually, I transitioned into the used appliance market — kind of like flipping cars, but smaller. Everyone needs appliances. Now, I’ll occasionally find broken ones, fix them, and resell them — using the same skills I started developing at 12 and sharpened on the job.
-    </p>
-
-    <p class="mb-4">
-      Today, I’m fascinated by data and machine learning. Being able to harness insights from data is like having a superpower — and with how fast data is growing, there’s never been a better time to dive in. I’m especially passionate about projects that give people the ability to make better-informed decisions.
-    </p>
-
-    <p class="mb-4">
-      When I’m not working on a portfolio project, you’ll most likely find me playing strategy games, playing sports, or fixing a washer under my porch.
-    </p>
-
-    <p class="mb-4">
-      I’m married to my beautiful wife, Elise, and one of our big goals is to start a homestead on a nice piece of land — and somehow raise 8 kids.  
-      But for now, we’re just taking it one day at a time.
-    </p>
-
+  <!-- About Me Overlay -->
+  <div id="aboutOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+    <div class="bg-white max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-8 shadow-lg relative">
+      <button onclick="toggleAbout()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-4">👨‍💻 About Me</h2>
+      <p class="mb-4">
+        Hey, I'm Timothy Creekmore — a Data/Computer Scientist with a love for all things technical. Whether it’s computers, the intricacies of sports, or the stock market, it really doesn't matter — I find joy in things with a high skill ceiling that I can improve at over time.
+      </p>
+      <p class="mb-4">
+        This probably all started when I was 12. I played (and still do) the online game <em>World of Tanks</em> on an old Acer laptop my parents gave me. That laptop constantly overheated, so I had to take it apart and clean out the exhaust fan. After that, it worked great. From then on, I’ve always had a love for computers.
+      </p>
+      <p class="mb-4">
+        As I got older, my dad roped me into becoming an appliance repair technician at 16. I worked for his company — Alpine Appliance — off and on for about six years while juggling school and college. That job helped me develop real technical skills in diagnosing and solving problems. Eventually, I transitioned into the used appliance market — kind of like flipping cars, but smaller. Everyone needs appliances. Now, I’ll occasionally find broken ones, fix them, and resell them — using the same skills I started developing at 12 and sharpened on the job.
+      </p>
+      <p class="mb-4">
+        Today, I’m fascinated by data and machine learning. Being able to harness insights from data is like having a superpower — and with how fast data is growing, there’s never been a better time to dive in. I’m especially passionate about projects that give people the ability to make better-informed decisions.
+      </p>
+      <p class="mb-4">
+        When I’m not working on a portfolio project, you’ll most likely find me playing strategy games, playing sports, or fixing a washer under my porch.
+      </p>
+      <p class="mb-4">
+        I’m married to my beautiful wife, Elise, and one of our big goals is to start a homestead on a nice piece of land — and somehow raise 8 kids. But for now, we’re just taking it one day at a time.
+      </p>
+    </div>
   </div>
-</div>
 
+  <!-- Scripts -->
+  <script>
+    function toggleAbout() {
+      const overlay = document.getElementById("aboutOverlay");
+      overlay.classList.toggle("hidden");
+      overlay.classList.toggle("flex");
+    }
+  </script>
 
-<script>
-  function toggleAbout() {
-    const overlay = document.getElementById("aboutOverlay");
-    overlay.classList.toggle("hidden");
-    overlay.classList.toggle("flex");
-  }
-</script>
+  <script>
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x6d7af0,
+      backgroundColor: 0x0,
+      points: 20.00,
+      maxDistance: 29.00,
+      spacing: 20.00
+    })
+  </script>
 
-<script>
-VANTA.NET({
-  el: "#vanta-bg",
-  mouseControls: true,
-  touchControls: true,
-  gyroControls: false,
-  minHeight: 200.00,
-  minWidth: 200.00,
-  scale: 1.00,
-  scaleMobile: 1.00,
-  color: 0x6d7af0,
-  backgroundColor: 0x0,
-  points: 20.00,
-  maxDistance: 29.00,
-  spacing: 20.00
-})
-</script>
-
-
-  
 </body>
 </html>
