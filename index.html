@@ -34,20 +34,21 @@
     const navbar = document.getElementById('navbar');
     const links = document.querySelectorAll('#nav-links a');
     if (window.scrollY > 50) {
-      navbar.classList.add('bg-gray-50', 'shadow-md');
+      navbar.classList.add('bg-gray-100', 'shadow-lg'); // stronger background and shadow
       links.forEach(link => {
         link.classList.remove('text-white');
-        link.classList.add('text-gray-700', 'hover:text-blue-500');
+        link.classList.add('text-black', 'hover:text-blue-500'); // bold black on scroll
       });
     } else {
-      navbar.classList.remove('bg-gray-50', 'shadow-md');
+      navbar.classList.remove('bg-gray-100', 'shadow-lg');
       links.forEach(link => {
-        link.classList.remove('text-gray-700', 'hover:text-blue-500');
+        link.classList.remove('text-black', 'hover:text-blue-500');
         link.classList.add('text-white');
       });
     }
   });
 </script>
+
 
 
 
