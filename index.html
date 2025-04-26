@@ -17,12 +17,12 @@
     <div class="flex justify-center h-20 items-center">
       <!-- Navigation Links -->
       <div id="nav-links" class="hidden sm:flex space-x-10">
-        <a href="#about" class="font-medium transition-colors">About</a>
-        <a href="#skills" class="font-medium transition-colors">Skills</a>
-        <a href="#projects" class="font-medium transition-colors">Projects</a>
-        <a href="#contact" class="font-medium transition-colors">Contact</a>
-        <a href="resume.pdf" class="font-medium transition-colors">Resume</a>
-        <a href="#thesis" class="font-medium transition-colors">Thesis</a>
+        <a href="#about" class="font-medium text-white transition-colors">About</a>
+        <a href="#skills" class="font-medium text-white transition-colors">Skills</a>
+        <a href="#projects" class="font-medium text-white transition-colors">Projects</a>
+        <a href="#contact" class="font-medium text-white transition-colors">Contact</a>
+        <a href="resume.pdf" class="font-medium text-white transition-colors">Resume</a>
+        <a href="#thesis" class="font-medium text-white transition-colors">Thesis</a>
       </div>
     </div>
   </div>
@@ -34,10 +34,10 @@
     const navbar = document.getElementById('navbar');
     const links = document.querySelectorAll('#nav-links a');
     if (window.scrollY > 50) {
-      navbar.classList.add('bg-gray-100', 'shadow-lg'); // stronger background and shadow
+      navbar.classList.add('bg-gray-100', 'shadow-lg');
       links.forEach(link => {
         link.classList.remove('text-white');
-        link.classList.add('text-black', 'hover:text-blue-500'); // bold black on scroll
+        link.classList.add('text-black', 'hover:text-blue-500');
       });
     } else {
       navbar.classList.remove('bg-gray-100', 'shadow-lg');
@@ -48,6 +48,7 @@
     }
   });
 </script>
+
 
 
 
