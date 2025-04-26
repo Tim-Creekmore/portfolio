@@ -28,14 +28,23 @@
   </div>
 </nav>
 
-<!-- Script to handle navbar background change on scroll -->
+<!-- Script to handle navbar background and text color change -->
 <script>
   window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbar');
+    const links = document.querySelectorAll('#nav-links a');
     if (window.scrollY > 50) {
-      navbar.classList.add('bg-gray-50', 'shadow-md'); // After scrolling down
+      navbar.classList.add('bg-gray-50', 'shadow-md');
+      links.forEach(link => {
+        link.classList.remove('text-white');
+        link.classList.add('text-gray-700', 'hover:text-blue-500');
+      });
     } else {
-      navbar.classList.remove('bg-gray-50', 'shadow-md'); // At top
+      navbar.classList.remove('bg-gray-50', 'shadow-md');
+      links.forEach(link => {
+        link.classList.remove('text-gray-700', 'hover:text-blue-500');
+        link.classList.add('text-white');
+      });
     }
   });
 </script>
