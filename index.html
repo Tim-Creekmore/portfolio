@@ -3,50 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Timothy Creekmore — Lyon College graduate in Computer Science and Data Science. Portfolio, projects, and contact." />
   <title>Timothy Creekmore | Data Scientist</title>
+  <style>html { scroll-padding-top: 5.5rem; }</style>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
  <!-- Navigation Bar -->
 <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-center h-20 items-center">
-      <!-- Navigation Links -->
-      <div id="nav-links" class="hidden sm:flex space-x-10">
-        <a href="#about" class="font-medium text-white transition-colors">About</a>
-        <a href="#skills" class="font-medium text-white transition-colors">Skills</a>
-        <a href="#projects" class="font-medium text-white transition-colors">Projects</a>
-        <a href="#contact" class="font-medium text-white transition-colors">Contact</a>
-        <a href="resume.pdf" class="font-medium text-white transition-colors">Resume</a>
-        <a href="#thesis" class="font-medium text-white transition-colors">Cover Letter</a>
+    <div class="relative flex h-20 items-center justify-end sm:justify-center">
+      <div id="nav-links" class="hidden sm:flex sm:flex-wrap sm:justify-center sm:absolute sm:left-1/2 sm:-translate-x-1/2 gap-x-8 gap-y-2 max-w-[90vw]">
+        <a href="#about" class="js-nav-link font-medium text-white transition-colors">About</a>
+        <a href="#skills" class="js-nav-link font-medium text-white transition-colors">Skills</a>
+        <a href="#projects" class="js-nav-link font-medium text-white transition-colors">Projects</a>
+        <a href="#thesis" class="js-nav-link font-medium text-white transition-colors">Cover Letter</a>
+        <a href="#contact" class="js-nav-link font-medium text-white transition-colors">Contact</a>
+        <a href="resume.pdf" class="js-nav-link font-medium text-white transition-colors">Resume</a>
       </div>
+      <button type="button" id="nav-menu-toggle" class="sm:hidden z-10 p-2 rounded-lg text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <i class="fas fa-bars text-xl" id="nav-menu-icon-open"></i>
+        <i class="fas fa-times text-xl hidden" id="nav-menu-icon-close"></i>
+      </button>
+    </div>
+    <div id="mobile-nav" class="hidden sm:hidden pb-4 pt-1 flex flex-col items-center gap-3 border-t border-white/20">
+      <a href="#about" class="js-nav-link font-medium text-white py-1">About</a>
+      <a href="#skills" class="js-nav-link font-medium text-white py-1">Skills</a>
+      <a href="#projects" class="js-nav-link font-medium text-white py-1">Projects</a>
+      <a href="#thesis" class="js-nav-link font-medium text-white py-1">Cover Letter</a>
+      <a href="#contact" class="js-nav-link font-medium text-white py-1">Contact</a>
+      <a href="resume.pdf" class="js-nav-link font-medium text-white py-1">Resume</a>
     </div>
   </div>
 </nav>
 
-<!-- Script to handle navbar background and text color change -->
 <script>
-  window.addEventListener('scroll', function() {
+  function applyNavbarScrollState() {
     const navbar = document.getElementById('navbar');
-    const links = document.querySelectorAll('#nav-links a');
-    if (window.scrollY > 50) {
+    const links = document.querySelectorAll('.js-nav-link');
+    const toggle = document.getElementById('nav-menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const onSolid = window.scrollY > 50;
+    if (onSolid) {
       navbar.classList.add('bg-gray-100', 'shadow-lg');
-      links.forEach(link => {
+      links.forEach(function (link) {
         link.classList.remove('text-white');
-        link.classList.add('text-black', 'hover:text-blue-500');
+        link.classList.add('text-gray-900', 'hover:text-blue-600');
       });
+      toggle.classList.remove('text-white', 'hover:bg-white/10', 'focus:ring-white/50');
+      toggle.classList.add('text-gray-800', 'hover:bg-gray-200', 'focus:ring-gray-400');
+      mobileNav.classList.remove('border-white/20');
+      mobileNav.classList.add('border-gray-200');
     } else {
       navbar.classList.remove('bg-gray-100', 'shadow-lg');
-      links.forEach(link => {
-        link.classList.remove('text-black', 'hover:text-blue-500');
+      links.forEach(function (link) {
+        link.classList.remove('text-gray-900', 'hover:text-blue-600');
         link.classList.add('text-white');
       });
+      toggle.classList.add('text-white', 'hover:bg-white/10', 'focus:ring-white/50');
+      toggle.classList.remove('text-gray-800', 'hover:bg-gray-200', 'focus:ring-gray-400');
+      mobileNav.classList.add('border-white/20');
+      mobileNav.classList.remove('border-gray-200');
     }
-  });
+  }
+  window.addEventListener('scroll', applyNavbarScrollState);
+  applyNavbarScrollState();
+
+  (function () {
+    var toggle = document.getElementById('nav-menu-toggle');
+    var panel = document.getElementById('mobile-nav');
+    var iconOpen = document.getElementById('nav-menu-icon-open');
+    var iconClose = document.getElementById('nav-menu-icon-close');
+    toggle.addEventListener('click', function () {
+      var nowClosed = panel.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', nowClosed ? 'false' : 'true');
+      toggle.setAttribute('aria-label', nowClosed ? 'Open menu' : 'Close menu');
+      iconOpen.classList.toggle('hidden', !nowClosed);
+      iconClose.classList.toggle('hidden', nowClosed);
+    });
+    panel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        panel.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+  })();
 </script>
 
 
@@ -63,7 +111,7 @@
         Timothy Creekmore
       </h1>
       <p class="text-xl md:text-2xl text-gray-200 mb-6">
-        Undergrad Student | AI/ML Enthusiast | Aspiring Data Scientist
+        Lyon College &rsquo;25 | Computer Science &amp; Data Science | ML &amp; Analytics
       </p>
       <div class="flex justify-center gap-4">
         <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
@@ -78,21 +126,21 @@
     
     <!-- Name and College Information -->
     <div class="text-center mb-6">
-      <p class="text-lg text-gray-700 mt-2">Lyon College '25, Undergrad Student, Data Scientist and ML Enthusiast</p>
+      <p class="text-lg text-gray-700 mt-2">Lyon College &rsquo;25 graduate &mdash; Computer Science, Data Science, and applied ML</p>
     </div>
 
     <!-- Bio Paragraph -->
     <p class="text-lg text-gray-700 mt-6 mb-6 text-left">
-      I'm a soon-to-be graduate of Lyon College's class of 2025, and my passions lie in Computer Science and Data Science. My interests include machine learning, predictive modeling, and data visualization. I'm currently an undergrad student working on my Bachelors in both Computer Science and Data Science.
+      I graduated from Lyon College in 2025 with dual degrees in Computer Science and Data Science. I care about turning raw data into clear decisions: machine learning, predictive modeling, visualization, and solid engineering around the whole pipeline. I am building portfolio projects and always interested in roles where I can grow as a data scientist or ML-minded engineer.
     </p>
 
     <!-- Education Section -->
     <div class="font-semibold mt-6 text-left">
-      Lyon College
+      Lyon College (2021&ndash;2025)
     </div>
     <ul class="list-disc ml-6 mt-2 text-gray-700 text-left">
-      <li>Bachelors of Art in Computer Science</li>
-      <li>Bachelors of Science in Data Science</li>
+      <li>Bachelor of Arts in Computer Science</li>
+      <li>Bachelor of Science in Data Science</li>
     </ul>
   </div>
 </section>
@@ -208,22 +256,22 @@
         </a>
 
           <!-- Local Store Price Scraper Project Card -->
-<a href="#project" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
   <h3 class="text-xl font-semibold mb-2">🛒 Local Store Price Scraper - InProgress</h3>
   <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Pandas</p>
   <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Scrape and display current prices of building supplies from several stores (like 2x4s, drywall, and paint), showing which stores have best prices for key items.</p>
-  <p class="text-sm text-gray-700"><strong>Status:</strong> Prototype complete — proof of concept built using HTML snapshot parsing and dynamic content handling. Experimenting with Scrapy (Python Library for Webscraping). Feel free to ask questions</p>
-  <div class="mt-4 text-blue-600 font-medium hover:underline">🔍 In Development Phase</div>
-</a>
+          <p class="text-sm text-gray-700"><strong>Status:</strong> Prototype complete — proof of concept built using HTML snapshot parsing and dynamic content handling. Experimenting with Scrapy (Python web scraping). Feel free to ask questions.</p>
+          <div class="mt-4 text-gray-600 font-medium">🔍 In development</div>
+</div>
 
 <!-- Local Store Online Pricing Project Card -->
-<a href="#project" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
+<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
   <h3 class="text-xl font-semibold mb-2">🛍️ Local Store Pricing System Sync - InProgress</h3>
   <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, HTML/CSS, CSV, Google Sheets, Render</p>
   <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Help local stores without online catalogs provide real-time pricing by connecting their current inventory system to a searchable website.</p>
-  <p class="text-sm text-gray-700"><strong>Progress:</strong> Prototype in development, In talks with store owner to get API-access to start on website synchornization. Feel free to ask questions</p>
-  <div class="mt-4 text-blue-600 font-medium hover:underline">📊 In R&D Phase</div>
-</a>
+  <p class="text-sm text-gray-700"><strong>Progress:</strong> Prototype in development; in talks with a store owner to get API access and start website synchronization. Feel free to ask questions.</p>
+  <div class="mt-4 text-gray-600 font-medium">📊 In R&amp;D phase</div>
+</div>
 
 
 
@@ -231,10 +279,26 @@
     </div>
   </section>
 
+  <section id="thesis" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Cover letter</h2>
+      <p class="text-lg text-gray-700 mb-8">
+        For hiring teams and introductions, you can download my cover letter as a PDF. You can also reach me directly in the contact section below.
+      </p>
+      <a href="cover-letter.pdf" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium">
+        Download cover letter (PDF)
+      </a>
+    </div>
+  </section>
+
   <!-- Contact Section -->
 <section id="contact" class="px-6 py-16 bg-gray-100">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-3xl font-bold text-center mb-10">Contact Me</h2>
+
+    <p id="form-thanks" class="hidden text-center text-green-700 font-medium mb-6" role="status">
+      Thanks — your message was sent. I will get back to you soon.
+    </p>
 
     <div class="text-center mb-8">
       <p class="text-lg text-gray-700">📧 Email me at: 
@@ -245,7 +309,10 @@
       <!-- You could add a number here if you really want, but not recommended for public security -->
     </div>
 
-    <form action="https://formspree.io/f/yourformid" method="POST" class="grid gap-6">
+    <form action="https://formsubmit.co/timcreekmore2002@gmail.com" method="POST" class="grid gap-6">
+      <input type="hidden" name="_subject" value="Message from timothycreekmore.com portfolio" />
+      <input type="hidden" name="_next" value="https://www.timothycreekmore.com/?sent=1" />
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <div>
         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
         <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
@@ -258,7 +325,7 @@
 
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" id="email" name="_replyto" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+        <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
       </div>
 
       <div>
@@ -330,6 +397,10 @@
   -->
     
   <script>
+    if (new URLSearchParams(window.location.search).get('sent') === '1') {
+      var thanks = document.getElementById('form-thanks');
+      if (thanks) thanks.classList.remove('hidden');
+    }
     VANTA.NET({
       el: "#vanta-bg",
       mouseControls: true,
