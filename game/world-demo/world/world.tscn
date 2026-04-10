@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://f6worlddemo1"]
+
+[ext_resource type="Script" path="res://world/world_controller.gd" id="1_wc"]
+[ext_resource type="PackedScene" uid="uid://b8voxchunk01" path="res://world/voxel_chunk.tscn" id="2_vc"]
+[ext_resource type="PackedScene" uid="uid://c7player001" path="res://player/player.tscn" id="3_pl"]
+[ext_resource type="Script" path="res://world/day_night.gd" id="4_dn"]
+[ext_resource type="Script" path="res://world/perimeter_walls.gd" id="8_pw"]
+[ext_resource type="Script" path="res://world/foliage_placer.gd" id="9_fp"]
+[ext_resource type="Script" path="res://world/procedural_ambient.gd" id="10_pa"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
+sky_top_color = Color(0.38, 0.52, 0.72, 1)
+sky_horizon_color = Color(0.72, 0.68, 0.58, 1)
+sky_curve = 0.12
+ground_horizon_color = Color(0.48, 0.44, 0.36, 1)
+ground_bottom_color = Color(0.18, 0.16, 0.12, 1)
+
+[sub_resource type="Sky" id="Sky_world"]
+sky_material = SubResource("Sky_mat")
+
+[sub_resource type="Environment" id="Environment_world"]
+background_mode = 2
+sky = SubResource("Sky_world")
+ambient_light_source = 2
+ambient_light_color = Color(0.62, 0.58, 0.50, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+tonemap_exposure = 1.05
+tonemap_white = 5.5
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.68, 0.62, 0.52, 1)
+fog_density = 0.012
+fog_aerial_perspective = 0.1
+fog_height = 5.0
+fog_height_density = 0.02
+glow_enabled = true
+glow_intensity = 0.42
+glow_strength = 0.9
+glow_mix = 0.04
+glow_bloom = 0.03
+glow_blend_mode = 1
+glow_hdr_threshold = 0.85
+glow_hdr_scale = 1.2
+glow_hdr_luminance_cap = 10.0
+glow_levels/1 = 0.0
+glow_levels/2 = 0.6
+glow_levels/3 = 0.35
+glow_levels/4 = 0.1
+glow_levels/5 = 0.0
+glow_levels/6 = 0.0
+glow_levels/7 = 0.0
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_wc")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_world")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906308, 0.211309, -0.362372, 0, 0.86397, 0.503604, 0.422618, -0.455471, 0.782986, 10, 22, 12)
+light_color = Color(0.98, 0.92, 0.78, 1)
+light_energy = 1.05
+light_angular_size = 0.6
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_soft_shadow_filter_quality = 0
+shadow_bias = 0.02
+script = ExtResource("4_dn")
+
+[node name="VoxelTerrain" parent="." instance=ExtResource("2_vc")]
+
+[node name="Foliage" type="Node3D" parent="."]
+script = ExtResource("9_fp")
+
+[node name="Ambient" type="Node" parent="."]
+script = ExtResource("10_pa")
+
+[node name="PerimeterWalls" type="Node3D" parent="."]
+script = ExtResource("8_pw")
+
+[node name="Player" parent="." instance=ExtResource("3_pl")]
+
+[node name="Crosshair" type="CanvasLayer" parent="."]
+layer = 32
+
+[node name="Center" type="CenterContainer" parent="Crosshair"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dot" type="ColorRect" parent="Crosshair/Center"]
+custom_minimum_size = Vector2(3, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.92, 0.9, 0.88, 0.35)

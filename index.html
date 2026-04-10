@@ -3,420 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Timothy Creekmore — Lyon College graduate in Computer Science and Data Science. Portfolio, projects, and contact." />
-  <title>Timothy Creekmore | Data Scientist</title>
-  <style>html { scroll-padding-top: 5.5rem; }</style>
+  <meta name="description" content="Timothy Creekmore — personal hub: portfolio, shop, projects, and content." />
+  <title>Timothy Creekmore | Home</title>
+  <style>html { scroll-behavior: smooth; }</style>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/hub.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="min-h-screen bg-slate-50 text-gray-800 antialiased" data-hub="home">
 
- <!-- Navigation Bar -->
-<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative flex h-20 items-center justify-end sm:justify-center">
-      <div id="nav-links" class="hidden sm:flex sm:flex-wrap sm:justify-center sm:absolute sm:left-1/2 sm:-translate-x-1/2 gap-x-8 gap-y-2 max-w-[90vw]">
-        <a href="#about" class="js-nav-link font-medium text-white transition-colors">About</a>
-        <a href="#skills" class="js-nav-link font-medium text-white transition-colors">Skills</a>
-        <a href="#projects" class="js-nav-link font-medium text-white transition-colors">Projects</a>
-        <a href="#thesis" class="js-nav-link font-medium text-white transition-colors">Cover Letter</a>
-        <a href="#contact" class="js-nav-link font-medium text-white transition-colors">Contact</a>
-        <a href="resume.pdf" class="js-nav-link font-medium text-white transition-colors">Resume</a>
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/shop/" class="hover:text-teal-600 transition" data-hub-link="shop">Shop</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/content/" class="hover:text-teal-600 transition" data-hub-link="content">Content</a>
+        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
-      <button type="button" id="nav-menu-toggle" class="sm:hidden z-10 p-2 rounded-lg text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-        <i class="fas fa-bars text-xl" id="nav-menu-icon-open"></i>
-        <i class="fas fa-times text-xl hidden" id="nav-menu-icon-close"></i>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close"></i>
       </button>
     </div>
-    <div id="mobile-nav" class="hidden sm:hidden pb-4 pt-1 flex flex-col items-center gap-3 border-t border-white/20">
-      <a href="#about" class="js-nav-link font-medium text-white py-1">About</a>
-      <a href="#skills" class="js-nav-link font-medium text-white py-1">Skills</a>
-      <a href="#projects" class="js-nav-link font-medium text-white py-1">Projects</a>
-      <a href="#thesis" class="js-nav-link font-medium text-white py-1">Cover Letter</a>
-      <a href="#contact" class="js-nav-link font-medium text-white py-1">Contact</a>
-      <a href="resume.pdf" class="js-nav-link font-medium text-white py-1">Resume</a>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/shop/" class="py-2 hover:text-teal-600" data-hub-link="shop">Shop</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/content/" class="py-2 hover:text-teal-600" data-hub-link="content">Content</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<script>
-  function applyNavbarScrollState() {
-    const navbar = document.getElementById('navbar');
-    const links = document.querySelectorAll('.js-nav-link');
-    const toggle = document.getElementById('nav-menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    const onSolid = window.scrollY > 50;
-    if (onSolid) {
-      navbar.classList.add('bg-gray-100', 'shadow-lg');
-      links.forEach(function (link) {
-        link.classList.remove('text-white');
-        link.classList.add('text-gray-900', 'hover:text-blue-600');
-      });
-      toggle.classList.remove('text-white', 'hover:bg-white/10', 'focus:ring-white/50');
-      toggle.classList.add('text-gray-800', 'hover:bg-gray-200', 'focus:ring-gray-400');
-      mobileNav.classList.remove('border-white/20');
-      mobileNav.classList.add('border-gray-200');
-    } else {
-      navbar.classList.remove('bg-gray-100', 'shadow-lg');
-      links.forEach(function (link) {
-        link.classList.remove('text-gray-900', 'hover:text-blue-600');
-        link.classList.add('text-white');
-      });
-      toggle.classList.add('text-white', 'hover:bg-white/10', 'focus:ring-white/50');
-      toggle.classList.remove('text-gray-800', 'hover:bg-gray-200', 'focus:ring-gray-400');
-      mobileNav.classList.add('border-white/20');
-      mobileNav.classList.remove('border-gray-200');
-    }
-  }
-  window.addEventListener('scroll', applyNavbarScrollState);
-  applyNavbarScrollState();
-
-  (function () {
-    var toggle = document.getElementById('nav-menu-toggle');
-    var panel = document.getElementById('mobile-nav');
-    var iconOpen = document.getElementById('nav-menu-icon-open');
-    var iconClose = document.getElementById('nav-menu-icon-close');
-    toggle.addEventListener('click', function () {
-      var nowClosed = panel.classList.toggle('hidden');
-      toggle.setAttribute('aria-expanded', nowClosed ? 'false' : 'true');
-      toggle.setAttribute('aria-label', nowClosed ? 'Open menu' : 'Close menu');
-      iconOpen.classList.toggle('hidden', !nowClosed);
-      iconClose.classList.toggle('hidden', nowClosed);
-    });
-    panel.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        panel.classList.add('hidden');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', 'Open menu');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
-      });
-    });
-  })();
-</script>
-
-
-
-
-
- <!-- Vanta Background -->
-  <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
-
-  <!-- Hero Section -->
-  <section class="relative z-10 min-h-screen flex items-center justify-center px-4">
-    <div class="text-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
-        Timothy Creekmore
-      </h1>
-      <p class="text-xl md:text-2xl text-gray-200 mb-6">
-        Lyon College &rsquo;25 | Computer Science &amp; Data Science | ML &amp; Analytics
+  <header class="relative overflow-hidden pt-24 pb-16 md:pb-24 px-4">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#0d4f6e] to-[#007BA7] opacity-[0.97]"></div>
+    <div class="absolute inset-0 opacity-[0.08]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center">
+      <p class="text-teal-200/90 text-sm font-medium tracking-wide uppercase mb-3">One domain, several threads</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Timothy Creekmore</h1>
+      <p class="text-lg md:text-xl text-slate-200 leading-relaxed mb-10">
+        Data science, applied ML, and AI engineering — plus a growing corner for practical projects: a small shop, a voxel game in the browser, and eventually appliance-repair content.
       </p>
-      <div class="flex justify-center gap-4">
-        <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
-        <a href="#about" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
-      </div>
-    </div>
-  </section>
-
-<section id="about" class="px-6 py-16 bg-gray-100">
-  <div class="max-w-5xl mx-auto text-left">
-    <h2 class="text-3xl font-bold text-center mb-10">Timothy Creekmore</h2>
-    
-    <!-- Name and College Information -->
-    <div class="text-center mb-6">
-      <p class="text-lg text-gray-700 mt-2">Lyon College &rsquo;25 graduate &mdash; Computer Science, Data Science, and applied ML</p>
-    </div>
-
-    <!-- Bio Paragraph -->
-    <p class="text-lg text-gray-700 mt-6 mb-6 text-left">
-      I graduated from Lyon College in 2025 with dual degrees in Computer Science and Data Science. I care about turning raw data into clear decisions: machine learning, predictive modeling, visualization, and solid engineering around the whole pipeline. I am building portfolio projects and always interested in roles where I can grow as a data scientist or ML-minded engineer.
-    </p>
-
-    <!-- Education Section -->
-    <div class="font-semibold mt-6 text-left">
-      Lyon College (2021&ndash;2025)
-    </div>
-    <ul class="list-disc ml-6 mt-2 text-gray-700 text-left">
-      <li>Bachelor of Arts in Computer Science</li>
-      <li>Bachelor of Science in Data Science</li>
-    </ul>
-  </div>
-</section>
-
-
-  <section id="skills" class="px-6 py-16" style="background-color: #007BA7;">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-center text-white mb-10">Skills</h2>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Java -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">☕</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Java</h3>
-        <p class="text-sm text-gray-700">
-          I have over 6 years experience in Java, creating games, small-apps and various other applications.
-        </p>
-      </div>
-
-      <!-- Python -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🐍</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Python</h3>
-        <p class="text-sm text-gray-700">
-          Over the past 3 years, I have extensive experience with Python in research, coursework, and personal projects.
-        </p>
-      </div>
-
-      <!-- R -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">📊</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">R</h3>
-        <p class="text-sm text-gray-700">
-          Skilled in R for statistical analysis, data visualization, and machine learning applications.
-        </p>
-      </div>
-
-      <!-- Js/HTML/CSS -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">💻</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">JavaScript, HTML, CSS</h3>
-        <p class="text-sm text-gray-700">
-          Over 4 years of experience using JavaScript, HTML, and CSS.
-        </p>
-      </div>
-
-      <!-- C/C++ -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">💾</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">C/C++</h3>
-        <p class="text-sm text-gray-700">
-          2 years of experience programming in C++ with projects in coursework.
-        </p>
-      </div>
-
-      <!-- Machine Learning/AI -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🤖</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Machine Learning / AI</h3>
-        <p class="text-sm text-gray-700">
-          I have worked on machine learning projects in my coursework using various libraries from languages such as R and Python.
-        </p>
-      </div>
-
-      <!-- SQL/SQLite -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🗃️</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">SQL / SQLite</h3>
-        <p class="text-sm text-gray-700">
-          Experienced in SQL for managing databases, including SQLite for efficient data storage and retrieval in various projects.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-  
-  <!-- Projects Section -->
-  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- ProphetCMA Project Card -->
-        <a href="prophetcma.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">🏡 ProphetCMA: Real Estate Price Prediction</h3>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
-          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate the CMA process to predict house sale prices based on historical data and key property features.</p>
-          <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</p>
-          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-        </a>
-
-        <!-- Signature Data Extraction Project Card -->
-        <a href="signature-extraction.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">Signature Data Extraction</h3>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure, EDA, Machine Learning, OCR</p>
-          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Take scanned signature sheets and put the contents in a CSV file for later use.</p>
-          <p class="text-sm text-gray-700"><strong>Result:</strong> Completed in-part. Handwritten signatures proved a challenge in this context.</p>
-          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-        </a>
-
-          <!-- Local Store Price Scraper Project Card -->
-<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
-  <h3 class="text-xl font-semibold mb-2">🛒 Local Store Price Scraper - InProgress</h3>
-  <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Pandas</p>
-  <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Scrape and display current prices of building supplies from several stores (like 2x4s, drywall, and paint), showing which stores have best prices for key items.</p>
-          <p class="text-sm text-gray-700"><strong>Status:</strong> Prototype complete — proof of concept built using HTML snapshot parsing and dynamic content handling. Experimenting with Scrapy (Python web scraping). Feel free to ask questions.</p>
-          <div class="mt-4 text-gray-600 font-medium">🔍 In development</div>
-</div>
-
-<!-- Local Store Online Pricing Project Card -->
-<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
-  <h3 class="text-xl font-semibold mb-2">🛍️ Local Store Pricing System Sync - InProgress</h3>
-  <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, HTML/CSS, CSV, Google Sheets, Render</p>
-  <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Help local stores without online catalogs provide real-time pricing by connecting their current inventory system to a searchable website.</p>
-  <p class="text-sm text-gray-700"><strong>Progress:</strong> Prototype in development; in talks with a store owner to get API access and start website synchronization. Feel free to ask questions.</p>
-  <div class="mt-4 text-gray-600 font-medium">📊 In R&amp;D phase</div>
-</div>
-
-
-
-      </div>
-    </div>
-  </section>
-
-  <section id="thesis" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4">Cover letter</h2>
-      <p class="text-lg text-gray-700 mb-8">
-        For hiring teams and introductions, you can download my cover letter as a PDF. You can also reach me directly in the contact section below.
+      <p class="text-slate-300 text-sm max-w-xl mx-auto mb-8">
+        Pick a section below. Everything here is meant to feel like one site: shared navigation, shared palette, with each area keeping its own personality.
       </p>
-      <a href="cover-letter.pdf" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium">
-        Download cover letter (PDF)
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 -mt-8 md:-mt-12 pb-20 relative z-10">
+    <h2 class="sr-only">Site directory</h2>
+    <div class="grid sm:grid-cols-2 gap-5 md:gap-6">
+
+      <a href="/portfolio/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-teal-600/40 transition text-left">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 text-lg mb-4 group-hover:bg-teal-100 transition" aria-hidden="true">◆</span>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Portfolio</h3>
+        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+          Projects, skills, resume, cover letter, and contact — including ML work and AI engineering notes.
+        </p>
+        <span class="text-teal-600 text-sm font-medium group-hover:underline">Open portfolio →</span>
       </a>
+
+      <a href="/shop/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-amber-500/50 transition text-left">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-700 text-lg mb-4 group-hover:bg-amber-100 transition" aria-hidden="true">🛒</span>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Shop</h3>
+        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+          Physical items for sale. Checkout through PayPal buttons — no custom backend required.
+        </p>
+        <span class="text-amber-700 text-sm font-medium group-hover:underline">Browse listings →</span>
+      </a>
+
+      <a href="/game/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-violet-500/50 transition text-left">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-700 text-lg mb-4 group-hover:bg-violet-100 transition" aria-hidden="true">▦</span>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Voxel game</h3>
+        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+          Godot 4 world-layer demo — playable in the browser via Web export and on Windows; hub page embeds the build under /game/play/.
+        </p>
+        <span class="text-violet-700 text-sm font-medium group-hover:underline">Enter lab →</span>
+      </a>
+
+      <a href="/content/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-sky-500/50 transition text-left">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-700 text-lg mb-4 group-hover:bg-sky-100 transition" aria-hidden="true">▶</span>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Content</h3>
+        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+          Future home for YouTube-style videos — appliance repair, tutorials, and related notes.
+        </p>
+        <span class="text-sky-700 text-sm font-medium group-hover:underline">See what&apos;s planned →</span>
+      </a>
+
     </div>
-  </section>
 
-  <!-- Contact Section -->
-<section id="contact" class="px-6 py-16 bg-gray-100">
-  <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-10">Contact Me</h2>
+    <ul class="mt-12 text-center text-sm text-gray-500 space-y-2">
+      <li><a href="/portfolio/#contact" class="text-teal-600 hover:underline">Contact</a> · <a href="https://github.com/Tim-Creekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/timcreekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+    </ul>
+  </main>
 
-    <p id="form-thanks" class="hidden text-center text-green-700 font-medium mb-6" role="status">
-      Thanks — your message was sent. I will get back to you soon.
-    </p>
-
-    <div class="text-center mb-8">
-      <p class="text-lg text-gray-700">📧 Email me at: 
-        <a href="mailto:timcreekmore2002@gmail.com" class="text-blue-600 hover:underline">
-          timcreekmore2002@gmail.com
-        </a>
-      </p>
-      <!-- You could add a number here if you really want, but not recommended for public security -->
-    </div>
-
-    <form action="https://formsubmit.co/timcreekmore2002@gmail.com" method="POST" class="grid gap-6">
-      <input type="hidden" name="_subject" value="Message from timothycreekmore.com portfolio" />
-      <input type="hidden" name="_next" value="https://www.timothycreekmore.com/?sent=1" />
-      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
-      </div>
-
-      <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (optional)</label>
-        <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
-      </div>
-
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
-      </div>
-
-      <div>
-        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200"></textarea>
-      </div>
-
-      <div class="text-center">
-        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
-          Send Message
-        </button>
-      </div>
-    </form>
-  </div>
-</section>
-
-
-  <!-- Social + Contact Links -->
-  <div class="relative z-10 flex justify-center gap-6 py-8">
-    <a href="https://github.com/Tim-Creekmore" target="_blank" class="text-gray-600 hover:text-black text-2xl" title="GitHub">
-      <i class="fab fa-github"></i>
-    </a>
-    <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl" title="LinkedIn">
-      <i class="fab fa-linkedin"></i>
-    </a>
-  </div>
-
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-6 relative z-10">
-    Built with 💻 and ☕ by Timothy Creekmore
+  <footer class="text-center text-gray-400 text-sm py-8 border-t border-gray-200 bg-white">
+    Built with intention — Timothy Creekmore
   </footer>
 
-  <!-- About Me Overlay  _commenting this out aswell for now_
-  <div id="aboutOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-    <div class="bg-white max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-8 shadow-lg relative">
-      <button onclick="toggleAbout()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
-      <h2 class="text-2xl font-bold mb-4">👨‍💻 About Me</h2>
-      <p class="mb-4">
-        Hey, I'm Timothy Creekmore — a Data/Computer Scientist with a love for all things technical. Whether it’s computers, the intricacies of sports, or the stock market, it really doesn't matter — I find joy in things with a high skill ceiling that I can improve at over time.
-      </p>
-      <p class="mb-4">
-        This probably all started when I was 12. I played (and still do) the online game <em>World of Tanks</em> on an old Acer laptop my parents gave me. That laptop constantly overheated, so I had to take it apart and clean out the exhaust fan. After that, it worked great. From then on, I’ve always had a love for computers.
-      </p>
-      <p class="mb-4">
-        As I got older, my dad roped me into becoming an appliance repair technician at 16. I worked for his company — Alpine Appliance — off and on for about six years while juggling school and college. That job helped me develop real technical skills in diagnosing and solving problems. Eventually, I transitioned into the used appliance market — kind of like flipping cars, but smaller. Everyone needs appliances. Now, I’ll occasionally find broken ones, fix them, and resell them — using the same skills I started developing at 12 and sharpened on the job.
-      </p>
-      <p class="mb-4">
-        Today, I’m fascinated by data and machine learning. Being able to harness insights from data is like having a superpower — and with how fast data is growing, there’s never been a better time to dive in. I’m especially passionate about projects that give people the ability to make better-informed decisions.
-      </p>
-      <p class="mb-4">
-        When I’m not working on a portfolio project, you’ll most likely find me playing strategy games, playing sports, or fixing a washer under my porch.
-      </p>
-      <p class="mb-4">
-        I’m married to my beautiful wife, Elise, and one of our big goals is to start a homestead on a nice piece of land — and somehow raise 8 kids. But for now, we’re just taking it one day at a time.
-      </p>
-    </div>
-  </div>
-  -->
-  
-  <!-- comment out the about me popup
-
-  <script>
-    function toggleAbout() {
-      const overlay = document.getElementById("aboutOverlay");
-      overlay.classList.toggle("hidden");
-      overlay.classList.toggle("flex");
-    }
-  </script>
-  -->
-    
-  <script>
-    if (new URLSearchParams(window.location.search).get('sent') === '1') {
-      var thanks = document.getElementById('form-thanks');
-      if (thanks) thanks.classList.remove('hidden');
-    }
-    VANTA.NET({
-      el: "#vanta-bg",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      color: 0x6d7af0,
-      backgroundColor: 0x0,
-      points: 20.00,
-      maxDistance: 29.00,
-      spacing: 20.00
-    })
-  </script>
-
+  <script src="/assets/js/hub-nav.js" defer></script>
 </body>
 </html>

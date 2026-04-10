@@ -1,0 +1,35 @@
+# Godot 4+ specific
+.godot/
+*.translation
+.import/
+
+# Godot-specific ignores (common)
+export_credentials.cfg
+*.tmp
+*.import
+
+# Mono / C# (if ever used)
+.mono/
+data_*/
+mono_crash.*.json
+
+# System / OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDE
+*.swp
+*.swo
+*~
+.cursor/
+.playwright-mcp/
+
+# Debug / test artifacts
+game/world-demo/debugImages/
+world-demo-playwright.png
+
+# GodotIQ runtime state
+.godotiq/
+
+# Optional: uncomment to keep web export out of git (build in CI instead)
+# game/play/

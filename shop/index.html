@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shop — physical items for sale via PayPal. Timothy Creekmore." />
+  <title>Shop | Timothy Creekmore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/hub.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="min-h-screen bg-amber-50/40 text-gray-800 antialiased" data-hub="shop">
+
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/shop/" class="hover:text-teal-600 transition" data-hub-link="shop">Shop</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/content/" class="hover:text-teal-600 transition" data-hub-link="content">Content</a>
+        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close"></i>
+      </button>
+    </div>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/shop/" class="py-2 hover:text-teal-600" data-hub-link="shop">Shop</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/content/" class="py-2 hover:text-teal-600" data-hub-link="content">Content</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+    </div>
+  </nav>
+
+  <header class="pt-28 pb-12 px-4 border-b border-amber-200/80 bg-gradient-to-b from-amber-100/80 to-amber-50/30">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-amber-800/80 text-sm font-medium uppercase tracking-wide mb-2">Physical goods</p>
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Shop</h1>
+      <p class="text-lg text-gray-700 leading-relaxed">
+        Simple listings with <strong>PayPal</strong> checkout — no database or custom server. Replace the placeholder button URLs below with links from your PayPal account (Buttons / PayPal.Me / hosted button ID).
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <div class="rounded-2xl border border-amber-200 bg-amber-50/50 p-5 mb-10 text-sm text-amber-950/90">
+      <strong>Setup:</strong> In PayPal, create a payment link or &ldquo;Buy now&rdquo; button for each item, then paste that URL into the <code class="bg-white/80 px-1 rounded">href</code> of each button below. Set accurate shipping in PayPal if you offer it.
+    </div>
+
+    <div class="space-y-10">
+      <article class="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-start gap-6">
+        <div class="flex-1">
+          <h2 class="text-xl font-semibold text-gray-900 mb-2">Sample item A</h2>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4">
+            Short description, condition, dimensions, and how you will ship. Replace this copy with a real listing.
+          </p>
+          <p class="text-2xl font-bold text-gray-900">$00.00 <span class="text-sm font-normal text-gray-500">+ shipping if applicable</span></p>
+        </div>
+        <div class="shrink-0">
+          <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=YOUR_PAYPAL_EMAIL&amp;item_name=Sample%20Item%20A&amp;amount=0.00&amp;currency_code=USD"
+             class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#0070ba] text-white font-medium hover:bg-[#005ea6] transition min-w-[200px]">
+            Pay with PayPal
+          </a>
+          <p class="text-xs text-gray-500 mt-2 max-w-[220px]">Placeholder URL — swap for your real PayPal link before going live.</p>
+        </div>
+      </article>
+
+      <article class="rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-start gap-6">
+        <div class="flex-1">
+          <h2 class="text-xl font-semibold text-gray-900 mb-2">Sample item B</h2>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4">
+            Second listing template. You can duplicate this block for more products.
+          </p>
+          <p class="text-2xl font-bold text-gray-900">$00.00</p>
+        </div>
+        <div class="shrink-0">
+          <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=YOUR_PAYPAL_EMAIL&amp;item_name=Sample%20Item%20B&amp;amount=0.00&amp;currency_code=USD"
+             class="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#0070ba] text-white font-medium hover:bg-[#005ea6] transition min-w-[200px]">
+            Pay with PayPal
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <p class="text-center text-sm text-gray-500 mt-14">
+      Questions? <a href="/portfolio/#contact" class="text-teal-600 hover:underline">Contact</a> through the portfolio page.
+    </p>
+  </main>
+
+  <footer class="text-center text-gray-400 text-sm py-10 border-t border-gray-200 bg-white">
+    <a href="/" class="hover:text-gray-600">← Hub home</a>
+  </footer>
+
+  <script src="/assets/js/hub-nav.js" defer></script>
+</body>
+</html>

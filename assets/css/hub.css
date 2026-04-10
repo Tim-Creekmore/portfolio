@@ -1,0 +1,5 @@
+/* Active section in shared hub navigation (works with Tailwind CDN + injected classes). */
+.hub-link-active {
+  color: #007ba7 !important;
+  font-weight: 600;
+}

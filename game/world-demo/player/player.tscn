@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7player001"]
+
+[ext_resource type="Script" path="res://player/player_controller.gd" id="1_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.35
+height = 1.55
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.35
+height = 1.55
+radial_segments = 12
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="Mat_body"]
+diffuse_mode = 2
+specular_mode = 2
+albedo_color = Color(0.38, 0.3, 0.24, 1)
+roughness = 0.92
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+groups = ["player"]
+script = ExtResource("1_player")
+
+[node name="BodyVisual" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+mesh = SubResource("CapsuleMesh_body")
+surface_material_override/0 = SubResource("Mat_body")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.42, 0)
+
+[node name="CameraFP" type="Camera3D" parent="Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+current = true
+fov = 74.0
+near = 0.05
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Neck"]
+spring_length = 3.95
+collision_mask = 1
+margin = 0.1
+
+[node name="CameraTP" type="Camera3D" parent="Neck/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.985, 0.174, 0, -0.174, 0.985, 0, 0.32, 0)
+current = false
+fov = 62.0

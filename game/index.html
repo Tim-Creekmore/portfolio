@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Voxel world demo — Godot 4 browser and desktop. Timothy Creekmore." />
+  <title>Voxel game | Timothy Creekmore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/hub.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="min-h-screen bg-slate-950 text-gray-100 antialiased" data-hub="game">
+
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-violet-500/20 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-white shrink-0 hover:text-violet-300 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="/portfolio/" class="hover:text-violet-400 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/shop/" class="hover:text-violet-400 transition" data-hub-link="shop">Shop</a>
+        <a href="/game/" class="hover:text-violet-400 transition" data-hub-link="game">Game</a>
+        <a href="/content/" class="hover:text-violet-400 transition" data-hub-link="content">Content</a>
+        <a href="/resume.pdf" class="hover:text-violet-400 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close"></i>
+      </button>
+    </div>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-violet-500/20 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-slate-200 bg-slate-900/95">
+      <a href="/portfolio/" class="py-2 hover:text-violet-400" data-hub-link="portfolio">Portfolio</a>
+      <a href="/shop/" class="py-2 hover:text-violet-400" data-hub-link="shop">Shop</a>
+      <a href="/game/" class="py-2 hover:text-violet-400" data-hub-link="game">Game</a>
+      <a href="/content/" class="py-2 hover:text-violet-400" data-hub-link="content">Content</a>
+      <a href="/resume.pdf" class="py-2 hover:text-violet-400">Resume</a>
+    </div>
+  </nav>
+
+  <div class="pt-24 px-4 pb-16 max-w-5xl mx-auto">
+    <p class="text-violet-400/90 text-sm font-medium uppercase tracking-wide mb-2">World layer demo</p>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Godot 4 voxel world</h1>
+    <p class="text-lg text-slate-300 leading-relaxed mb-6">
+      A <strong>single-chunk</strong> medieval slice built in <strong>Godot 4</strong> (GDScript): hand-authored terrain, fog and day/night, first- or third-person exploration, torches and ruins, and a sealed dungeon door with a short hint when you approach. Export targets: <strong>Web</strong> (below) and <strong>Windows</strong> from the project in <code class="text-violet-300">game/world-demo/</code>.
+    </p>
+    <ul class="list-disc list-inside text-slate-400 space-y-2 mb-10 text-sm md:text-base">
+      <li><strong class="text-slate-300">Controls:</strong> WASD, Space jump, mouse look (click canvas to capture pointer), Esc to release cursor, V toggles third person.</li>
+      <li><strong class="text-slate-300">Embed:</strong> the iframe loads <code class="text-violet-300">/game/play/index.html</code> — run a Web export from Godot into <code class="text-violet-300">game/play/</code> to replace the placeholder with the WASM build.</li>
+      <li><strong class="text-slate-300">Desktop:</strong> use the Windows export preset (outputs next to <code class="text-violet-300">game/world-demo/</code>).</li>
+    </ul>
+
+    <div class="rounded-2xl border border-violet-500/30 bg-slate-900/80 overflow-hidden mb-8 shadow-lg shadow-violet-950/20">
+      <div class="aspect-video w-full bg-black min-h-[280px]">
+        <iframe
+          title="World demo (Godot 4)"
+          class="w-full h-full min-h-[280px] border-0 block"
+          src="./play/index.html"
+          allow="fullscreen; autoplay; gamepad"
+          loading="lazy"
+        ></iframe>
+      </div>
+      <p class="text-slate-500 text-xs px-4 py-3 border-t border-violet-500/20 leading-relaxed">
+        If you see export instructions inside the frame, the Web build has not been exported yet. Open <code class="text-violet-300">game/world-demo</code> in Godot, install templates, then <strong>Project → Export → Web</strong> to this folder.
+      </p>
+    </div>
+
+    <p class="text-slate-500 text-sm text-center">
+      <a href="/" class="text-violet-400 hover:underline">← Hub home</a>
+      &nbsp;·&nbsp;
+      <a href="/portfolio/#contact" class="text-violet-400 hover:underline">Contact</a>
+    </p>
+  </div>
+
+  <script src="/assets/js/hub-nav.js" defer></script>
+</body>
+</html>
