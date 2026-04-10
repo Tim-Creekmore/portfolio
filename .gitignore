@@ -31,5 +31,9 @@ world-demo-playwright.png
 # GodotIQ runtime state
 .godotiq/
 
+# Large desktop build (distribute separately)
+game/WorldDemo.exe
+game/WorldDemo.pck
+
 # Optional: uncomment to keep web export out of git (build in CI instead)
 # game/play/
