@@ -185,7 +185,7 @@ func _build_water() -> void:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var water_y := WorldData.WATER_Y
-	var res := 32
+	var res := 48
 	var step := float(MAP) / float(res)
 
 	for iz in res:
@@ -196,7 +196,8 @@ func _build_water() -> void:
 			var fz1 := fz + step
 			var cx := (fx + fx1) * 0.5
 			var cz := (fz + fz1) * 0.5
-			if not WorldData.is_river(cx, cz):
+			var terrain_h := WorldData.height_smooth(cx, cz)
+			if terrain_h > water_y + 0.05 or cz < 1.0 or cz > 15.0:
 				continue
 			var c := Color(0.18, 0.52, 0.68, 0.8)
 			var n := Vector3.UP

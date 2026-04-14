@@ -1,6 +1,5 @@
 extends Node3D
 
-const TreeScene := preload("res://world/pine_tree.tscn")
 const GrassShader := preload("res://world/shaders/grass.gdshader")
 const CanopyShader := preload("res://world/shaders/canopy.gdshader")
 const TrunkShader := preload("res://world/shaders/trunk.gdshader")
@@ -17,14 +16,14 @@ const FLOWER_COLORS: Array[Color] = [
 ]
 
 const TREE_COLORS: Array[Color] = [
-	Color(0.22, 0.40, 0.14),
-	Color(0.26, 0.44, 0.18),
-	Color(0.30, 0.48, 0.16),
-	Color(0.34, 0.42, 0.12),
-	Color(0.50, 0.52, 0.10),
-	Color(0.58, 0.44, 0.08),
-	Color(0.62, 0.30, 0.08),
-	Color(0.55, 0.22, 0.06),
+	Color(0.22, 0.38, 0.18),
+	Color(0.28, 0.42, 0.20),
+	Color(0.32, 0.46, 0.22),
+	Color(0.25, 0.40, 0.25),
+	Color(0.35, 0.50, 0.24),
+	Color(0.20, 0.35, 0.22),
+	Color(0.38, 0.48, 0.18),
+	Color(0.30, 0.44, 0.16),
 ]
 
 
@@ -91,6 +90,7 @@ func _place_grass_impostor() -> void:
 func _place_trees() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 0x54524545
+	var gen := TreeGenerator.new()
 
 	for _i in 22:
 		var fx := rng.randf_range(0.8, 15.2)
@@ -101,11 +101,8 @@ func _place_trees() -> void:
 			continue
 		var y := WorldData.height_smooth(fx, fz)
 
-		var t := TreeScene.instantiate()
-		var s := rng.randf_range(0.6, 1.15)
-		t.scale = Vector3(s, s * rng.randf_range(0.85, 1.15), s)
-		t.rotation.y = rng.randf() * TAU
-		t.position = Vector3(fx, y, fz)
+		var tree_seed := rng.randi()
+		var meshes := gen.generate(tree_seed)
 
 		var leaf_color: Color = TREE_COLORS[rng.randi() % TREE_COLORS.size()]
 		leaf_color = leaf_color.lightened(rng.randf_range(-0.06, 0.06))
@@ -121,14 +118,25 @@ func _place_trees() -> void:
 		trunk_mat.set_shader_parameter("sway_speed", canopy_mat.get_shader_parameter("wind_speed"))
 		trunk_mat.set_shader_parameter("sway_strength", 0.006)
 
-		for child in t.get_children():
-			if child is MeshInstance3D:
-				if child.name.begins_with("Canopy"):
-					child.material_override = canopy_mat
-				elif child.name == "Trunk":
-					child.material_override = trunk_mat
+		var s := rng.randf_range(1.0, 1.5)
+		var tree_root := Node3D.new()
+		tree_root.position = Vector3(fx, y, fz)
+		tree_root.rotation.y = rng.randf() * TAU
+		tree_root.scale = Vector3(s, s * rng.randf_range(0.9, 1.15), s)
 
-		add_child(t)
+		var wood_mi := MeshInstance3D.new()
+		wood_mi.mesh = meshes["wood"]
+		wood_mi.material_override = trunk_mat
+		tree_root.add_child(wood_mi)
+
+		if meshes["leaves"] and meshes["leaves"].get_surface_count() > 0:
+			var leaf_mi := MeshInstance3D.new()
+			leaf_mi.mesh = meshes["leaves"]
+			leaf_mi.material_override = canopy_mat
+			leaf_mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			tree_root.add_child(leaf_mi)
+
+		add_child(tree_root)
 
 
 func _place_rocks() -> void:

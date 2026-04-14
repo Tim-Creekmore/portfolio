@@ -73,8 +73,6 @@ script = ExtResource("4_dn")
 [node name="Foliage" type="Node3D" parent="."]
 script = ExtResource("9_fp")
 
-[node name="Ambient" type="Node" parent="."]
-script = ExtResource("10_pa")
 
 [node name="PerimeterWalls" type="Node3D" parent="."]
 script = ExtResource("8_pw")

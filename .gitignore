@@ -37,3 +37,39 @@ game/WorldDemo.pck
 
 # Optional: uncomment to keep web export out of git (build in CI instead)
 # game/play/
+
+# ── Unity ──────────────────────────────────────────────
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+Asset[Ss]tore[Tt]ools/
+
+# Unity auto-generated
+*.csproj
+*.sln
+*.suo
+*.user
+*.pidb
+*.booproj
+*.unityproj
+*.apk
+*.aab
+
+# Visual Studio cache
+.vs/
+
+# Unity crash reports
+sysinfo.txt
+crashlytics-buildid.txt
+
+# Unity Bee build cache
+**/Library/Bee/
+
+# Test screenshots (regenerated)
+tests/screenshots/
