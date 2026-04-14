@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Voxel world demo — Godot 4 browser and desktop. Timothy Creekmore." />
-  <title>Voxel game | Timothy Creekmore</title>
+  <meta name="description" content="Medieval world demo — Unity URP. Timothy Creekmore." />
+  <title>Game | Timothy Creekmore</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/assets/css/hub.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -35,38 +35,30 @@
     </div>
   </nav>
 
-  <div class="pt-24 px-4 pb-16 max-w-5xl mx-auto">
-    <p class="text-violet-400/90 text-sm font-medium uppercase tracking-wide mb-2">World layer demo</p>
-    <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Godot 4 voxel world</h1>
-    <p class="text-lg text-slate-300 leading-relaxed mb-6">
-      A <strong>single-chunk</strong> medieval slice built in <strong>Godot 4</strong> (GDScript): hand-authored terrain, fog and day/night, first- or third-person exploration, torches and ruins, and a sealed dungeon door with a short hint when you approach. Export targets: <strong>Web</strong> (below) and <strong>Windows</strong> from the project in <code class="text-violet-300">game/world-demo/</code>.
-    </p>
-    <ul class="list-disc list-inside text-slate-400 space-y-2 mb-10 text-sm md:text-base">
-      <li><strong class="text-slate-300">Controls:</strong> WASD, Space jump, mouse look (click canvas to capture pointer), Esc to release cursor, V toggles third person.</li>
-      <li><strong class="text-slate-300">Embed:</strong> the iframe loads <code class="text-violet-300">/game/play/index.html</code> — run a Web export from Godot into <code class="text-violet-300">game/play/</code> to replace the placeholder with the WASM build.</li>
-      <li><strong class="text-slate-300">Desktop:</strong> use the Windows export preset (outputs next to <code class="text-violet-300">game/world-demo/</code>).</li>
-    </ul>
+  <div class="pt-24 px-4 pb-16 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
 
-    <div class="rounded-2xl border border-violet-500/30 bg-slate-900/80 overflow-hidden mb-8 shadow-lg shadow-violet-950/20">
-      <div class="aspect-video w-full bg-black min-h-[280px]">
-        <iframe
-          title="World demo (Godot 4)"
-          class="w-full h-full min-h-[280px] border-0 block"
-          src="./play/index.html"
-          allow="fullscreen; autoplay; gamepad"
-          loading="lazy"
-        ></iframe>
+    <div class="text-center max-w-lg">
+      <div class="mb-8">
+        <i class="fas fa-hammer text-violet-400/60 text-6xl"></i>
       </div>
-      <p class="text-slate-500 text-xs px-4 py-3 border-t border-violet-500/20 leading-relaxed">
-        If you see export instructions inside the frame, the Web build has not been exported yet. Open <code class="text-violet-300">game/world-demo</code> in Godot, install templates, then <strong>Project → Export → Web</strong> to this folder.
+      <p class="text-violet-400/90 text-sm font-medium uppercase tracking-widest mb-3">Coming Soon</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Game in Dev</h1>
+      <p class="text-lg text-slate-400 leading-relaxed mb-8">
+        A medieval open-world built in <strong class="text-slate-300">Unity URP</strong> — procedural terrain, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. Check back soon for a playable web build.
       </p>
+      <div class="flex items-center justify-center gap-3 text-sm text-slate-500">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Actively in development
+        </span>
+      </div>
     </div>
 
-    <p class="text-slate-500 text-sm text-center">
-      <a href="/" class="text-violet-400 hover:underline">← Hub home</a>
-      &nbsp;·&nbsp;
+    <div class="mt-16 text-slate-500 text-sm text-center">
+      <a href="/" class="text-violet-400 hover:underline">&larr; Hub home</a>
+      &nbsp;&middot;&nbsp;
       <a href="/portfolio/#contact" class="text-violet-400 hover:underline">Contact</a>
-    </p>
+    </div>
   </div>
 
   <script src="/assets/js/hub-nav.js" defer></script>

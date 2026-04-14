@@ -8,6 +8,44 @@
 
 ---
 
+## Development Phases
+
+### Phase 1 — Core Systems (COMPLETE)
+What we like and is locked in:
+- **Grass** — Geometry shader grass with tessellation, wind, blade curvature, shadows. Looks great.
+- **Trees** — Voxel-block trees in 3 categories: skinny saplings, bushes, mature trees. Trunk colliders.
+- **Water** — Low-poly medieval water shader with vertex displacement waves, depth-based color, soft shoreline foam, shimmer.
+- **Village buildings** — FBX medieval village pack imported, buildings standing upright with URP materials, scaled to player size.
+- **Cobblestone roads** — FBX road tiles placed along splines from village center outward.
+- **Biome boundary lines** — White line mesh at biome transitions.
+- **Biome toast notifications** — Fade-in/out UI when entering a new biome.
+- **Day/night cycle** — Directional light + skybox + ambient driven by time.
+- **Player controller** — First-person with walk, swim, jump.
+
+### Phase 2 — Environment Polish (CURRENT)
+What needs work:
+- [ ] **Farm/Cropland** — Tilled dirt rows, wheat patches, fences. Currently just flat brown terrain.
+- [ ] **Sandy/Beach** — Lake edge shoreline. Terrain color exists but no sand props/texture detail.
+- [ ] **Cliff/Ravine** — Steep rocky walls, exposed stone layers. Height profile exists but visuals are flat.
+- [ ] **Dense Thicket** — Needs tighter tree spacing, bramble, darker atmosphere than forest.
+- [ ] **Moor/Heathland** — Open windswept scrub, patchy grass on rocky soil. Currently bare.
+- [ ] **Cobblestone Road** — Tiles placed but road/biome color blending needs refinement.
+- [ ] **Village Clearing** — Buildings placed. Need packed dirt texture, better prop layout, market detail.
+- [ ] **Ruins** — Crumbled stone walls, overgrown foundations. Currently just terrain color.
+- [ ] **River/Stream** — Flows through map but banks need vegetation, reeds, visual polish.
+- [ ] **Terrain color/lighting** — Some biomes still appear too dark or flat. Ambient and vertex colors need tuning per-biome.
+- [ ] **Road overlay blending** — Road should blend smoothly into surrounding terrain, not hard-cut.
+
+### Phase 3 — Gameplay & Polish (FUTURE)
+- [ ] NPC placement and basic interaction
+- [ ] Ambient sound (birds, wind, water, village chatter)
+- [ ] Particle effects (bonfire smoke, fireflies, dust)
+- [ ] LOD system for grass and trees at distance
+- [ ] Performance profiling and optimization pass
+- [ ] WebGL build and deployment
+
+---
+
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
@@ -21,36 +59,40 @@
 9. [Player Controller](#player-controller)
 10. [Scene Graph & Wiring](#scene-graph--wiring)
 11. [Performance Considerations](#performance-considerations)
-12. [Porting Notes (Unity)](#porting-notes-unity)
 
 ---
 
 ## Architecture Overview
 
-The world is a **single 40×40 unit outdoor environment** divided into four biome quadrants (Meadow NW, Forest NE, Rocky Hills SW, Pond SE), built entirely from procedural generation at load time. There are zero imported 3D models and zero texture files for geometry — everything is constructed from code: terrain meshes, tree meshes, grass blades, flowers, water surfaces, and collision shapes.
+The world is a **120×120 unit outdoor environment** divided into 13 biome regions (Meadow, Forest, Pond/Lake, Rocky, Farm, Beach, Cliff, Thicket, Moor, Village, Ruins, Road, River). Terrain, water, grass, and trees are procedurally generated at load time. Village buildings and road tiles use imported FBX models from external asset packs.
 
 ### Core Design Principles
 
-- **Single source of truth for terrain:** A static `WorldData` class holds all height, river, and spawn logic. Every system (terrain mesh, water, foliage placement, player physics) queries this same API.
-- **Deterministic seeding:** Each foliage type has a fixed hex seed (`0x54524545` = "TREE", `0x47524153` = "GRAS", etc.) so the world is identical every run.
-- **GPU-heavy rendering:** Detail comes from shaders, not geometry. Terrain uses vertex colors + shader noise for surface breakup. Grass uses per-instance wind animation in the vertex shader.
-- **MultiMesh for mass instancing:** 50,000 grass blades, 3,000 wildflowers, and 30 rocks all use `MultiMesh` — one draw call per type.
+- **Single source of truth for terrain:** A static `WorldData` class holds all height, biome, river, road, and spawn logic. Every system queries this same API.
+- **Deterministic seeding:** Each foliage type has a fixed hex seed so the world is identical every run.
+- **GPU-heavy rendering:** Terrain uses vertex colors + shader noise. Grass uses a geometry shader with tessellation. Water uses vertex displacement + depth-based shading.
+- **Voronoi biome regions:** 13 biome seeds define regions via closest-point lookup with smooth noise-warped borders.
+- **Overlay biomes:** River, Road, and Lake are SDF-based overlays checked before the Voronoi lookup.
 
 ### System Dependency Graph
 
 ```
-WorldData (static height/river API)
-├── VoxelChunk (terrain mesh + collision + water mesh)
+WorldData (static height/biome/river/road API)
+├── TerrainChunk (terrain mesh + collision + unified water mesh)
 ├── FoliagePlacer
-│   ├── Grass Impostor (low-res ground plane)
-│   ├── Grass Blades (50k MultiMesh)
-│   ├── Trees (TreeGenerator → MeshInstance3D per tree)
-│   ├── Rocks (MultiMesh)
-│   └── Wildflowers (MultiMesh, per-instance color)
-├── PlayerController (ground/swim detection)
-└── PerimeterWalls (invisible collision box)
-
-DayNight → DirectionalLight3D + ProceduralSkyMaterial + Environment
+│   ├── Grass (geometry shader mesh, tessellated)
+│   ├── Trees (TreeGenerator → per-tree MeshInstance + BoxCollider)
+│   ├── Rocks (procedural spheres)
+│   ├── Wildflowers (procedural quads)
+│   ├── Farm props (wheat rows, fences)
+│   └── Ruins props (stone walls, arches)
+├── VillagePlacer (FBX buildings + props, URP material override)
+├── RoadPlacer (FBX cobblestone tiles along road splines)
+├── BiomeBoundary (white line mesh at biome transitions)
+├── BiomeToast (UI fade-in/out on biome entry)
+├── PlayerController (first-person, walk/swim/jump)
+├── PerimeterWalls (invisible collision box)
+└── DayNight (directional light + skybox + ambient + fog)
 ```
 
 ---
@@ -78,12 +120,14 @@ height_smooth(fx, fz) =
 
 | Constant | Value | Purpose |
 |----------|-------|---------|
-| `SIZE` | 16 | World width/depth in units |
-| `GRID` | 64 | Mesh resolution (64×64 vertices) |
-| `STEP` | 0.25 | Distance between grid vertices (SIZE/GRID) |
-| `WATER_Y` | 3.2 | Water surface height |
-| `RIVER_HALF` | 1.6 | River half-width |
-| `RIVER_BED_Y` | 2.2 | Deepest point of river floor |
+| `SIZE` | 120 | World width/depth in units |
+| `GRID` | 192 | Mesh resolution (192×192 vertices) |
+| `STEP` | 0.625 | Distance between grid vertices (SIZE/GRID) |
+| `WATER_Y` | 3.5 | Water surface height |
+| `RIVER_HALF_WIDTH` | 2.5 | River half-width |
+| `RIVER_BANK_WIDTH` | 8.0 | Gentle slope transition around river |
+| `ROAD_HALF_WIDTH` | 1.5 | Road path half-width |
+| `LAKE_RADIUS` | 14.0 | Lake radius (center at 50, 22) |
 
 ### Mesh Generation (VoxelChunk)
 
@@ -411,56 +455,31 @@ World (Node3D, world_controller.gd)
 
 ---
 
-## Porting Notes (Unity)
+## Biome Map (13 Regions)
 
-### Direct Mappings
+| Biome | Seed Position | Status |
+|-------|--------------|--------|
+| Meadow | (55, 22) | Working — grass + wildflowers |
+| Forest | (100, 60) | Working — dense trees |
+| Pond/Lake | (50, 22) | Working — water shader |
+| Rocky | (100, 100) | Terrain height only, needs rock props |
+| Farm | (20, 60) | Terrain color only, needs wheat/fences |
+| Beach | (20, 20) | Terrain color only, needs sand detail |
+| Cliff | (60, 108) | Height profile exists, needs rock layers |
+| Thicket | (100, 20) | Needs tighter trees, bramble |
+| Moor | (20, 100) | Needs scrub bushes, patchy grass |
+| Village | (60, 60) | Buildings placed, needs packed dirt detail |
+| Ruins | inside Moor | Needs stone walls, arches |
+| Road | spline overlay | Cobblestone tiles placed, blending WIP |
+| River | spline overlay | Water shader working, banks need vegetation |
 
-| Godot | Unity |
-|-------|-------|
-| `CharacterBody3D` | `CharacterController` or Rigidbody + custom controller |
-| `MultiMeshInstance3D` | `Graphics.DrawMeshInstanced` or `DrawMeshInstancedIndirect` |
-| `SurfaceTool` | `Mesh` API (`SetVertices`, `SetTriangles`, etc.) |
-| `ShaderMaterial` | `Material` with custom shader |
-| `ProceduralSkyMaterial` | Custom skybox shader or Unity's built-in procedural sky |
-| `WorldEnvironment` | Volume Profile (URP/HDRP) |
-| `DirectionalLight3D` | `Light` component, type Directional |
-| `ConcavePolygonShape3D` | `MeshCollider` |
-| `StaticBody3D` + `BoxShape3D` | `BoxCollider` on a static GameObject |
-| `RandomNumberGenerator` | `System.Random` with seed |
-| `call_deferred` | `StartCoroutine` or `Invoke` |
-| `Input.get_action_strength` | `Input.GetAxis` or new Input System |
-| Shader `NODE_POSITION_WORLD` | `unity_ObjectToWorld._m03_m13_m23` or instance data |
-| `BACKLIGHT` | Custom subsurface scattering in shader |
-| `CanvasLayer` | Unity Canvas (Screen Space - Overlay) |
+### Road Splines (from Village center)
 
-### Key Differences
+- Village → Farm (west): (60,60) → (45,60) → (30,60)
+- Village → Meadow (south): (60,60) → (60,48) → (58,36)
+- Village → Forest (east): (60,60) → (75,60) → (88,60)
+- Village → Cliff (north): (60,60) → (60,75) → (60,88)
 
-1. **Shader language:** Godot shaders are GLSL-like with built-in `VERTEX`, `NORMAL`, `ALBEDO`, etc. Unity uses HLSL with `SV_Position`, custom output structs. The noise functions translate 1:1 but the I/O structure changes completely.
+### River Spline (NW → SE)
 
-2. **MultiMesh vs DrawMeshInstanced:** Unity's instancing requires a `MaterialPropertyBlock` or compute buffer for per-instance data (color, transform). Godot's MultiMesh handles this automatically.
-
-3. **Terrain generation:** The `SurfaceTool` workflow maps to Unity's `Mesh` class. Create `Vector3[]` for vertices/normals, `int[]` for triangles, `Color[]` for vertex colors, call `mesh.SetVertices()`, etc.
-
-4. **Tree generator:** The icosphere subdivision algorithm is engine-agnostic. Port the `_add_icosphere`, `_add_cone`, `_add_cylinder` functions to C# operating on `List<Vector3>` and `List<int>`.
-
-5. **Water transparency:** In URP, use a transparent shader with `_Surface` set to Transparent. Fresnel, wave displacement, and ripple normals all port directly.
-
-6. **Day/night:** Drive `RenderSettings.ambientLight`, `RenderSettings.fogColor`, light transform/color/intensity, and skybox material properties from a single MonoBehaviour.
-
-7. **Grass:** Consider Unity's `Graphics.DrawMeshInstancedIndirect` with a compute shader for wind animation, or use the Terrain system's detail/grass painting with a custom shader.
-
-### What to Keep
-
-- The terrain height function — it's pure math, works anywhere
-- The river SDF approach — simple and effective
-- The low-poly tree generation algorithm — engine-agnostic geometry
-- The wind model (ridged FBM noise field) — proven to look good
-- The day/night color tables — already tuned for pleasing results
-- Deterministic seeds for reproducible worlds
-
-### What to Reconsider
-
-- Grass rendering strategy may benefit from Unity's GPU instancing + compute
-- Water could use depth-based effects in URP/HDRP (screen-space depth available)
-- Tree variety could use Unity's prefab system + random selection vs full procedural generation
-- Audio (currently disabled) could use Unity's native audio system vs procedural generation
+(8,115) → (18,95) → (30,78) → (42,62) → (50,45) → (48,28) → (55,18)
