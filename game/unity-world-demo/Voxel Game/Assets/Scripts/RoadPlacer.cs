@@ -13,6 +13,7 @@ public class RoadPlacer : MonoBehaviour
 
     void Start()
     {
+        if (WorldData.ARENA_MODE) return;
         if (roadTileMesh == null || roadMaterial == null) return;
         PlaceAllRoads();
     }

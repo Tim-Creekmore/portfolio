@@ -11,6 +11,7 @@ public class BiomeBoundary : MonoBehaviour
 
     void Start()
     {
+        if (WorldData.ARENA_MODE) return;
         BuildBoundaryMesh();
     }
 

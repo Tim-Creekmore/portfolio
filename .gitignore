@@ -21,8 +21,11 @@ Thumbs.db
 *.swp
 *.swo
 *~
-.cursor/
+/.cursor/
 .playwright-mcp/
+
+# Track project-level .cursor/ rules, skills, plans
+!game/unity-world-demo/Voxel Game/.cursor/
 
 # Debug / test artifacts
 game/world-demo/debugImages/

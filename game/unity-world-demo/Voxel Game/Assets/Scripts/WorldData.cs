@@ -2,6 +2,9 @@ using UnityEngine;
 
 public static class WorldData
 {
+    // PHASE A: simplified grass arena. Set false to restore full 13-biome map.
+    public const bool ARENA_MODE = true;
+
     public const int   SIZE = 120;
     public const int   GRID = 192;
     public const float STEP = (float)SIZE / GRID;
@@ -99,6 +102,8 @@ public static class WorldData
     // ── Biome lookup ────────────────────────────────────────────────────
     public static Biome GetBiome(float fx, float fz)
     {
+        if (ARENA_MODE) return Biome.Meadow;
+
         // Overlay checks first (river, road, lake)
         if (IsLake(fx, fz))
             return Biome.Pond;
@@ -156,6 +161,9 @@ public static class WorldData
             + Mathf.Sin(fz * 0.04f) * 0.4f
             + Mathf.Cos(fx * 0.06f + fz * 0.03f) * 0.3f
             + Mathf.Sin(fx * 0.12f + fz * 0.09f) * 0.1f;
+
+        if (ARENA_MODE)
+            return Mathf.Clamp(baseH, 0.5f, 16.0f);
 
         float h = baseH;
 
@@ -241,11 +249,13 @@ public static class WorldData
 
     public static bool IsLake(float fx, float fz)
     {
+        if (ARENA_MODE) return false;
         return LakeSDF(fx, fz) < LAKE_RADIUS * 0.85f;
     }
 
     public static bool IsWater(float fx, float fz)
     {
+        if (ARENA_MODE) return false;
         return IsLake(fx, fz) || RiverSDF(fx, fz) < RIVER_HALF_WIDTH;
     }
 
@@ -286,6 +296,7 @@ public static class WorldData
 
     public static bool IsRoad(float fx, float fz)
     {
+        if (ARENA_MODE) return false;
         return RoadSDF(fx, fz) < ROAD_HALF_WIDTH;
     }
 

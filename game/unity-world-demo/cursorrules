@@ -1,0 +1,360 @@
+# VOXEL KINGDOM — CURSOR AGENT RULES
+# Auto-loaded by Cursor on every session. Read this fully before writing any code.
+
+---
+
+## WHO YOU ARE WORKING WITH
+
+You are assisting a **director-style developer**. He defines the vision and delegates
+implementation to you. He does not write code himself. Your job is to execute with
+precision, make technically sound decisions within the boundaries he defines, and flag
+decisions that require his creative input rather than guessing.
+
+When something is ambiguous:
+- Technical ambiguity → make the best engineering call and document what you chose
+- Creative/design ambiguity → STOP and ask before proceeding
+
+---
+
+## THE GAME — ONE SENTENCE
+
+A seamless first-person medieval fantasy voxel RPG where the player is simultaneously
+a hero exploring dungeons, a general commanding squads, and a lord managing a kingdom —
+with no loading screens or mode switches between those layers.
+
+---
+
+## CORE DESIGN PILLARS
+
+1. **The Hero** — First-person exploration, direct physical combat (Mount & Blade feel),
+   dungeon crawling. The human-scale layer.
+
+2. **The General** — Commanding squads of 10–30 units in field battles. Player can
+   fight on the front line OR pull back to issue commands. The skirmish layer.
+
+3. **The Lord** — Overworld strategic map, settlement management, faction politics,
+   diplomacy. The kingdom layer.
+
+4. **The Builder** — Free-form voxel construction. Fortifications, homes,
+   infrastructure. The world is persistent and reshapable.
+
+These are NOT separate modes. The player flows between all four organically in a
+single continuous session.
+
+---
+
+## INSPIRATION REFERENCES
+
+| Game | What we take from it |
+|------|----------------------|
+| Zelda: Breath of the Wild | First-person exploration feel, open world, dungeon design, the world existing without you |
+| Mount & Blade: Bannerlord | Personal combat physicality, faction/kingdom systems, being hero AND general in the same battle |
+| Total War: Warhammer | Army scale, unit types, hero skill trees, faction politics, weight of large engagements |
+| Minecraft | Voxel freedom, world persistence, underground exploration, proc-gen that never repeats |
+| Dark Souls | Combat weight, consequence of failure, world telling story through environment |
+| Going Medieval | **Visual target** — see Visual Bible section below |
+
+---
+
+## TECH STACK
+
+- **Engine:** Unity (URP — Universal Render Pipeline)
+- **Language:** C#
+- **Shaders:** HLSL
+- **Target platforms:** Windows desktop (primary), WebGL browser build (secondary)
+- **Version control:** Git
+
+### What Already Exists (DO NOT REBUILD)
+
+The following systems are already implemented and working. Extend them, do not replace:
+
+- `WorldData.cs` — world data management
+- `TerrainChunk.cs` — chunk-based voxel terrain
+- `TreeGenerator.cs` — procedural tree placement
+- `FoliagePlacer.cs` — grass/foliage instancing
+- `DayNight.cs` — sun cycle, light color shifting
+- `PlayerController.cs` — first-person player movement and collision
+- `PerimeterWalls.cs` — world boundary walls
+- `WorldSceneSetup.cs` — scene initialization and orchestration (Editor script)
+- `NoiseLib.hlsl` — shared HLSL noise functions
+- `Terrain.shader` — terrain surface shader
+- `GrassBlade.shader` — individual grass geometry shader
+- `GrassImpostor.shader` — distant grass impostor shader
+- `VoxelBlock.shader` — voxel tree block shader (canopy + trunk)
+- `Canopy.shader` — tree canopy shader (unused, kept for reference)
+- `Trunk.shader` — tree trunk shader (unused, kept for reference)
+- `Water.shader` — water surface shader
+- `Wildflower.shader` — wildflower geometry shader
+
+### Key Unity/C# Notes
+
+- Always use `Graphics.DrawMeshInstanced` for instanced rendering (not Godot's MultiMeshInstance3D)
+- Winding order is clockwise (Unity convention)
+- URP shader graph or HLSL — never use legacy built-in pipeline shaders
+- Avoid expensive per-frame allocations — pool where possible
+- Use `CharacterController` or `Rigidbody` for player physics, not custom solutions
+
+---
+
+## VISUAL BIBLE — GOING MEDIEVAL STYLE
+
+**Primary visual reference:** Going Medieval by Foxy Voxel (Steam)
+The goal is to match the warmth, earthiness, and atmospheric depth of that game's
+aesthetic — NOT the Minecraft aesthetic.
+
+### Color Palette (use these exact values)
+
+```
+Grass top:        #5a7a3a
+Grass side:       #4a6830
+Dirt:             #7a5c3a
+Stone:            #6a6560
+Stone dark:       #4a4845
+Wood:             #8a6040
+Wood dark:        #6a4828
+Sand:             #b09060
+Water deep:       #2a4a6a
+Water shallow:    #3a6080
+Snow:             #d8dcd0
+Moss:             #4a6438
+
+Sky day:          #7aaccc
+Sky sunset:       #e87840
+Sky night:        #0a1020
+
+Fog/haze tint:    #c8b890
+Ambient light:    #604830 (warm shadow fill)
+```
+
+### Lighting Specification
+
+```
+Sun color (day):        #ffcc88  (warm amber — NOT white)
+Sun color (sunset):     #ff8844
+Sun color (night):      #2233aa  (cool blue moonlight)
+Sun angle:              35 degrees from horizontal (late afternoon feel as default)
+Shadow mode:            Soft shadows, PCSS mode
+SSAO:                   ENABLED — radius 0.4, intensity 0.6 (critical for depth)
+Ambient occlusion:      Strong in corners and under overhangs
+Fog:                    ENABLED, warm tint (#c8b890), start 20 units, end 55 units
+Day cycle duration:     Approx 10–15 minutes real time per full day
+```
+
+### What the Look Requires
+
+- **SSAO is non-negotiable.** It's the single biggest contributor to the premium voxel
+  look. Never disable it.
+- Terrain surface blocks should have **slightly softened top edges** — not perfectly
+  cubic like Minecraft. Bevel or smooth the top face of surface-level blocks.
+- Trees use **voxel-block style** canopies (individual visible cubes with per-face
+  color variation and baked AO) rendered via `VoxelBlock.shader`.
+- Grass and shrubs use **low-poly billboard/impostor meshes**.
+- Distant terrain should fade with **atmospheric haze**, not hard clip.
+- The overall palette is **muted and desaturated** — earthy, worn, aged. Nothing
+  vibrant or saturated.
+
+### What NOT To Do
+
+- DO NOT use bright, saturated Minecraft-style colors
+- DO NOT use white or cool-toned sun lighting during daytime
+- DO NOT use hard cubic edges on surface grass/soil blocks
+- DO NOT use smooth/impostor tree canopies — trees MUST be voxel-block style
+- DO NOT use flat/uniform ambient lighting — shadows and AO must give depth
+- DO NOT use bloom unless extremely subtle
+- DO NOT use neon or HDR-punching color effects
+
+---
+
+## WORLD STRUCTURE
+
+### Two-Layer World
+1. **Overworld strategic map** — top-down view of the realm showing kingdoms,
+   settlements, roads, armies. Time moves faster here.
+2. **Zoomed-in voxel world** — full 3D ground-level gameplay. Where all first-person
+   action happens. Contains surface AND underground dungeon layers.
+
+### World Generation
+- **Hybrid:** Hand-crafted skeleton (major landmarks, story locations, capitals are
+  authored) + proc-gen fills biomes, terrain variation, dungeon layouts, resources
+- World seed system for shareable/repeatable worlds
+- Terrain is fully persistent — player modifications survive session
+
+### Biomes (current demo map — 40×40 units, 4 quadrants)
+- **Meadow** (NW) — open grass fields, wildflowers, a few scattered trees
+- **Forest** (NE) — dense voxel trees, dappled light, leaf litter
+- **Rocky Hills** (SW) — elevated terrain, large boulders, sparse vegetation
+- **Pond** (SE) — depressed basin with water, shoreline trees
+
+### Biomes (planned full game)
+- Temperate highlands (starting region)
+- Dense ancient forest
+- Badlands / war-scarred terrain
+- Coastal cliffs
+- Mountain range
+
+---
+
+## GAMEPLAY SYSTEMS — FULL SCOPE
+
+### Personal Combat
+- First-person, direct and physical
+- Directional blocking — stance matters
+- Weapon weight affects swing speed and stamina drain
+- Mounted combat supported
+- Magic usable in combat (not a separate mode)
+- Death has real consequence (exact mechanic TBD — flag for design decision)
+
+### Army Combat
+- Squads of 10–30 units per side
+- Player can fight alongside troops in first-person
+- OR hold commander key to pull camera up to tactical view (real-time continues below)
+- Unit types: infantry, archers, cavalry, mage support
+- Terrain matters — voxel hills, walls, and chokepoints are tactical
+- Morale system — routing, fear effects
+
+### Settlement System
+- Settlement tiers: camp → village → town → city → fortress
+- Free-form voxel construction
+- NPC role assignment: farmer, soldier, blacksmith, trader
+- Supply chains between settlements
+- Happiness/unrest system
+- Enemy armies can besiege and damage structures
+
+### Factions
+- Multiple autonomous competing kingdoms on overworld
+- They expand, war, and fall without player involvement
+- Player can: be independent / join a faction / found own faction
+- Reputation system — persistent, earned through actions
+
+### RPG Progression
+- Skill trees: Combat, Magic, Leadership, Crafting, Stealth
+- Skills improve through use (swing more → get better)
+- No class lock — hybrid builds valid
+- Leadership skills directly affect army effectiveness
+
+### Magic
+- Learned through gameplay (tomes, teachers, dungeon finds)
+- Costly — stamina, health, or resource drain
+- Schools: Elemental, Ward, Arcane, Necromantic (forbidden)
+- Never trivializes combat
+
+### Dungeons
+- Every surface region has underground dungeon layer
+- Proc-gen layouts with hand-authored bosses and set pieces
+- Multi-floor: surface cave → deep ruins → ancient vaults
+- Voxel walls mineable — secrets hidden in geometry
+- Rewards: rare materials, unique weapons, spell unlocks, lore
+
+### Narrative
+- Sandbox-first — world runs and is interesting without story triggers
+- Optional main quest: ancient threat from the dungeon layer
+- Threat grows over time if ignored but does not force an ending
+- No win condition — world continues indefinitely
+
+---
+
+## OPEN DESIGN DECISIONS
+### (Flag these before implementing systems that depend on them)
+
+1. **Death consequence** — permadeath / respawn at settlement / prisoner capture?
+2. **Default player perspective for overworld** — first-person or third-person?
+   (First-person for dungeons is decided.)
+3. **Commander view transition** — hold key / toggle / proximity-based?
+4. **Equipment sources** — crafting primary, or looting/trading equally valid?
+5. **Player starting state** — home base from the start, or wanderer with nothing?
+6. **Enemy types in v1** — human soldiers only, or monsters from day one?
+
+---
+
+## IMPLEMENTATION ORDER — GROUND UP
+
+Work in this order. Do not start a phase until the previous one is solid.
+
+### Phase 1 — World Foundation ✅ (partially built)
+- Chunk-based voxel terrain ✅
+- Hand-crafted demo region ✅
+- First-person player controller ✅
+- Day/night cycle ✅
+- Trees, grass, water, foliage ✅
+- [x] Going Medieval visual style applied (colors, SSAO, fog, lighting spec)
+- [ ] Dungeon entrance with short underground corridor
+- [ ] HTML5 + Windows export working
+
+### Phase 2 — Personal Combat
+- Directional melee combat system
+- Basic enemy AI (patrol, detect, attack)
+- Health, stamina, death placeholder
+- First dungeon floor with enemies and a boss
+- Basic inventory and loot drops
+
+### Phase 3 — Settlement & Building
+- Voxel block placement system
+- NPC spawning and basic role assignment
+- Resource gathering and storage
+- Settlement tier 1 (camp → village)
+
+### Phase 4 — Army & Skirmish
+- Unit recruitment from settlement
+- Basic squad commands (follow, hold, advance)
+- Commander view toggle
+- First skirmish scenario — defend the camp
+- Morale and routing behavior
+
+### Phase 5 — Overworld Map & Factions
+- Strategic overworld map UI
+- 2–3 rival faction kingdoms with basic AI
+- Travel between regions
+- Reputation and diplomacy system
+- World events (raids, caravans, faction wars)
+
+### Phase 6 — RPG Progression & Magic
+- Skill system (combat, leadership, magic, crafting)
+- Magic schools — elemental and ward first
+- Main quest hook surfaces
+- Multiple dungeon types
+- Full crafting system
+
+---
+
+## AGENT BEHAVIOR RULES
+
+1. **Never rebuild what already exists.** Check the existing scripts list first.
+2. **Always match the visual spec.** If a lighting or color decision is needed,
+   default to the Going Medieval palette defined above.
+3. **URP only.** Never suggest legacy built-in pipeline approaches.
+4. **Prefer extending asset store packages** over building from scratch for:
+   voxel terrain engines, vegetation systems, medieval asset packs.
+5. **Flag open design decisions** before implementing systems that depend on them.
+6. **Document your choices** — add brief comments explaining non-obvious decisions.
+7. **Performance matters.** This is a voxel game with large worlds. Chunk culling,
+   LOD, and instancing are not optional — they are required from day one.
+8. **One phase at a time.** Do not implement Phase 3 systems while Phase 1 is
+   incomplete. Ask if scope is unclear.
+
+---
+
+## MODULAR RULES (loaded automatically by Cursor)
+
+Detailed specs are in `.cursor/rules/`:
+- `scale-contract.md` — hard measurements for all assets
+- `visual-bible.md` — color palette + lighting spec
+- `unity-conventions.md` — C#/Unity code style
+
+Skills in `.cursor/skills/` — loaded when relevant:
+- `visual-task/SKILL.md` — visual task template + review workflow
+- `combat-system/SKILL.md` — combat implementation patterns
+
+Sprint plan in `.cursor/plans/current-sprint.md`
+Master plan in `references/VOXEL_KINGDOM_MASTER_PLAN.md`
+GDD in `references/GDD_v0.1.html`
+
+---
+
+## DECISION LOG (locked decisions — do not revisit)
+
+1. **Engine:** Unity URP (not Godot — ported from Godot, staying in Unity)
+2. **Combat feel:** Mount & Blade rhythm, NOT Dark Souls (faster, less punishing)
+3. **Visual target:** Going Medieval aesthetic (warm, earthy, SSAO-heavy)
+4. **Phase A terrain:** Simplified grass field. Biome polish deferred to Phase B.
+5. **FBX as import format** for 3D models (village pack, road tiles)
+6. **Phase order:** Gameplay-first (combat, squads, death) → then world polish

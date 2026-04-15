@@ -25,6 +25,7 @@ public class VillagePlacer : MonoBehaviour
     public GameObject cratePrefab;
     public GameObject fencePrefab;
     public GameObject hayPrefab;
+    public GameObject roadTilePrefab;
 
     [Header("Materials (URP)")]
     public Material woodMaterial;
@@ -54,6 +55,7 @@ public class VillagePlacer : MonoBehaviour
 
     void Awake()
     {
+        if (WorldData.ARENA_MODE) return;
         PlaceVillage();
     }
 

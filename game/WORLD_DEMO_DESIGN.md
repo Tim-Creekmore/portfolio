@@ -10,39 +10,33 @@
 
 ## Development Phases
 
-### Phase 1 — Core Systems (COMPLETE)
-What we like and is locked in:
-- **Grass** — Geometry shader grass with tessellation, wind, blade curvature, shadows. Looks great.
-- **Trees** — Voxel-block trees in 3 categories: skinny saplings, bushes, mature trees. Trunk colliders.
-- **Water** — Low-poly medieval water shader with vertex displacement waves, depth-based color, soft shoreline foam, shimmer.
-- **Village buildings** — FBX medieval village pack imported, buildings standing upright with URP materials, scaled to player size.
-- **Cobblestone roads** — FBX road tiles placed along splines from village center outward.
-- **Biome boundary lines** — White line mesh at biome transitions.
-- **Biome toast notifications** — Fade-in/out UI when entering a new biome.
-- **Day/night cycle** — Directional light + skybox + ambient driven by time.
-- **Player controller** — First-person with walk, swim, jump.
+### Phase A — Proof of Fantasy (CURRENT)
+Terrain simplified to grass arena (`ARENA_MODE = true` in WorldData.cs). Focus: core gameplay.
 
-### Phase 2 — Environment Polish (CURRENT)
-What needs work:
-- [ ] **Farm/Cropland** — Tilled dirt rows, wheat patches, fences. Currently just flat brown terrain.
-- [ ] **Sandy/Beach** — Lake edge shoreline. Terrain color exists but no sand props/texture detail.
-- [ ] **Cliff/Ravine** — Steep rocky walls, exposed stone layers. Height profile exists but visuals are flat.
-- [ ] **Dense Thicket** — Needs tighter tree spacing, bramble, darker atmosphere than forest.
-- [ ] **Moor/Heathland** — Open windswept scrub, patchy grass on rocky soil. Currently bare.
-- [ ] **Cobblestone Road** — Tiles placed but road/biome color blending needs refinement.
-- [ ] **Village Clearing** — Buildings placed. Need packed dirt texture, better prop layout, market detail.
-- [ ] **Ruins** — Crumbled stone walls, overgrown foundations. Currently just terrain color.
-- [ ] **River/Stream** — Flows through map but banks need vegetation, reeds, visual polish.
-- [ ] **Terrain color/lighting** — Some biomes still appear too dark or flat. Ambient and vertex colors need tuning per-biome.
-- [ ] **Road overlay blending** — Road should blend smoothly into surrounding terrain, not hard-cut.
+**Active Sprint:** A1 — Commander Toggle + Camera
+- [ ] Camera state machine (HeroCamera + CommanderCamera)
+- [ ] Tab toggle input binding
+- [ ] Camera transition smoothing
+- [ ] Commander cursor + ground selection
 
-### Phase 3 — Gameplay & Polish (FUTURE)
-- [ ] NPC placement and basic interaction
-- [ ] Ambient sound (birds, wind, water, village chatter)
-- [ ] Particle effects (bonfire smoke, fireflies, dust)
-- [ ] LOD system for grass and trees at distance
-- [ ] Performance profiling and optimization pass
-- [ ] WebGL build and deployment
+**Upcoming Sprints:** A2 (Death System), A3 (Hero Combat), A4 (Squad Basics), A5 (Test Scene + Playtest)
+
+See `references/VOXEL_KINGDOM_MASTER_PLAN.md` and `.cursor/plans/current-sprint.md` for full breakdown.
+
+### Phase B — Environment Polish (DEFERRED)
+All biome/environment work paused until gameplay is proven. Existing code preserved:
+- Farm, Beach, Cliff, Thicket, Moor, Village, Ruins, River, Road systems
+- Set `ARENA_MODE = false` in WorldData.cs to restore full 13-biome map
+
+### Locked Systems (from pre-Phase A)
+- **Grass** — Geometry shader with tessellation, wind, blade curvature, shadows
+- **Trees** — Voxel-block trees (saplings, bushes, mature). Trunk colliders.
+- **Water** — Low-poly medieval water shader
+- **Village buildings** — FBX pack imported (disabled in arena mode)
+- **Cobblestone roads** — FBX tiles + spline placement (disabled in arena mode)
+- **Biome boundaries/toasts** — (disabled in arena mode)
+- **Day/night cycle** — Directional light + skybox + ambient
+- **Player controller** — First-person with walk, jump
 
 ---
 

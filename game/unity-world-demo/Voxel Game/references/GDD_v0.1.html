@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Design Document — Untitled Voxel Kingdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stone: #1a1814;
+    --stone2: #242019;
+    --stone3: #2e2a24;
+    --parchment: #e8dfc8;
+    --parchment2: #d4c9a8;
+    --parchment3: #bfb08a;
+    --gold: #c9963a;
+    --gold2: #e2b455;
+    --ember: #b84c1a;
+    --moss: #4a6741;
+    --iron: #5a5850;
+    --fog: #8a8278;
+    --text: #e8dfc8;
+    --text2: #b8ad96;
+    --text3: #7a7268;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--stone);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .doc-header {
+    text-align: center;
+    padding: 3rem 0 2.5rem;
+    border-bottom: 1px solid var(--iron);
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .doc-header::before, .doc-header::after {
+    content: '✦';
+    color: var(--gold);
+    font-size: 12px;
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+  }
+  .doc-header::before { transform: translateX(-30px); }
+  .doc-header::after { transform: translateX(18px); }
+
+  .doc-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .doc-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+
+  .doc-subtitle {
+    font-size: 1.1rem;
+    color: var(--text2);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .doc-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+    font-size: 13px;
+    color: var(--text3);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--stone3);
+  }
+
+  .section-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.05em;
+  }
+
+  .section-icon {
+    margin-left: auto;
+    color: var(--iron);
+    font-size: 14px;
+  }
+
+  /* Callout — the "north star" */
+  .callout {
+    background: var(--stone2);
+    border-left: 3px solid var(--gold);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .callout p {
+    color: var(--parchment2);
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+
+  .callout-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  /* Pillar cards */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar {
+    background: var(--stone2);
+    border: 1px solid var(--stone3);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+
+  .pillar-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .pillar-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* Two-col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .doc-title { font-size: 2rem; }
+  }
+
+  /* Info block */
+  .info-block {
+    background: var(--stone2);
+    border: 1px solid var(--stone3);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+
+  .info-block h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--gold2);
+    margin-bottom: 0.6rem;
+  }
+
+  .info-block p, .info-block li {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .info-block ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .info-block ul li::before {
+    content: '—';
+    color: var(--iron);
+    margin-right: 0.5rem;
+  }
+
+  /* Tag strip */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    background: var(--stone3);
+    border: 1px solid var(--iron);
+    border-radius: 2px;
+    padding: 3px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text2);
+  }
+
+  .tag.gold { border-color: var(--gold); color: var(--gold2); }
+  .tag.ember { border-color: var(--ember); color: #e07040; }
+  .tag.moss { border-color: var(--moss); color: #7aaa6a; }
+
+  /* Prose */
+  p { margin-bottom: 0.85rem; color: var(--text2); }
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--parchment); font-weight: 600; }
+
+  /* Phase timeline */
+  .phases { display: flex; flex-direction: column; gap: 0; }
+
+  .phase {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--stone3);
+  }
+  .phase:last-child { border-bottom: none; }
+
+  .phase-num-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 32px;
+  }
+
+  .phase-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .phase-line {
+    flex: 1;
+    width: 1px;
+    background: var(--stone3);
+    margin-top: 4px;
+  }
+
+  .phase-body { flex: 1; padding-top: 4px; }
+
+  .phase-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--parchment);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-items {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .phase-items li {
+    font-size: 13px;
+    color: var(--text3);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .phase-items li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--iron);
+  }
+
+  /* Decision flags */
+  .flags { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+
+  .flag {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    background: var(--stone2);
+    border: 1px solid var(--stone3);
+    border-left: 3px solid var(--ember);
+    border-radius: 0 4px 4px 0;
+    padding: 0.65rem 1rem;
+  }
+
+  .flag-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #e07040;
+    min-width: 60px;
+    padding-top: 2px;
+  }
+
+  .flag-text {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* Divider */
+  .divider {
+    text-align: center;
+    color: var(--iron);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    margin: 2rem 0;
+  }
+
+  /* Comparison row */
+  .comp-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--stone3);
+    font-size: 14px;
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-align: center;
+    padding: 2px 8px;
+    border: 1px solid var(--stone3);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .comp-a { color: var(--text2); text-align: right; }
+  .comp-b { color: var(--text2); text-align: left; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <p class="doc-label">Game Design Document — v0.1</p>
+    <h1 class="doc-title">The Voxel Kingdom</h1>
+    <p class="doc-subtitle">A seamless fantasy world where you are the hero, the general, and the lord</p>
+    <div class="doc-meta">
+      <span>Engine: Godot 4</span>
+      <span>Genre: Action RPG / Strategy</span>
+      <span>Setting: Fantasy Medieval</span>
+      <span>Mode: Single Player</span>
+    </div>
+  </header>
+
+  <!-- VISION -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Vision & North Star</h2>
+    </div>
+
+    <div class="callout">
+      <p class="callout-label">Core Design Statement</p>
+      <p>"A seamless blend between first-person action exploration — the feel of Zelda: Breath of the Wild — and the nation-scale command of Total War: Warhammer, built inside a living voxel world. At any moment the player can be picking a lock in a dungeon, commanding troops on a hillside, or deciding the fate of a kingdom — without a loading screen between those moments."</p>
+    </div>
+
+    <p>The defining challenge and opportunity of this game is the <strong>scale transition</strong>. Most games lock you into one scale: you are either a hero OR a general OR a ruler. This game makes you all three simultaneously, and the transitions between scales should feel natural and earned, not jarring.</p>
+
+    <p>The closest existing game is <strong>Mount & Blade: Bannerlord</strong> — but this goes further by putting you fully in first-person during personal combat (à la Dark Souls / Zelda BotW), making the voxel world fully interactive and destructible, and adding a Zelda-style dungeon layer beneath the overworld.</p>
+
+    <div class="tags">
+      <span class="tag gold">Open World</span>
+      <span class="tag gold">Scale Transitions</span>
+      <span class="tag gold">Voxel</span>
+      <span class="tag">First Person Combat</span>
+      <span class="tag">Army Command</span>
+      <span class="tag">Settlement Building</span>
+      <span class="tag">Dungeon Crawl</span>
+      <span class="tag">RPG Progression</span>
+      <span class="tag ember">No Win Condition</span>
+      <span class="tag moss">Magic System</span>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- CORE PILLARS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Core Gameplay Pillars</h2>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-name">I — The Hero</div>
+        <p class="pillar-desc">First-person exploration, direct physical combat, dungeon crawling, and personal quests. The human-scale layer.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name">II — The General</div>
+        <p class="pillar-desc">Commanding squads in field battles. You can be on the front line or step back to direct. The skirmish layer.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name">III — The Lord</div>
+        <p class="pillar-desc">Overworld map, settlements, factions, diplomacy, resource empire. The kingdom layer.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name">IV — The Builder</div>
+        <p class="pillar-desc">Voxel construction — fortifications, homes, infrastructure. The world is yours to reshape.</p>
+      </div>
+    </div>
+
+    <p>These four pillars should never feel like separate "modes." The player flows between them organically. Walking your walls as The Lord → spotting an enemy scout → switching to The Hero to engage → calling your troops as The General — all in one continuous session.</p>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- WORLD STRUCTURE -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">World Structure</h2>
+    </div>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Overworld Map</h4>
+        <ul>
+          <li>A top-down strategic view of the entire realm</li>
+          <li>Shows kingdoms, settlements, roads, armies</li>
+          <li>Time can pass faster here (like Bannerlord travel)</li>
+          <li>Click a location to zoom in to the voxel world</li>
+          <li>Faction territories shift as the world evolves</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Zoomed-In World</h4>
+        <ul>
+          <li>Full 3D voxel environment — the "ground level"</li>
+          <li>Where all first-person gameplay happens</li>
+          <li>Each region has unique biome feel and architecture</li>
+          <li>Contains surface layer AND underground dungeon layer</li>
+          <li>Voxel terrain is persistent — what you build stays built</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>World Generation</h4>
+        <ul>
+          <li>Hand-crafted skeleton — major landmarks, story locations, kingdom capitals are authored</li>
+          <li>Proc-gen fills biomes, terrain variation, dungeon layouts, resource placement</li>
+          <li>No two playthroughs have the same geography outside the fixed points</li>
+          <li>World seed system — shareable seeds for consistent worlds</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Biome Types (planned)</h4>
+        <ul>
+          <li>Temperate highlands — the main starting region</li>
+          <li>Dense forest — ancient, dark, enemy-heavy</li>
+          <li>Badlands / scarred earth — corrupted or war-torn</li>
+          <li>Coastal cliffs — sea trade routes</li>
+          <li>Mountain range — natural borders, dwarven ruins</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- COMBAT SYSTEMS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Combat Systems</h2>
+    </div>
+
+    <div class="callout">
+      <p class="callout-label">Design Target</p>
+      <p>Two distinct but connected combat layers. Personal combat is kinetic and skill-based. Army combat is tactical and spatial. The player chooses how deeply to engage with each at any moment.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Personal Combat — "The Hero Layer"</h4>
+        <ul>
+          <li>First-person, direct and physical (Mount & Blade feel)</li>
+          <li>Directional blocking — stance matters</li>
+          <li>Weapon weight affects swing speed and stamina</li>
+          <li>Mounted combat supported (horse changes everything)</li>
+          <li>Magic integrated as a combat tool (spells, not a separate mode)</li>
+          <li>Death has consequence — not a simple respawn</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Army Combat — "The General Layer"</h4>
+        <ul>
+          <li>Squads of 10–30 units per side</li>
+          <li>You can fight alongside your troops in first-person</li>
+          <li>Or step back and issue commands from a pulled-out view</li>
+          <li>Unit types: infantry, archers, cavalry, mage support</li>
+          <li>Terrain matters — voxel hills, walls, chokepoints</li>
+          <li>Morale system — routing units, fear effects</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:1rem;">The <strong>key design challenge</strong>: the transition between personal and command view during battle must feel seamless. The proposed solution is a hold-key "commander view" that pulls the camera up and slows perceived time slightly — similar to Total War's battle pause — while still showing the real-time action below.</p>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- PROGRESSION -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Player Progression</h2>
+    </div>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Character Skills (RPG Layer)</h4>
+        <ul>
+          <li>Skill trees across: Combat, Magic, Leadership, Crafting, Stealth</li>
+          <li>Skills improve through use — swing a sword more, get better at it</li>
+          <li>Milestone skill points for major choices (like Total War hero skills)</li>
+          <li>No class lock-in — hybrid builds are valid</li>
+          <li>Leadership skills directly affect army performance</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Kingdom Progression (Strategy Layer)</h4>
+        <ul>
+          <li>Settlement tiers: camp → village → town → city → fortress</li>
+          <li>Each tier unlocks new unit types, buildings, and trade routes</li>
+          <li>Influence/reputation system per faction</li>
+          <li>Vassal system — other lords can swear to you</li>
+          <li>Tech/knowledge tree for crafting and magic research</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- FACTIONS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Factions & World Politics</h2>
+    </div>
+
+    <p>The world has multiple competing factions/kingdoms operating on the overworld map. They are <strong>autonomous</strong> — they expand, war, form alliances, and fall without the player's involvement. The player enters a living world already in motion.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-name">Planned Faction Archetypes</div>
+        <p class="pillar-desc">Human kingdom (the default "civilized" power), a militaristic empire, a tribal/raider culture, an isolationist magical order, and a neutral merchant league. Names and lore TBD.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name">Faction Relations</div>
+        <p class="pillar-desc">War, peace, non-aggression, and alliance states. Player actions shift faction opinions. Reputation is persistent and earned, not purchased.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name">Player's Faction</div>
+        <p class="pillar-desc">Player can be independent, join an existing faction, or found their own. All three paths are viable across a full playthrough.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- DUNGEONS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Dungeons & Underground Layer</h2>
+    </div>
+
+    <p>Every region of the surface world has a corresponding underground layer. Dungeons are the <strong>Zelda layer</strong> of this game — self-contained adventure spaces with puzzles, secrets, enemies, and rewards that feel distinct from the overworld.</p>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Dungeon Structure</h4>
+        <ul>
+          <li>Proc-gen layouts with hand-authored set pieces and bosses</li>
+          <li>Multi-floor — surface cave → deep ruins → ancient vaults</li>
+          <li>Voxel walls can be mined — secrets hidden in geometry</li>
+          <li>Environmental puzzles using voxel physics</li>
+          <li>Boss encounters tied to region lore</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Dungeon Rewards</h4>
+        <ul>
+          <li>Rare crafting materials</li>
+          <li>Unique weapons and armor</li>
+          <li>Magical tomes / spell unlocks</li>
+          <li>Lore fragments that build world narrative</li>
+          <li>Ancient structures player can claim and build around</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- MAGIC -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Magic System</h2>
+    </div>
+
+    <p>Magic exists in the world and the player can learn and use it, but it has <strong>weight and cost</strong>. It should never trivialize combat — it should change the way you fight, not eliminate challenge.</p>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Magic Principles</h4>
+        <ul>
+          <li>Learned — spells are found, studied, or taught</li>
+          <li>Costly — stamina, health, or resource drain</li>
+          <li>Contextual — some spells only work in certain conditions</li>
+          <li>Visible in the world — magical ruins, corrupted zones, ley lines</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Magic Schools (planned)</h4>
+        <ul>
+          <li>Elemental — fire, ice, lightning (combat-focused)</li>
+          <li>Ward — shields, buffs, support</li>
+          <li>Arcane — utility, unlocking, sensing hidden things</li>
+          <li>Necromantic — forbidden, powerful, reputation consequences</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- BUILDING -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Building & Settlement System</h2>
+    </div>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Voxel Construction</h4>
+        <ul>
+          <li>Free-form voxel building anywhere in the world</li>
+          <li>Block types tied to resource gathering</li>
+          <li>Structural integrity — overhangs and spans have limits</li>
+          <li>Defenses: walls, towers, gates, murder holes</li>
+          <li>Enemy armies can besiege and damage your structures</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Settlement Management</h4>
+        <ul>
+          <li>NPCs inhabit and work in your settlements</li>
+          <li>Assign roles: farmer, soldier, blacksmith, trader</li>
+          <li>Supply chains — food, weapons, materials flow between settlements</li>
+          <li>Happiness / unrest system — neglected towns rebel</li>
+          <li>Trade routes to other factions generate passive income</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- STORY -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2 class="section-title">Narrative & Story</h2>
+    </div>
+
+    <p>The game is <strong>sandbox-first</strong> — the world runs and is interesting without the player triggering any story content. But an optional main quest exists for players who want a directed narrative experience.</p>
+
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Sandbox World Events</h4>
+        <ul>
+          <li>Factions rise and fall dynamically</li>
+          <li>Random events: famines, plagues, legendary monsters appearing</li>
+          <li>NPC lords have ambitions that play out over time</li>
+          <li>The world has history that accumulates — a chronicle of what happened</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Optional Main Quest</h4>
+        <ul>
+          <li>An ancient threat stirring beneath the dungeon layer</li>
+          <li>Uncovered gradually through dungeon exploration and lore fragments</li>
+          <li>Can be ignored indefinitely — but the threat grows over time</li>
+          <li>Resolving it doesn't end the game — the world continues after</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- DESIGN DECISIONS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <h2 class="section-title">Open Design Decisions</h2>
+    </div>
+
+    <p style="margin-bottom:1rem;">These are questions that need answers before or during implementation. Flag them for design review.</p>
+
+    <div class="flags">
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">What is the death/failure consequence? Permadeath? Respawn at settlement? Bannerlord-style prisoner capture?</span>
+      </div>
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">First-person or third-person as the default during overworld exploration? (First-person for dungeons is decided — overworld is TBD)</span>
+      </div>
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">How does the commander view transition work mechanically? Hold key? Dedicated toggle? Proximity-based to your army?</span>
+      </div>
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">Is crafting the primary source of equipment, or is looting/trading equally valid? What's the balance?</span>
+      </div>
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">Does the player have a "home base" they start with, or do they begin as a wanderer with nothing?</span>
+      </div>
+      <div class="flag">
+        <span class="flag-label">DECIDE</span>
+        <span class="flag-text">Are enemies only human soldiers/bandits in v1, or do monsters exist from day one? (Could phase monsters in later)</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <!-- IMPLEMENTATION PHASES -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <h2 class="section-title">Implementation Phases — Ground Up</h2>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">1</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">World Foundation</p>
+          <p class="phase-desc">The voxel engine, terrain, atmosphere, and player movement. Proves the world feels good to be in.</p>
+          <ul class="phase-items">
+            <li>Chunk-based voxel terrain system</li>
+            <li>Hand-crafted demo region (rolling hills, forest, cliffs)</li>
+            <li>First-person player controller with collision</li>
+            <li>Day/night cycle, fog, ambient lighting</li>
+            <li>One dungeon entrance with a short corridor</li>
+            <li>HTML5 + desktop export working</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">2</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">Personal Combat</p>
+          <p class="phase-desc">The hero layer. Player can fight enemies in first-person. Dungeon has actual enemies and rewards.</p>
+          <ul class="phase-items">
+            <li>Directional melee combat system</li>
+            <li>Basic enemy AI (patrol, detect, attack)</li>
+            <li>Health, stamina, death handling</li>
+            <li>First dungeon floor with combat and a boss</li>
+            <li>Basic inventory and loot drops</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">3</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">Settlement & Building</p>
+          <p class="phase-desc">The lord layer. Player can place and manage a basic settlement. NPCs inhabit it.</p>
+          <ul class="phase-items">
+            <li>Voxel building placement system</li>
+            <li>NPC spawning and basic role assignment</li>
+            <li>Resource gathering and storage</li>
+            <li>Settlement tier 1 — camp to village</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">4</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">Army & Skirmish Combat</p>
+          <p class="phase-desc">The general layer. Player can recruit, command, and fight alongside squads.</p>
+          <ul class="phase-items">
+            <li>Unit recruitment from settlement</li>
+            <li>Basic squad command (follow, hold, advance)</li>
+            <li>First skirmish scenario — defend the camp</li>
+            <li>Commander view toggle</li>
+            <li>Morale and routing behavior</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">5</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">Overworld Map & Factions</p>
+          <p class="phase-desc">The kingdom layer. Multiple factions, travel, and diplomacy on a strategic map.</p>
+          <ul class="phase-items">
+            <li>Overworld map UI</li>
+            <li>2–3 rival faction kingdoms with basic AI behavior</li>
+            <li>Travel between regions</li>
+            <li>Reputation and diplomacy system</li>
+            <li>World events — raids, trade caravans, faction wars</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-num-col">
+          <div class="phase-circle">6</div>
+        </div>
+        <div class="phase-body">
+          <p class="phase-title">RPG Progression & Magic</p>
+          <p class="phase-desc">Character depth. Skills, magic, and long-term player growth.</p>
+          <ul class="phase-items">
+            <li>Skill system across combat, leadership, magic, crafting</li>
+            <li>Magic schools — elemental and ward to start</li>
+            <li>Main quest hook — first lore fragments surface</li>
+            <li>Multiple dungeon types across different regions</li>
+            <li>Full crafting system</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">· · · · ·</div>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <h2 class="section-title">Inspiration Reference Map</h2>
+    </div>
+
+    <div style="background:var(--stone2);border:1px solid var(--stone3);border-radius:4px;padding:1.25rem;">
+      <div class="comp-row">
+        <span class="comp-a">First-person exploration, open world feel, dungeon design</span>
+        <span class="comp-label">Zelda BotW</span>
+        <span class="comp-b">The sense of a world that exists without you</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-a">Personal combat feel, faction/kingdom systems, army-scale battles</span>
+        <span class="comp-label">Bannerlord</span>
+        <span class="comp-b">Being both hero AND general in the same battle</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-a">Army scale, unit types, hero skill trees, faction politics</span>
+        <span class="comp-label">Total War Warhammer</span>
+        <span class="comp-b">The weight and spectacle of large engagements</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-a">Voxel freedom, world persistence, underground exploration</span>
+        <span class="comp-label">Minecraft</span>
+        <span class="comp-b">Proc-gen that never repeats itself</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-a">Combat weight, consequence of failure, atmosphere</span>
+        <span class="comp-label">Dark Souls</span>
+        <span class="comp-b">Every fight mattering, world telling story through environment</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

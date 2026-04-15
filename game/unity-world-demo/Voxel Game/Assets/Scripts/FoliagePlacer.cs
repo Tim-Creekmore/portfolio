@@ -137,24 +137,32 @@ public class FoliagePlacer : MonoBehaviour
         var rng = new System.Random(0x54524545);
         int treeIdx = 0;
 
-        PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Forest,  80f, 115f, 40f, 80f, 3.5f, 0.10f);
-        PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Thicket, 80f, 115f, 5f,  35f, 2.5f, 0.05f);
-        PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Meadow,  40f, 75f,  5f,  35f, 8f,   0.50f);
-        PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Moor,    5f,  35f,  80f, 115f, 10f, 0.60f);
-        PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Farm,    5f,  35f,  42f, 78f,  12f, 0.70f);
-
-        // Scattered saplings/bushes near lake
-        for (int i = 0; i < 6; i++)
+        if (WorldData.ARENA_MODE)
         {
-            float angle = RngRange(rng, 0f, Mathf.PI * 2f);
-            float dist = WorldData.LAKE_RADIUS + RngRange(rng, 2f, 6f);
-            float fx = WorldData.LakeCenter.x + Mathf.Cos(angle) * dist;
-            float fz = WorldData.LakeCenter.y + Mathf.Sin(angle) * dist;
-            fx = Mathf.Clamp(fx, 2f, WorldData.SIZE - 2f);
-            fz = Mathf.Clamp(fz, 2f, WorldData.SIZE - 2f);
-            if (WorldData.IsWater(fx, fz)) continue;
-            PlaceOneTree(rng, fx, fz, ref treeIdx,
-                rng.NextDouble() < 0.5 ? TreeGenerator.Category.Sapling : TreeGenerator.Category.Bush);
+            // Sparse scattered trees across the whole arena
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Meadow, 5f, 115f, 5f, 115f, 12f, 0.55f);
+        }
+        else
+        {
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Forest,  80f, 115f, 40f, 80f, 3.5f, 0.10f);
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Thicket, 80f, 115f, 5f,  35f, 2.5f, 0.05f);
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Meadow,  40f, 75f,  5f,  35f, 8f,   0.50f);
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Moor,    5f,  35f,  80f, 115f, 10f, 0.60f);
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Farm,    5f,  35f,  42f, 78f,  12f, 0.70f);
+
+            // Scattered saplings/bushes near lake
+            for (int i = 0; i < 6; i++)
+            {
+                float angle = RngRange(rng, 0f, Mathf.PI * 2f);
+                float dist = WorldData.LAKE_RADIUS + RngRange(rng, 2f, 6f);
+                float fx = WorldData.LakeCenter.x + Mathf.Cos(angle) * dist;
+                float fz = WorldData.LakeCenter.y + Mathf.Sin(angle) * dist;
+                fx = Mathf.Clamp(fx, 2f, WorldData.SIZE - 2f);
+                fz = Mathf.Clamp(fz, 2f, WorldData.SIZE - 2f);
+                if (WorldData.IsWater(fx, fz)) continue;
+                PlaceOneTree(rng, fx, fz, ref treeIdx,
+                    rng.NextDouble() < 0.5 ? TreeGenerator.Category.Sapling : TreeGenerator.Category.Bush);
+            }
         }
     }
 
