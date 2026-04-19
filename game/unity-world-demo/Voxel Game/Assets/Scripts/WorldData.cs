@@ -320,8 +320,9 @@ public static class WorldData
     // ── Spawn ───────────────────────────────────────────────────────────
     public static Vector3 GetSpawnPosition()
     {
+        // South end of the 50x50 arena (centered at 60,60)
         float sx = 60f;
-        float sz = 55f;
+        float sz = 38f;
         float sy = HeightSmooth(sx, sz);
         return new Vector3(sx, sy + 0.85f, sz);
     }

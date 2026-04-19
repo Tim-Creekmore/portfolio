@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     const float SPEED          = 4.2f;
+    const float SPRINT_SPEED   = 7.5f;
+    const float SPRINT_DRAIN   = 12f;
     const float SWIM_SPEED     = 2.4f;
     const float JUMP_VELOCITY  = 5.5f;
     const float SWIM_UP_FORCE  = 4.5f;
@@ -12,54 +14,37 @@ public class PlayerController : MonoBehaviour
     const float WATER_DRAG     = 4.0f;
     const float GRAVITY        = 12.0f;
 
-    [Header("Cameras")]
-    [SerializeField] Transform neck;
+    [Header("Camera")]
+    [SerializeField] CameraStateMachine cameraStateMachine;
     [SerializeField] Camera camFP;
-    [SerializeField] Camera camTP;
-    [SerializeField] Transform springArm;
 
-    [Header("Visuals")]
-    [SerializeField] MeshRenderer bodyVisual;
-
-    [Header("Mouse")]
-    [SerializeField] float mouseSensitivity = 2.0f;
-
-    const float TP_DIST_MIN = 3f;
-    const float TP_DIST_MAX = 16f;
-    const float TP_DIST_DEFAULT = 8f;
-    const float TP_HEIGHT = 2.5f;
-    const float TP_ZOOM_SPEED = 2f;
+    [Header("Stamina")]
+    [SerializeField] PlayerStamina playerStamina;
 
     CharacterController _cc;
-    bool  _thirdPerson;
     float _bobTime;
-    float _pitch = -7f * Mathf.Deg2Rad;
     bool  _spaceWasDown;
     bool  _inWater;
+    bool  _sprinting;
     Vector3 _velocity;
-    float _tpDist;
+
+    public bool IsSprinting => _sprinting;
 
     void Awake()
     {
         _cc = GetComponent<CharacterController>();
-        _tpDist = TP_DIST_DEFAULT;
-    }
-
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        ApplyCameraMode();
     }
 
     void Update()
     {
-        HandleMouseLook();
-        HandleInput();
+        HandleCursorToggle();
     }
 
     void FixedUpdate()
     {
+        if (cameraStateMachine != null && !cameraStateMachine.PlayerCanMove)
+            return;
+
         float waterY = WorldData.WATER_Y;
         float feetY  = transform.position.y - 0.8f;
         _inWater = feetY < waterY && WorldData.IsPond(transform.position.x, transform.position.z);
@@ -74,7 +59,15 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = transform.forward;
         Vector3 right   = transform.right;
         Vector3 dir = (right * g.x + forward * g.y).normalized;
-        float moveSpeed = _inWater ? SWIM_SPEED : SPEED;
+
+        bool wantSprint = !_inWater && g.sqrMagnitude > 0.1f
+            && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+        _sprinting = wantSprint && playerStamina != null && !playerStamina.IsEmpty;
+
+        if (_sprinting)
+            playerStamina.Drain(SPRINT_DRAIN * Time.fixedDeltaTime);
+
+        float moveSpeed = _inWater ? SWIM_SPEED : (_sprinting ? SPRINT_SPEED : SPEED);
 
         if (g.sqrMagnitude > 0.0001f)
         {
@@ -83,6 +76,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            _sprinting = false;
             float decel = _inWater ? WATER_DRAG : 12f;
             _velocity.x = Mathf.MoveTowards(_velocity.x, 0, moveSpeed * Time.fixedDeltaTime * decel);
             _velocity.z = Mathf.MoveTowards(_velocity.z, 0, moveSpeed * Time.fixedDeltaTime * decel);
@@ -135,40 +129,10 @@ public class PlayerController : MonoBehaviour
         return Vector2.ClampMagnitude(g, 1f);
     }
 
-    void HandleMouseLook()
+    void HandleCursorToggle()
     {
-        if (Cursor.lockState != CursorLockMode.Locked) return;
-
-        float mx = Input.GetAxisRaw("Mouse X");
-        float my = Input.GetAxisRaw("Mouse Y");
-
-        transform.Rotate(Vector3.up, mx * mouseSensitivity, Space.World);
-        _pitch -= my * mouseSensitivity * Mathf.Deg2Rad;
-        _pitch = Mathf.Clamp(_pitch, -88f * Mathf.Deg2Rad, 88f * Mathf.Deg2Rad);
-
-        if (_thirdPerson && springArm != null)
-            springArm.localRotation = Quaternion.Euler(_pitch * Mathf.Rad2Deg, 0, 0);
-        else if (camFP != null)
-            camFP.transform.localRotation = Quaternion.Euler(_pitch * Mathf.Rad2Deg, 0, 0);
-    }
-
-    void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            _thirdPerson = !_thirdPerson;
-            ApplyCameraMode();
-        }
-
-        if (_thirdPerson)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (Mathf.Abs(scroll) > 0.001f)
-            {
-                _tpDist = Mathf.Clamp(_tpDist - scroll * TP_ZOOM_SPEED * 10f, TP_DIST_MIN, TP_DIST_MAX);
-                UpdateTPCameraPosition();
-            }
-        }
+        if (cameraStateMachine != null && cameraStateMachine.IsCommanderMode)
+            return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -181,19 +145,28 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+
+        // Re-lock on focus return (prevents cursor escaping to other monitors)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
+        {
+            if (Cursor.lockState != CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
-    void UpdateTPCameraPosition()
+    void OnApplicationFocus(bool hasFocus)
     {
-        if (camTP != null)
-            camTP.transform.localPosition = new Vector3(0, TP_HEIGHT, -_tpDist);
+        if (hasFocus && cameraStateMachine != null && !cameraStateMachine.IsCommanderMode)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void UpdateHeadBob(float delta, Vector2 g)
     {
         if (camFP == null) return;
-
-        if (_thirdPerson)
+        if (cameraStateMachine != null && cameraStateMachine.CurrentMode != CameraStateMachine.Mode.Hero)
         {
             camFP.transform.localPosition = Vector3.zero;
             return;
@@ -211,8 +184,10 @@ public class PlayerController : MonoBehaviour
         float spd = new Vector2(_velocity.x, _velocity.z).magnitude;
         if (spd > 0.35f && _cc.isGrounded)
         {
-            _bobTime += delta * 9f;
-            float bob = Mathf.Sin(_bobTime) * 0.038f;
+            float bobFreq = _sprinting ? 13f : 9f;
+            float bobAmp  = _sprinting ? 0.055f : 0.038f;
+            _bobTime += delta * bobFreq;
+            float bob = Mathf.Sin(_bobTime) * bobAmp;
             camFP.transform.localPosition = new Vector3(
                 Mathf.Cos(_bobTime * 0.5f) * 0.018f, bob, 0);
         }
@@ -221,31 +196,6 @@ public class PlayerController : MonoBehaviour
             _bobTime = 0;
             camFP.transform.localPosition = Vector3.Lerp(
                 camFP.transform.localPosition, Vector3.zero, delta * 10f);
-        }
-    }
-
-    void ApplyCameraMode()
-    {
-        if (bodyVisual != null)
-            bodyVisual.enabled = _thirdPerson;
-
-        if (camFP != null) camFP.enabled = !_thirdPerson;
-        if (camTP != null) camTP.enabled = _thirdPerson;
-
-        if (_thirdPerson)
-        {
-            if (springArm != null)
-                springArm.localRotation = Quaternion.Euler(_pitch * Mathf.Rad2Deg, 0, 0);
-            if (camFP != null)
-                camFP.transform.localRotation = Quaternion.identity;
-            UpdateTPCameraPosition();
-        }
-        else
-        {
-            if (camFP != null)
-                camFP.transform.localRotation = Quaternion.Euler(_pitch * Mathf.Rad2Deg, 0, 0);
-            if (springArm != null)
-                springArm.localRotation = Quaternion.identity;
         }
     }
 }

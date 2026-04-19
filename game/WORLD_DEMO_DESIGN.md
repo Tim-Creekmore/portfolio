@@ -13,13 +13,45 @@
 ### Phase A — Proof of Fantasy (CURRENT)
 Terrain simplified to grass arena (`ARENA_MODE = true` in WorldData.cs). Focus: core gameplay.
 
-**Active Sprint:** A1 — Commander Toggle + Camera
-- [ ] Camera state machine (HeroCamera + CommanderCamera)
-- [ ] Tab toggle input binding
-- [ ] Camera transition smoothing
-- [ ] Commander cursor + ground selection
+**Sprint A1 — Commander Toggle + Camera** ✅ COMPLETE
+- [x] CameraStateMachine.cs — Hero / ThirdPerson / Commander (V to cycle)
+- [x] Smooth 0.4s transitions, input lock during blend
+- [x] Commander: top-down WASD pan, scroll zoom, cursor unlocked
+- [~] Ground selection deferred to A4 (needs units first)
 
-**Upcoming Sprints:** A2 (Death System), A3 (Hero Combat), A4 (Squad Basics), A5 (Test Scene + Playtest)
+**Sprint A2 — Death System** ✅ COMPLETE
+- [x] PlayerHealth.cs — HP, TakeDamage, Heal, ResetHealth, events
+- [x] DeathMarker.cs + DeathSystem.cs — red cross at death pos, 300s timer
+- [x] Respawn flow — fade to black → marker spawn → teleport → restore HP → fade in
+- [x] Interactor.cs — R key retrieves death marker, "Items retrieved" feedback
+- [x] CombatHUD.cs — health bar (shrinks visually), stamina bar (placeholder), damage text
+
+**Sprint A3 — Hero Combat Baseline** ✅ COMPLETE
+- [x] WeaponData ScriptableObject + Iron Sword
+- [x] Combat state machine (Idle → WindUp → Swing → Recovery → Blocking)
+- [x] Directional attacks — crosshair-on-zone (Option E), random when out of range
+- [x] Hit detection — SphereCast, per-direction multipliers, jump attack 1.5x overhead
+- [x] Blocking — sword block (50% dmg, horizontal guard), shield toggle (1 key, 0% dmg, push animation)
+- [x] Stamina system — max 100, attack 15, block 10/sec, sprint 12/sec, regen 5/sec, gates all actions
+- [x] Sprint — hold Shift on land (7.5u/s), drains stamina, faster head bob
+- [x] Combat HUD — HP bar (red), stamina bar (yellow), damage text with block indicators
+- [x] Test dummy — 4 color-coded zone boxes, infinite HP
+- [x] Attack dummy — 3-phase sword swing, attacks every 2.5s, tests blocking
+
+**Sprint A4 — Squad Basics** ✅ COMPLETE
+- [x] UnitData ScriptableObject + "Militia" instance (HP 60, dmg 10, speed 3.5)
+- [x] UnitAI state machine — Following, HoldPosition, Attacking, Retreating
+- [x] Commander-ordered vs autonomous behavior (`_commanderOrdered` flag)
+- [x] SquadManager — max 6, collective orders, alive/total tracking, respawn reset
+- [x] Commander orders — right-click rally/attack, H hold, F follow
+- [x] UnitHealth — damage, death (transparent white visual, 3s cleanup)
+- [x] UnitSpawner — full respawn on player death (friendly + enemy)
+- [x] Squad count HUD (top-left), outgoing damage toast (center screen)
+- [x] AI targets closest enemy, re-evaluates every 1.5s, friendly fire enabled
+
+**Active Sprint:** A5 — Test Scene + Playtest (UP NEXT)
+
+**Upcoming:** Phase B (Environment Polish, Inventory, Field Battles, Dungeon, Save System)
 
 See `references/VOXEL_KINGDOM_MASTER_PLAN.md` and `.cursor/plans/current-sprint.md` for full breakdown.
 

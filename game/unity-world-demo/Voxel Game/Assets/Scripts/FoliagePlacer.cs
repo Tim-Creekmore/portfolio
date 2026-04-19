@@ -83,7 +83,7 @@ public class FoliagePlacer : MonoBehaviour
                 if (WorldData.IsWater(mx, mz)) continue;
                 if (WorldData.IsRoad(mx, mz)) continue;
 
-                var biome = WorldData.GetBaseBiome(mx, mz);
+                var biome = WorldData.GetBiome(mx, mz);
                 if (!WorldData.HasGrass(biome)) continue;
 
                 float y00 = WorldData.HeightSmooth(x0, z0) + 0.01f;

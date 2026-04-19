@@ -7,84 +7,164 @@
 
 ---
 
-## Sprint A1: Commander Toggle + Camera
+## Sprint A1: Commander Toggle + Camera ✅ COMPLETE
 
-### Task A1.1 — Camera state machine scaffold
+### Task A1.1–A1.3 — Camera state machine + toggle + transitions
 - **Type:** code
-- **Spec:** CameraStateMachine.cs with HeroCamera (first-person) and CommanderCamera (top-down tactical, 15-20u above player, WASD pan, scroll zoom)
+- **Delivered:** `CameraStateMachine.cs` — three modes (Hero, ThirdPerson, Commander) cycling via V key
 - **Acceptance criteria:**
-  - [ ] Both camera states exist as separate classes
-  - [ ] No transition yet, just the two modes
-- **Status:** [ ] Not started
-
-### Task A1.2 — Commander toggle input binding
-- **Type:** code
-- **Depends on:** A1.1
-- **Spec:** Tab key toggles HeroCamera ↔ CommanderCamera via new Input System
-- **Acceptance criteria:**
-  - [ ] Tab reliably switches camera perspective
-  - [ ] No visual glitches during transition
-- **Status:** [ ] Not started
-
-### Task A1.3 — Camera transition smoothing
-- **Type:** code
-- **Depends on:** A1.2
-- **Spec:** Lerp between positions over 0.5s, lock player input during transition
-- **Acceptance criteria:**
-  - [ ] Smooth transition, no snap-cut or jitter
-  - [ ] Player can't move/attack during blend
-- **Status:** [ ] Not started
+  - [x] Three camera states in single state machine
+  - [x] V key cycles Hero → ThirdPerson → Commander → Hero
+  - [x] Smooth 0.4s smoothstep transition between modes
+  - [x] Player input frozen during transitions and commander mode
+  - [x] Commander: top-down view, WASD pan, scroll zoom (10–40u height)
+  - [x] Cursor visible in commander mode, locked in hero/TP
+- **Status:** [x] Complete
 
 ### Task A1.4 — Commander cursor + selection
 - **Type:** code
-- **Depends on:** A1.3
-- **Spec:** In commander mode, show cursor, raycast to ground, draw selection circle at hit point
+- **Spec:** In commander mode, raycast to ground, draw selection circle at hit point
 - **Acceptance criteria:**
-  - [ ] Cursor visible in commander mode, hidden in hero mode
-  - [ ] Raycast hits terrain correctly
-- **Status:** [ ] Not started
+  - [x] Cursor visible in commander mode, hidden in hero mode
+  - [x] Raycast hits terrain + enemies — right-click ground = rally, right-click enemy = attack target
+- **Status:** [x] Complete — delivered in A4
 
 ---
 
-## Sprint A2: Death System
+## Sprint A2: Death System ✅ COMPLETE
 
 ### Task A2.1 — Player health component
-- **Type:** code
-- **Spec:** PlayerHealth.cs — max HP 100, TakeDamage(float), OnDeath event
-- **Status:** [ ] Not started
+- **Delivered:** `PlayerHealth.cs` — HP 100, TakeDamage, Heal, ResetHealth, events
+- **Status:** [x] Complete — tested via debug P key
 
 ### Task A2.2 — Death marker system
-- **Type:** code
-- **Depends on:** A2.1
-- **Spec:** On death, spawn DeathMarker at player position. Store inventory ref. 300s timer.
-- **Status:** [ ] Not started
+- **Delivered:** `DeathMarker.cs` — red cross, bobs + rotates, 300s timer. `DeathSystem.cs` — spawns marker while screen is black
+- **Status:** [x] Complete — marker spawns correctly, visible after respawn
 
 ### Task A2.3 — Respawn flow
-- **Type:** code
-- **Depends on:** A2.2
-- **Spec:** Death → fade black → teleport to spawn → fade in → restore HP → inventory empty
-- **Status:** [ ] Not started
+- **Delivered:** `DeathSystem.cs` + `ScreenFade.cs` — fade out → marker spawn → teleport → restore HP → fade in. Safety snap on spawn.
+- **Status:** [x] Complete — tested, no falling through terrain
 
 ### Task A2.4 — Death marker retrieval
-- **Type:** code
-- **Depends on:** A2.3
-- **Spec:** Walk to marker → press E → items return → marker destroyed
+- **Delivered:** `Interactor.cs` — R key within 2.5u destroys marker, shows "Items retrieved" text
+- **Status:** [x] Complete — tested
+
+### Also delivered (A3 partial):
+- `CombatHUD.cs` — health bar (anchor-scaled, visually shrinks), stamina bar (placeholder), damage text feedback
+- Debug P key for testing damage (will be removed when real enemies exist)
+
+---
+
+## Sprint A3: Hero Combat Baseline ✅ COMPLETE
+
+### Task A3.1 — Weapon data architecture
+- **Delivered:** `WeaponData.cs` ScriptableObject + "Iron Sword" instance (20 dmg, 0.25s windup, 1.8u range)
+- **Status:** [x] Complete
+
+### Task A3.2 — Combat state machine
+- **Delivered:** `CombatSystem.cs` — Idle → WindUp → Swing → Recovery → Idle, Blocking on right-click
+- **Status:** [x] Complete
+
+### Task A3.3 — Directional attacks (Option E — crosshair zone)
+- **Delivered:** Crosshair on zone box within 2.5u = aimed attack. Outside range = random direction. Zone-name-based detection.
+- **Status:** [x] Complete — tested, responsive
+
+### Task A3.4 — Hit detection
+- **Delivered:** SphereCast during Swing state, per-direction damage multipliers, jump attack 1.5x (always overhead)
+- **Status:** [x] Complete — tested with test dummy
+
+### Task A3.5 — Blocking system
+- **Delivered:** Right-click sword block (50% damage, horizontal guard pose), shield toggle (1 key, 0% damage, shield push-forward animation), HUD shows damage + [BLOCKED]/[SHIELD] tag, shield full-block shows "BLOCKED 15 [SHIELD]"
+- **Status:** [x] Complete — tested, both block types verified
+
+### Task A3.6 — Stamina system + Sprint
+- **Delivered:** `PlayerStamina.cs` — max 100, regen 5/sec with 1s delay after use, `TryConsume()` gates actions, `Drain()` for continuous use
+- **Stamina costs:** Attack = 15, Block hold = 10/sec, Sprint = 12/sec
+- **Sprint:** Hold Shift on land to sprint (7.5u/s vs 4.2u/s walk), drains stamina, can't sprint when empty, faster head bob for feedback
+- **Integration:** CombatSystem gates attacks/blocks on stamina, auto-drops block when empty, DeathSystem resets stamina on respawn, CombatHUD yellow bar updates in real-time
+- **Status:** [x] Complete — tested
+
+### Task A3.7 — Combat HUD
+- **Delivered early in A2:** Health bar + stamina bar + damage text. Stamina bar now live (yellow, anchor-scaled, color shifts with ratio).
+- **Status:** [x] Complete
+
+### Also delivered:
+- `TestDummy.cs` — 4-zone block dummy (head/left/right/legs), color-coded, 999k HP, damage popups
+- `AttackDummy.cs` — red dummy with 3-phase sword animation (wind-up → swing → recovery), attacks every 2.5s within range
+- `TargetHealth.cs` — enemy health component with directional hit events
+- `Billboard.cs` — camera-facing utility
+- Placeholder sword visual (blade/handle/guard), curve-based swing animations
+- Placeholder shield visual (wooden face + rim), animated block pose
+- Sword/shield hide in ThirdPerson/Commander mode
+- `CombatHUD.cs` — HP bar updates on all damage sources, shows block type indicators
+
+---
+
+## Sprint A4: Squad Basics ✅ COMPLETE
+
+### Task A4.1 — Unit data architecture
+- **Delivered:** `UnitData.cs` ScriptableObject — unit name, HP, damage, attack interval/range, speed, follow distance, threat detection range, morale threshold
+- **Instance:** "Militia" — HP 60, dmg 10, speed 3.5, attack range 1.8u, detect 12u, morale threshold 30
+- **Status:** [x] Complete
+
+### Task A4.2 — Unit behavior state machine
+- **Delivered:** `UnitAI.cs` — 4 states: Following (formation around player/rally), HoldPosition (face threats, attack in range), Attacking (move to + attack target, auto-scan), Retreating (placeholder for morale system in B3)
+- **Features:** Formation offsets (circle, 60° spacing), threat scanning via `EnemyTag`, CharacterController movement, gravity, closest-target re-evaluation (1.5s), `_commanderOrdered` flag distinguishes player orders from AI autonomy
+- **Status:** [x] Complete — tested all states
+
+### Task A4.3 — Squad manager
+- **Delivered:** `SquadManager.cs` — max 6 units, `SetAllState()`, `SetRallyPoint()`, `SetAttackTarget()`, `AliveCount`/`TotalCount` (tracks starting count), `ResetSquad()` for respawn
+- **Status:** [x] Complete — tested, squad count HUD shows alive/total correctly
+
+### Task A4.4 — Commander mode orders
+- **Delivered:** `CommanderInput.cs` — in commander mode: right-click ground = rally point (blue marker, units move there), right-click enemy = attack target (units charge), H = hold position (melee-only defense), F = follow player (restores autonomous behavior)
+- **Status:** [x] Complete — tested all 4 order types
+
+### Task A4.5 — Unit health + death
+- **Delivered:** `UnitHealth.cs` — Init(maxHP), TakeDamage, OnDeath event, transparent white death visual, 3s self-cleanup. Player sword hits both `TargetHealth` and `UnitHealth`. Full respawn on player death via `UnitSpawner.cs`.
+- **Status:** [x] Complete — tested, enemies and friendlies die correctly
+
+### Also delivered:
+- `EnemyTag.cs` — marker component for enemy identification
+- `UnitSpawner.cs` — runtime unit creation for respawn (friendly + enemy), reflection-based field injection
+- `CommanderInput.cs` — debug logging for all orders, camera fallback for raycasts
+- 4 friendly blue militia units (follow player, auto-engage, respond to orders)
+- 4 red enemy units (hold position, detect at 12u, attack closest target including player)
+- Rally point visual marker (blue transparent cylinder, 8s lifetime)
+- Squad count HUD — top-left, shows "Squad: 3/4" format, updates on death, resets on respawn
+- Outgoing damage toast — center screen, gentle fade
+- Death visual — transparent white for all units (friendly + enemy), 3s cleanup
+- Friendly fire enabled (intentional)
+- AI targets closest enemy (re-evaluates every 1.5s)
+
+---
+
+## Sprint A5: Test Scene + Playtest [~] IN PROGRESS
+
+### Task A5.1 — Micro encounter arena
+- **Delivered:** 50×50 fenced arena (wood posts + double rails), 12 large boulders for cover (1.8–4.2u wide, up to 3u tall), 2 torch lights with warm point lights, visual bible lighting (sun #ffcc88 35°, fog #c8b898, ambient #886644), spawn at south end
+- **Status:** [x] Complete
+
+### Task A5.2 — Enemy placement
+- **Delivered:** 8 enemy militia (red) spread across north half of arena — strategic positions among boulders, aggro at 15u range, hold-position until approached, attack closest target
+- **Status:** [x] Complete
+
+### Task A5.3 — Ambient pass
+- **Spec:** Fog (visual bible spec), SSAO, ambient wind loop, 2 torch light sources with warm point lights
+- **Status:** [ ] Not started ← **CURRENT**
+
+### Task A5.4 — Save/load minimal state
+- **Spec:** Save: player position, HP, stamina, squad unit positions + HP. Load: restore all. JSON to local file.
 - **Status:** [ ] Not started
 
----
+### Task A5.5 — Playtest session 1
+- **Spec:** Play 15 minutes, document in `.cursor/plans/playtest-notes-A1.md`, identify top 3 blockers
+- **Status:** [ ] Not started
 
-## Sprint A3: Hero Combat Baseline
-*(Tasks A3.1–A3.7 — weapon data, combat state machine, directional attacks, hit detection, blocking, stamina, HUD)*
-- **Status:** [ ] Not started — full breakdown in master plan
+### Task A5.6 — Blocker fixes (budget: 2 days)
+- **Spec:** Fix only the top 3 blockers from playtest. Nothing else.
+- **Status:** [ ] Not started
 
----
-
-## Sprint A4: Squad Basics
-*(Tasks A4.1–A4.5 — unit data, unit AI state machine, squad manager, commander orders, unit death)*
-- **Status:** [ ] Not started — full breakdown in master plan
-
----
-
-## Sprint A5: Test Scene + Playtest
-*(Tasks A5.1–A5.7 — arena, enemy placement, ambient, save/load, 3 playtest sessions)*
-- **Status:** [ ] Not started — full breakdown in master plan
+### Task A5.7 — Playtest sessions 2 & 3
+- **Spec:** Two more rounds, same documentation, compare notes, go/no-go decision for Phase B
+- **Status:** [ ] Not started

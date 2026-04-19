@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df618057d480ca44ebc505145896db4d, type: 3}
+  m_Name: IronSword
+  m_EditorClassIdentifier: 
+  weaponName: Iron Sword
+  baseDamage: 20
+  windUpTime: 0.25
+  swingTime: 0.15
+  recoveryTime: 0.35
+  range: 1.8
+  hitRadius: 0.3
+  staminaCostAttack: 15
+  staminaCostBlock: 10
+  supportedDirections: 00000000010000000200000003000000
+  overheadMultiplier: 1.2
+  sideMultiplier: 1
+  thrustMultiplier: 0.9
