@@ -20,7 +20,7 @@ MonoBehaviour:
   range: 1.8
   hitRadius: 0.3
   staminaCostAttack: 15
-  staminaCostBlock: 10
+  staminaCostBlock: 0
   supportedDirections: 00000000010000000200000003000000
   overheadMultiplier: 1.2
   sideMultiplier: 1

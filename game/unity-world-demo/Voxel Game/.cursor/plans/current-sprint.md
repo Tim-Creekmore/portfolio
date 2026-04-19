@@ -150,21 +150,24 @@
 - **Status:** [x] Complete
 
 ### Task A5.3 — Ambient pass
-- **Spec:** Fog (visual bible spec), SSAO, ambient wind loop, 2 torch light sources with warm point lights
-- **Status:** [ ] Not started ← **CURRENT**
+- **Delivered:** SSAO renderer feature (radius 0.4, intensity 1.0), shadow settings (soft, 80u dist, 4 cascades), procedural ambient audio (wind gusting loop + distant bird chirps), fog + torches carried from A5.1
+- **Status:** [x] Complete
 
 ### Task A5.4 — Save/load minimal state
-- **Spec:** Save: player position, HP, stamina, squad unit positions + HP. Load: restore all. JSON to local file.
-- **Status:** [ ] Not started
+- **Delivered:** `SaveSystem.cs` — F5 to save, F9 to load. Persists player position/HP/stamina + squad unit positions/HP to `save.json` in `Application.persistentDataPath`. Added `SetHP`/`SetStamina` setters to health/stamina components.
+- **Status:** [x] Complete
 
 ### Task A5.5 — Playtest session 1
-- **Spec:** Play 15 minutes, document in `.cursor/plans/playtest-notes-A1.md`, identify top 3 blockers
-- **Status:** [ ] Not started
+- **Delivered:** Notes in `playtest-notes-A1.md`. Top 3 blockers identified: combat feedback overhaul (hit flash + enemy wind-up + shield size), stamina rebalance (bigger pool + no block cost), movement fixes (lower jump, fence collision).
+- **Status:** [x] Complete
 
 ### Task A5.6 — Blocker fixes (budget: 2 days)
-- **Spec:** Fix only the top 3 blockers from playtest. Nothing else.
-- **Status:** [ ] Not started
+- **Delivered:**
+  1. **Combat feedback** — full-screen red hit flash (alpha scales with damage), soft cyan block flash on shield-blocks, enemy units now have proper sword wind-up/swing/recovery animation (0.55s telegraph), idle shield scaled to 55% and pushed off-screen-edge
+  2. **Stamina rebalance** — max stamina 100→250, regen 5→14/s, regen delay 1.0s→0.6s, blocking is fully free (no cost in data or code)
+  3. **Movement & collision** — jump velocity 5.5→4.6, gravity 12→18 (snappier landings, less moon), fence rails now have solid colliders + wider hitbox
+- **Status:** [x] Complete
 
 ### Task A5.7 — Playtest sessions 2 & 3
 - **Spec:** Two more rounds, same documentation, compare notes, go/no-go decision for Phase B
-- **Status:** [ ] Not started
+- **Status:** [ ] Not started ← **CURRENT**

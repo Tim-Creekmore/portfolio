@@ -7,12 +7,12 @@ public class PlayerController : MonoBehaviour
     const float SPRINT_SPEED   = 7.5f;
     const float SPRINT_DRAIN   = 12f;
     const float SWIM_SPEED     = 2.4f;
-    const float JUMP_VELOCITY  = 5.5f;
+    const float JUMP_VELOCITY  = 4.6f;
     const float SWIM_UP_FORCE  = 4.5f;
     const float SINK_SPEED     = 1.8f;
     const float BUOYANCY       = 3.0f;
     const float WATER_DRAG     = 4.0f;
-    const float GRAVITY        = 12.0f;
+    const float GRAVITY        = 18.0f;
 
     [Header("Camera")]
     [SerializeField] CameraStateMachine cameraStateMachine;
@@ -38,12 +38,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleCursorToggle();
-    }
 
-    void FixedUpdate()
-    {
         if (cameraStateMachine != null && !cameraStateMachine.PlayerCanMove)
             return;
+
+        float dt = Time.deltaTime;
 
         float waterY = WorldData.WATER_Y;
         float feetY  = transform.position.y - 0.8f;
@@ -51,9 +50,9 @@ public class PlayerController : MonoBehaviour
         float submergeDepth = waterY - feetY;
 
         if (_inWater)
-            ProcessSwimming(submergeDepth);
+            ProcessSwimming(submergeDepth, dt);
         else
-            ProcessGround();
+            ProcessGround(dt);
 
         Vector2 g = GetMoveInput();
         Vector3 forward = transform.forward;
@@ -65,7 +64,7 @@ public class PlayerController : MonoBehaviour
         _sprinting = wantSprint && playerStamina != null && !playerStamina.IsEmpty;
 
         if (_sprinting)
-            playerStamina.Drain(SPRINT_DRAIN * Time.fixedDeltaTime);
+            playerStamina.Drain(SPRINT_DRAIN * dt);
 
         float moveSpeed = _inWater ? SWIM_SPEED : (_sprinting ? SPRINT_SPEED : SPEED);
 
@@ -78,19 +77,19 @@ public class PlayerController : MonoBehaviour
         {
             _sprinting = false;
             float decel = _inWater ? WATER_DRAG : 12f;
-            _velocity.x = Mathf.MoveTowards(_velocity.x, 0, moveSpeed * Time.fixedDeltaTime * decel);
-            _velocity.z = Mathf.MoveTowards(_velocity.z, 0, moveSpeed * Time.fixedDeltaTime * decel);
+            _velocity.x = Mathf.MoveTowards(_velocity.x, 0, moveSpeed * dt * decel);
+            _velocity.z = Mathf.MoveTowards(_velocity.z, 0, moveSpeed * dt * decel);
         }
 
         if (_cc.enabled)
-            _cc.Move(_velocity * Time.fixedDeltaTime);
-        UpdateHeadBob(Time.fixedDeltaTime, g);
+            _cc.Move(_velocity * dt);
+        UpdateHeadBob(dt, g);
     }
 
-    void ProcessGround()
+    void ProcessGround(float dt)
     {
         if (!_cc.isGrounded)
-            _velocity.y -= GRAVITY * Time.fixedDeltaTime;
+            _velocity.y -= GRAVITY * dt;
 
         bool spaceDown = Input.GetKey(KeyCode.Space);
         if (_cc.isGrounded && spaceDown && !_spaceWasDown)
@@ -98,7 +97,7 @@ public class PlayerController : MonoBehaviour
         _spaceWasDown = spaceDown;
     }
 
-    void ProcessSwimming(float submergeDepth)
+    void ProcessSwimming(float submergeDepth, float dt)
     {
         bool spaceDown = Input.GetKey(KeyCode.Space);
         bool shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
@@ -109,14 +108,14 @@ public class PlayerController : MonoBehaviour
         float diff = targetY - currentY;
 
         float swimForce = diff * 8f;
-        _velocity.y += swimForce * Time.fixedDeltaTime;
+        _velocity.y += swimForce * dt;
 
         if (spaceDown)
-            _velocity.y = Mathf.MoveTowards(_velocity.y, SWIM_UP_FORCE, SWIM_UP_FORCE * Time.fixedDeltaTime * 6f);
+            _velocity.y = Mathf.MoveTowards(_velocity.y, SWIM_UP_FORCE, SWIM_UP_FORCE * dt * 6f);
         else if (shiftDown)
-            _velocity.y = Mathf.MoveTowards(_velocity.y, -SINK_SPEED, SINK_SPEED * Time.fixedDeltaTime * 6f);
+            _velocity.y = Mathf.MoveTowards(_velocity.y, -SINK_SPEED, SINK_SPEED * dt * 6f);
 
-        _velocity.y *= (1f - WATER_DRAG * Time.fixedDeltaTime);
+        _velocity.y *= (1f - WATER_DRAG * dt);
     }
 
     Vector2 GetMoveInput()
@@ -138,28 +137,49 @@ public class PlayerController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            return;
         }
 
-        if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
-        // Re-lock on focus return (prevents cursor escaping to other monitors)
-        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
+        // Re-lock on any click if cursor somehow escaped
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (Cursor.lockState != CursorLockMode.Locked)
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+
+        // Safety net: if lock was broken by the editor, re-lock every frame
+        if (Cursor.lockState == CursorLockMode.None && !Cursor.visible)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
     void OnApplicationFocus(bool hasFocus)
     {
-        if (hasFocus && cameraStateMachine != null && !cameraStateMachine.IsCommanderMode)
+        if (hasFocus)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            bool isCommander = cameraStateMachine != null && cameraStateMachine.IsCommanderMode;
+            if (!isCommander)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+    }
+
+    void OnApplicationPause(bool paused)
+    {
+        if (!paused)
+        {
+            bool isCommander = cameraStateMachine != null && cameraStateMachine.IsCommanderMode;
+            if (!isCommander)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 

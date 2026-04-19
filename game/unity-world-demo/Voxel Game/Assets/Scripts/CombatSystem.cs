@@ -58,7 +58,15 @@ public class CombatSystem : MonoBehaviour
         {
             _shieldEquipped = !_shieldEquipped;
             if (shieldVisual != null)
+            {
                 shieldVisual.gameObject.SetActive(_shieldEquipped);
+                if (_shieldEquipped)
+                {
+                    shieldVisual.localPosition = SHIELD_IDLE_POS;
+                    shieldVisual.localRotation = SHIELD_IDLE_ROT;
+                    shieldVisual.localScale = SHIELD_IDLE_SCALE;
+                }
+            }
         }
 
         _stateTimer -= Time.deltaTime;
@@ -93,8 +101,7 @@ public class CombatSystem : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            if (playerStamina != null && !playerStamina.TryConsume(equippedWeapon.staminaCostBlock * Time.deltaTime))
-                return;
+            // Blocking is free — no stamina cost (post-A5.6 rebalance)
             TransitionTo(State.Blocking);
             return;
         }
@@ -130,36 +137,26 @@ public class CombatSystem : MonoBehaviour
 
     static readonly Vector3 SHIELD_BLOCK_POS = new Vector3(-0.25f, -0.05f, 0.5f);
     static readonly Quaternion SHIELD_BLOCK_ROT = Quaternion.Euler(5f, 25f, 0f);
-    static readonly Vector3 SHIELD_IDLE_POS = new Vector3(-0.35f, -0.2f, 0.35f);
-    static readonly Quaternion SHIELD_IDLE_ROT = Quaternion.Euler(5f, 10f, 0f);
+    static readonly Vector3 SHIELD_BLOCK_SCALE = Vector3.one;
+    static readonly Vector3 SHIELD_IDLE_POS = new Vector3(-0.55f, -0.5f, 0.15f);
+    static readonly Quaternion SHIELD_IDLE_ROT = Quaternion.Euler(5f, -15f, -25f);
+    static readonly Vector3 SHIELD_IDLE_SCALE = new Vector3(0.55f, 0.55f, 0.55f);
 
     void UpdateBlocking()
     {
-        if (playerStamina != null)
-        {
-            playerStamina.Drain(equippedWeapon.staminaCostBlock * Time.deltaTime);
-            if (playerStamina.IsEmpty)
-            {
-                if (_shieldEquipped && shieldVisual != null)
-                {
-                    shieldVisual.localPosition = SHIELD_IDLE_POS;
-                    shieldVisual.localRotation = SHIELD_IDLE_ROT;
-                }
-                TransitionTo(State.Idle);
-                return;
-            }
-        }
-
+        // Blocking is free — does not drain stamina (post-A5.6 rebalance)
         _currentDirection = DetermineDirection();
         float lerpSpeed = Time.deltaTime * 12f;
 
         if (_shieldEquipped && shieldVisual != null)
         {
-            // Shield comes forward and angles to face the attacker
+            // Shield comes forward, angles to face the attacker, and scales up
             shieldVisual.localPosition = Vector3.Lerp(
                 shieldVisual.localPosition, SHIELD_BLOCK_POS, lerpSpeed);
             shieldVisual.localRotation = Quaternion.Slerp(
                 shieldVisual.localRotation, SHIELD_BLOCK_ROT, lerpSpeed);
+            shieldVisual.localScale = Vector3.Lerp(
+                shieldVisual.localScale, SHIELD_BLOCK_SCALE, lerpSpeed);
 
             // Sword pulls back behind shield
             if (weaponVisual != null)
@@ -189,6 +186,7 @@ public class CombatSystem : MonoBehaviour
             {
                 shieldVisual.localPosition = SHIELD_IDLE_POS;
                 shieldVisual.localRotation = SHIELD_IDLE_ROT;
+                shieldVisual.localScale = SHIELD_IDLE_SCALE;
             }
             TransitionTo(State.Idle);
         }

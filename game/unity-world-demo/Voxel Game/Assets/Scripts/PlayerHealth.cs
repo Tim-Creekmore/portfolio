@@ -51,4 +51,10 @@ public class PlayerHealth : MonoBehaviour
         _currentHP = maxHP;
         _dead = false;
     }
+
+    public void SetHP(float hp)
+    {
+        _currentHP = Mathf.Clamp(hp, 0f, maxHP);
+        _dead = _currentHP <= 0f;
+    }
 }

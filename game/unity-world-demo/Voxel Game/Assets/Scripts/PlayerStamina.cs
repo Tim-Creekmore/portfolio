@@ -3,9 +3,9 @@ using System;
 
 public class PlayerStamina : MonoBehaviour
 {
-    [SerializeField] float maxStamina = 100f;
-    [SerializeField] float regenRate = 5f;
-    [SerializeField] float regenDelay = 1f;
+    [SerializeField] float maxStamina = 250f;
+    [SerializeField] float regenRate = 14f;
+    [SerializeField] float regenDelay = 0.6f;
 
     float _current;
     float _regenCooldown;
@@ -56,6 +56,13 @@ public class PlayerStamina : MonoBehaviour
     public void ResetStamina()
     {
         _current = maxStamina;
+        _regenCooldown = 0f;
+        OnChanged?.Invoke(_current, maxStamina);
+    }
+
+    public void SetStamina(float value)
+    {
+        _current = Mathf.Clamp(value, 0f, maxStamina);
         _regenCooldown = 0f;
         OnChanged?.Invoke(_current, maxStamina);
     }

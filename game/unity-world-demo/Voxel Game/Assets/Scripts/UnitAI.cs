@@ -20,12 +20,25 @@ public class UnitAI : MonoBehaviour
     CharacterController _cc;
     Vector3 _velocity;
 
+    // Sword swing animation
+    Transform _sword;
+    Quaternion _swordIdleRot;
+    Vector3 _swordIdlePos;
+    enum SwingPhase { Idle, WindUp, Swing, Recovery }
+    SwingPhase _swingPhase = SwingPhase.Idle;
+    float _swingTimer;
+    bool _windUpDamageApplied;
+    const float WIND_UP_TIME = 0.55f;
+    const float SWING_TIME = 0.18f;
+    const float RECOVERY_TIME = 0.35f;
+
     const float RETARGET_INTERVAL = 1.5f;
 
     public UnitState State => _state;
     public UnitData Data => unitData;
     public UnitHealth Health => _health;
     public bool IsAlive => _health != null && !_health.IsDead;
+    public int FormationIndex => formationIndex;
 
     const float GRAVITY = 12f;
     const float STOP_DISTANCE = 0.5f;
@@ -44,6 +57,13 @@ public class UnitAI : MonoBehaviour
 
         _state = initialState;
         _rallyPoint = transform.position;
+
+        _sword = transform.Find("Sword");
+        if (_sword != null)
+        {
+            _swordIdleRot = _sword.localRotation;
+            _swordIdlePos = _sword.localPosition;
+        }
     }
 
     public void SetState(UnitState newState)
@@ -91,6 +111,7 @@ public class UnitAI : MonoBehaviour
         }
 
         ApplyGravity();
+        UpdateSwordSwing();
     }
 
     void UpdateFollowing()
@@ -306,10 +327,22 @@ public class UnitAI : MonoBehaviour
     {
         _attackTimer -= Time.deltaTime;
         if (_attackTimer > 0f) return;
+        if (_swingPhase != SwingPhase.Idle) return; // already swinging
 
         _attackTimer = unitData.attackInterval;
+        _swingPhase = SwingPhase.WindUp;
+        _swingTimer = WIND_UP_TIME;
+        _windUpDamageApplied = false;
+    }
 
-        // Damage UnitHealth targets
+    void ApplyAttackDamage()
+    {
+        if (_attackTarget == null) return;
+
+        // Range check at moment of impact (target may have moved)
+        float dist = HorizontalDistance(transform.position, _attackTarget.position);
+        if (dist > unitData.attackRange * 1.4f) return;
+
         var targetHealth = _attackTarget.GetComponent<UnitHealth>();
         if (targetHealth != null && !targetHealth.IsDead)
         {
@@ -317,7 +350,6 @@ public class UnitAI : MonoBehaviour
             return;
         }
 
-        // Damage player via CombatSystem
         var combatSys = _attackTarget.GetComponent<CombatSystem>();
         if (combatSys != null)
         {
@@ -325,10 +357,70 @@ public class UnitAI : MonoBehaviour
             return;
         }
 
-        // Fallback — damage PlayerHealth directly
         var playerHP = _attackTarget.GetComponent<PlayerHealth>();
         if (playerHP != null && !playerHP.IsDead)
             playerHP.TakeDamage(unitData.damage);
+    }
+
+    void UpdateSwordSwing()
+    {
+        if (_sword == null) return;
+
+        switch (_swingPhase)
+        {
+            case SwingPhase.WindUp:
+                _swingTimer -= Time.deltaTime;
+                {
+                    float t = 1f - Mathf.Clamp01(_swingTimer / WIND_UP_TIME);
+                    float eased = t * t;
+                    // Raise the sword overhead (rotate back on local X)
+                    Quaternion windRot = _swordIdleRot * Quaternion.Euler(-110f, 0f, 0f);
+                    _sword.localRotation = Quaternion.Slerp(_swordIdleRot, windRot, eased);
+                }
+                if (_swingTimer <= 0f)
+                {
+                    _swingPhase = SwingPhase.Swing;
+                    _swingTimer = SWING_TIME;
+                }
+                break;
+
+            case SwingPhase.Swing:
+                _swingTimer -= Time.deltaTime;
+                {
+                    float t = 1f - Mathf.Clamp01(_swingTimer / SWING_TIME);
+                    Quaternion fromRot = _swordIdleRot * Quaternion.Euler(-110f, 0f, 0f);
+                    Quaternion toRot = _swordIdleRot * Quaternion.Euler(40f, 0f, 0f);
+                    _sword.localRotation = Quaternion.Slerp(fromRot, toRot, t);
+
+                    // Damage on first swing frame
+                    if (!_windUpDamageApplied)
+                    {
+                        ApplyAttackDamage();
+                        _windUpDamageApplied = true;
+                    }
+                }
+                if (_swingTimer <= 0f)
+                {
+                    _swingPhase = SwingPhase.Recovery;
+                    _swingTimer = RECOVERY_TIME;
+                }
+                break;
+
+            case SwingPhase.Recovery:
+                _swingTimer -= Time.deltaTime;
+                {
+                    float t = 1f - Mathf.Clamp01(_swingTimer / RECOVERY_TIME);
+                    float eased = t * t * (3f - 2f * t);
+                    Quaternion fromRot = _swordIdleRot * Quaternion.Euler(40f, 0f, 0f);
+                    _sword.localRotation = Quaternion.Slerp(fromRot, _swordIdleRot, eased);
+                }
+                if (_swingTimer <= 0f)
+                {
+                    _swingPhase = SwingPhase.Idle;
+                    _sword.localRotation = _swordIdleRot;
+                }
+                break;
+        }
     }
 
     void MoveToward(Vector3 target, float stopDist)

@@ -390,6 +390,30 @@ public class WorldSceneSetup : EditorWindow
         volume.profile = profile;
         EditorUtility.SetDirty(profile);
 
+        // A5.3 — SSAO via URP Renderer Feature
+        EnableSSAO();
+
+        // A5.3 — Shadow settings (visual bible: soft, distance 80u, 4 cascades)
+        QualitySettings.shadows = UnityEngine.ShadowQuality.All;
+        QualitySettings.shadowDistance = 80f;
+        QualitySettings.shadowCascades = 4;
+
+        // Rendering crispness: anti-aliasing + frame rate
+        QualitySettings.antiAliasing = 4; // 4x MSAA
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 60;
+
+        // Enable MSAA on the active URP pipeline asset
+        var rpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+        if (rpAsset != null)
+        {
+            rpAsset.msaaSampleCount = 4;
+            EditorUtility.SetDirty(rpAsset);
+        }
+
+        // A5.3 — Ambient audio
+        SetupAmbientAudio(world.transform);
+
         // Crosshair Canvas
         CreateCrosshairUI(world.transform);
 
@@ -407,6 +431,14 @@ public class WorldSceneSetup : EditorWindow
 
         // Arena props (A5.1)
         SetupArena(world.transform);
+
+        // A5.4 — Save/Load system (F5 save, F9 load)
+        var saveSystem = playerGO.AddComponent<SaveSystem>();
+        var saveSO = new SerializedObject(saveSystem);
+        saveSO.FindProperty("playerHealth").objectReferenceValue = playerGO.GetComponent<PlayerHealth>();
+        saveSO.FindProperty("playerStamina").objectReferenceValue = playerGO.GetComponent<PlayerStamina>();
+        saveSO.FindProperty("squadManager").objectReferenceValue = playerGO.GetComponent<SquadManager>();
+        saveSO.ApplyModifiedProperties();
 
         // Test Server
         var testServerGO = new GameObject("TestServer");
@@ -451,6 +483,7 @@ public class WorldSceneSetup : EditorWindow
         var camFP = camFPGO.AddComponent<Camera>();
         camFPGO.tag = "MainCamera";
         camFPGO.AddComponent<UniversalAdditionalCameraData>();
+        camFPGO.AddComponent<AudioListener>();
 
         var springArmGO = new GameObject("SpringArm");
         springArmGO.transform.SetParent(neckGO.transform);
@@ -677,6 +710,32 @@ public class WorldSceneSetup : EditorWindow
         toastRT.anchoredPosition = Vector2.zero;
         toastGO.AddComponent<CanvasGroup>();
 
+        // Hit flash overlay — full-screen red, fades on damage (placed under HUD elements)
+        var hitFlashGO = new GameObject("HitFlash");
+        hitFlashGO.transform.SetParent(canvasGO.transform);
+        hitFlashGO.transform.SetAsFirstSibling(); // behind UI text
+        var hitFlashImg = hitFlashGO.AddComponent<UnityEngine.UI.Image>();
+        hitFlashImg.color = new Color(0.85f, 0.05f, 0.05f, 0f);
+        hitFlashImg.raycastTarget = false;
+        var hitFlashRT = hitFlashGO.GetComponent<RectTransform>();
+        hitFlashRT.anchorMin = Vector2.zero;
+        hitFlashRT.anchorMax = Vector2.one;
+        hitFlashRT.offsetMin = Vector2.zero;
+        hitFlashRT.offsetMax = Vector2.zero;
+
+        // Block flash overlay — soft cyan/white, fades on full block
+        var blockFlashGO = new GameObject("BlockFlash");
+        blockFlashGO.transform.SetParent(canvasGO.transform);
+        blockFlashGO.transform.SetAsFirstSibling();
+        var blockFlashImg = blockFlashGO.AddComponent<UnityEngine.UI.Image>();
+        blockFlashImg.color = new Color(0.7f, 0.85f, 1f, 0f);
+        blockFlashImg.raycastTarget = false;
+        var blockFlashRT = blockFlashGO.GetComponent<RectTransform>();
+        blockFlashRT.anchorMin = Vector2.zero;
+        blockFlashRT.anchorMax = Vector2.one;
+        blockFlashRT.offsetMin = Vector2.zero;
+        blockFlashRT.offsetMax = Vector2.zero;
+
         // Wire CombatHUD component
         var hud = canvasGO.AddComponent<CombatHUD>();
         var so = new SerializedObject(hud);
@@ -689,6 +748,8 @@ public class WorldSceneSetup : EditorWindow
         so.FindProperty("damageText").objectReferenceValue = dmgText;
         so.FindProperty("outgoingToast").objectReferenceValue = toastText;
         so.FindProperty("squadCountText").objectReferenceValue = squadText;
+        so.FindProperty("hitFlash").objectReferenceValue = hitFlashImg;
+        so.FindProperty("blockFlash").objectReferenceValue = blockFlashImg;
         so.ApplyModifiedProperties();
 
         // Pickup feedback text (centered, used by Interactor)
@@ -1079,12 +1140,11 @@ public class WorldSceneSetup : EditorWindow
                 post.transform.localScale = new Vector3(0.15f, postHeight, 0.15f);
                 post.GetComponent<MeshRenderer>().sharedMaterial = woodDarkMat;
 
-                // Rail between this post and next
+                // Rail between this post and next (keep colliders so player can't walk through)
                 if (p < postCount - 1)
                 {
                     var rail = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     rail.name = $"FenceRail_{w}_{p}";
-                    Object.DestroyImmediate(rail.GetComponent<Collider>());
                     rail.transform.SetParent(arenaRoot.transform, false);
 
                     Vector3 nextPos = wallStarts[w] + wallDirs[w] * ((p + 1) * postSpacing);
@@ -1092,17 +1152,19 @@ public class WorldSceneSetup : EditorWindow
                     float midY = (y + nextY) * 0.5f + railHeight;
                     Vector3 mid = (pos + nextPos) * 0.5f;
 
+                    // Thicken collision footprint slightly (visual stays slim)
+                    float lengthAxis = postSpacing;
+                    float crossAxis = 0.18f;
                     rail.transform.position = new Vector3(mid.x, midY, mid.z);
                     rail.transform.localScale = new Vector3(
-                        wallDirs[w] == Vector3.right ? postSpacing : 0.08f,
-                        0.08f,
-                        wallDirs[w] == Vector3.forward ? postSpacing : 0.08f);
+                        wallDirs[w] == Vector3.right ? lengthAxis : crossAxis,
+                        0.18f,
+                        wallDirs[w] == Vector3.forward ? lengthAxis : crossAxis);
                     rail.GetComponent<MeshRenderer>().sharedMaterial = woodMat;
 
                     // Second rail lower
                     var rail2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     rail2.name = $"FenceRail2_{w}_{p}";
-                    Object.DestroyImmediate(rail2.GetComponent<Collider>());
                     rail2.transform.SetParent(arenaRoot.transform, false);
                     rail2.transform.position = new Vector3(mid.x, midY - 0.5f, mid.z);
                     rail2.transform.localScale = rail.transform.localScale;
@@ -1238,6 +1300,123 @@ public class WorldSceneSetup : EditorWindow
         RenderSettings.fogColor = new Color(0.784f, 0.722f, 0.596f); // #c8b898
 
         Debug.Log("Environment configured: visual bible lighting, fog, ambient.");
+    }
+
+    static void EnableSSAO()
+    {
+        var rpAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+        if (rpAsset == null)
+        {
+            Debug.LogWarning("No URP pipeline asset found — SSAO not configured.");
+            return;
+        }
+
+        var dataField = rpAsset.GetType().GetField("m_RendererDataList",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (dataField == null) return;
+
+        var dataList = dataField.GetValue(rpAsset) as ScriptableRendererData[];
+        if (dataList == null || dataList.Length == 0) return;
+
+        var rendererData = dataList[0] as UniversalRendererData;
+        if (rendererData == null) return;
+
+        bool hasSSAO = false;
+        foreach (var feature in rendererData.rendererFeatures)
+        {
+            if (feature != null && feature.GetType().Name == "ScreenSpaceAmbientOcclusion")
+            {
+                feature.SetActive(true);
+                hasSSAO = true;
+
+                var so = new SerializedObject(feature);
+                var settings = so.FindProperty("m_Settings");
+                if (settings != null)
+                {
+                    var intensity = settings.FindPropertyRelative("Intensity");
+                    if (intensity != null) intensity.floatValue = 1.0f;
+                    var radius = settings.FindPropertyRelative("Radius");
+                    if (radius != null) radius.floatValue = 0.4f;
+                    so.ApplyModifiedProperties();
+                }
+                break;
+            }
+        }
+
+        if (!hasSSAO)
+        {
+            // ScreenSpaceAmbientOcclusion is internal in URP 14.x — use reflection
+            var urpAssembly = typeof(UniversalRenderPipelineAsset).Assembly;
+            var ssaoType = urpAssembly.GetType(
+                "UnityEngine.Rendering.Universal.ScreenSpaceAmbientOcclusion");
+            if (ssaoType == null)
+            {
+                Debug.LogWarning("SSAO type not found in URP assembly. Add it manually via the Renderer Data inspector.");
+                return;
+            }
+
+            var ssaoFeature = ScriptableObject.CreateInstance(ssaoType) as ScriptableRendererFeature;
+            if (ssaoFeature == null) return;
+            ssaoFeature.name = "ScreenSpaceAmbientOcclusion";
+
+            var so = new SerializedObject(ssaoFeature);
+            var settings = so.FindProperty("m_Settings");
+            if (settings != null)
+            {
+                var intensity = settings.FindPropertyRelative("Intensity");
+                if (intensity != null) intensity.floatValue = 1.0f;
+                var radius = settings.FindPropertyRelative("Radius");
+                if (radius != null) radius.floatValue = 0.4f;
+                so.ApplyModifiedProperties();
+            }
+
+            var featuresField = rendererData.GetType().GetField("m_RendererFeatures",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            if (featuresField != null)
+            {
+                var list = featuresField.GetValue(rendererData) as System.Collections.Generic.List<ScriptableRendererFeature>;
+                if (list != null)
+                {
+                    AssetDatabase.AddObjectToAsset(ssaoFeature, rendererData);
+                    list.Add(ssaoFeature);
+                    featuresField.SetValue(rendererData, list);
+                    EditorUtility.SetDirty(rendererData);
+                    AssetDatabase.SaveAssets();
+                }
+            }
+        }
+
+        EditorUtility.SetDirty(rendererData);
+        Debug.Log("SSAO renderer feature enabled (radius 0.4, intensity 1.0).");
+    }
+
+    static void SetupAmbientAudio(Transform worldRoot)
+    {
+        var audioRoot = new GameObject("AmbientAudio");
+        audioRoot.transform.SetParent(worldRoot, false);
+
+        var windGO = new GameObject("WindLoop");
+        windGO.transform.SetParent(audioRoot.transform, false);
+        var windSource = windGO.AddComponent<AudioSource>();
+        windSource.loop = true;
+        windSource.playOnAwake = true;
+        windSource.spatialBlend = 0f;
+        windSource.volume = 0.15f;
+        windSource.priority = 200;
+
+        var birdsGO = new GameObject("BirdsLoop");
+        birdsGO.transform.SetParent(audioRoot.transform, false);
+        var birdsSource = birdsGO.AddComponent<AudioSource>();
+        birdsSource.loop = true;
+        birdsSource.playOnAwake = true;
+        birdsSource.spatialBlend = 0f;
+        birdsSource.volume = 0.08f;
+        birdsSource.priority = 200;
+
+        audioRoot.AddComponent<AmbientAudio>();
+
+        Debug.Log("Ambient audio setup: WindLoop + BirdsLoop AudioSources ready.");
     }
 
     static void LoadVillagePrefab(VillagePlacer vp, string fieldName, string fbxName)

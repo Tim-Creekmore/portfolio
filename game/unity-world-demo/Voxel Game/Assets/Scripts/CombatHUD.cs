@@ -23,6 +23,8 @@ public class CombatHUD : MonoBehaviour
     [Header("Feedback")]
     [SerializeField] Text damageText;
     [SerializeField] Text outgoingToast;
+    [SerializeField] Image hitFlash;
+    [SerializeField] Image blockFlash;
 
     [Header("Debug")]
     [SerializeField] bool enableDebugDamage = true;
@@ -32,6 +34,11 @@ public class CombatHUD : MonoBehaviour
     float _toastFadeDuration = 1.2f;
     float _toastShowDuration = 1.5f;
     CanvasGroup _toastCanvasGroup;
+
+    float _hitFlashAlpha;
+    float _blockFlashAlpha;
+    const float HIT_FLASH_FADE = 1.5f;
+    const float BLOCK_FLASH_FADE = 2.5f;
 
     void OnEnable()
     {
@@ -62,6 +69,10 @@ public class CombatHUD : MonoBehaviour
             blockInfo = combatSystem.ShieldEquipped ? " [SHIELD]" : " [BLOCKED]";
 
         ShowDamageText($"-{damage:0}{blockInfo}  HP: {remainingHP:0}/{playerHealth.MaxHP:0}");
+
+        // Strong red flash that scales with damage severity
+        float severity = Mathf.Clamp01(damage / 25f);
+        _hitFlashAlpha = Mathf.Max(_hitFlashAlpha, 0.45f + severity * 0.35f);
     }
 
     void HandleFullBlock(float baseDmg, float finalDmg, bool shieldUsed)
@@ -69,6 +80,9 @@ public class CombatHUD : MonoBehaviour
         float hp = playerHealth != null ? playerHealth.CurrentHP : 0f;
         float max = playerHealth != null ? playerHealth.MaxHP : 0f;
         ShowDamageText($"BLOCKED {baseDmg:0} [SHIELD]  HP: {hp:0}/{max:0}");
+
+        // Soft white/cyan block flash
+        _blockFlashAlpha = 0.55f;
     }
 
     void HandleOutgoingDamage(float damage, string targetName)
@@ -117,9 +131,43 @@ public class CombatHUD : MonoBehaviour
             squadCountText.text = $"Squad: {squadManager.AliveCount}/{squadManager.TotalCount}";
 
         UpdateToastFade();
+        UpdateFlashes();
 
         if (enableDebugDamage && Input.GetKeyDown(KeyCode.P) && playerHealth != null && !playerHealth.IsDead)
             playerHealth.TakeDamage(25f);
+    }
+
+    void UpdateFlashes()
+    {
+        if (_hitFlashAlpha > 0f)
+        {
+            _hitFlashAlpha = Mathf.Max(0f, _hitFlashAlpha - Time.deltaTime * HIT_FLASH_FADE);
+            if (hitFlash != null)
+            {
+                var c = hitFlash.color;
+                c.a = _hitFlashAlpha;
+                hitFlash.color = c;
+            }
+        }
+        else if (hitFlash != null && hitFlash.color.a != 0f)
+        {
+            var c = hitFlash.color; c.a = 0f; hitFlash.color = c;
+        }
+
+        if (_blockFlashAlpha > 0f)
+        {
+            _blockFlashAlpha = Mathf.Max(0f, _blockFlashAlpha - Time.deltaTime * BLOCK_FLASH_FADE);
+            if (blockFlash != null)
+            {
+                var c = blockFlash.color;
+                c.a = _blockFlashAlpha;
+                blockFlash.color = c;
+            }
+        }
+        else if (blockFlash != null && blockFlash.color.a != 0f)
+        {
+            var c = blockFlash.color; c.a = 0f; blockFlash.color = c;
+        }
     }
 
     void ShowDamageText(string msg)

@@ -45,6 +45,12 @@ public class UnitHealth : MonoBehaviour
         _currentHP = Mathf.Min(_maxHP, _currentHP + amount);
     }
 
+    public void SetHP(float hp)
+    {
+        _currentHP = Mathf.Clamp(hp, 0f, _maxHP);
+        _dead = _currentHP <= 0f;
+    }
+
     void ApplyDeathVisual()
     {
         if (_deathMaterial == null)

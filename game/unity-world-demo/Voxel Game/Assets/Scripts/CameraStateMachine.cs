@@ -59,13 +59,16 @@ public class CameraStateMachine : MonoBehaviour
 
     void Update()
     {
+        HandleModeSwitch();
+    }
+
+    void LateUpdate()
+    {
         if (_transitioning)
         {
             RunTransition();
             return;
         }
-
-        HandleModeSwitch();
 
         switch (_mode)
         {
