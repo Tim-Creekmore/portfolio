@@ -438,6 +438,7 @@ public class WorldSceneSetup : EditorWindow
         saveSO.FindProperty("playerHealth").objectReferenceValue = playerGO.GetComponent<PlayerHealth>();
         saveSO.FindProperty("playerStamina").objectReferenceValue = playerGO.GetComponent<PlayerStamina>();
         saveSO.FindProperty("squadManager").objectReferenceValue = playerGO.GetComponent<SquadManager>();
+        saveSO.FindProperty("unitSpawner").objectReferenceValue = Object.FindObjectOfType<UnitSpawner>();
         saveSO.ApplyModifiedProperties();
 
         // Test Server

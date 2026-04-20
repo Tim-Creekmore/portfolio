@@ -7,12 +7,12 @@ public class PlayerController : MonoBehaviour
     const float SPRINT_SPEED   = 7.5f;
     const float SPRINT_DRAIN   = 12f;
     const float SWIM_SPEED     = 2.4f;
-    const float JUMP_VELOCITY  = 4.6f;
+    const float JUMP_VELOCITY  = 4.8f;
     const float SWIM_UP_FORCE  = 4.5f;
     const float SINK_SPEED     = 1.8f;
     const float BUOYANCY       = 3.0f;
     const float WATER_DRAG     = 4.0f;
-    const float GRAVITY        = 18.0f;
+    const float GRAVITY        = 14.5f;
 
     [Header("Camera")]
     [SerializeField] CameraStateMachine cameraStateMachine;

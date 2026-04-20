@@ -7,6 +7,7 @@ public class SaveSystem : MonoBehaviour
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] PlayerStamina playerStamina;
     [SerializeField] SquadManager squadManager;
+    [SerializeField] UnitSpawner unitSpawner;
 
     static string SavePath => Path.Combine(Application.persistentDataPath, "save.json");
 
@@ -31,26 +32,31 @@ public class SaveSystem : MonoBehaviour
         data.playerStamina = playerStamina != null ? playerStamina.Current : 100f;
         data.playerMaxStamina = playerStamina != null ? playerStamina.Max : 100f;
 
+        // Friendly squad units
         data.units = new List<UnitSaveData>();
         if (squadManager != null)
         {
             foreach (var unit in squadManager.Units)
             {
                 if (unit == null || !unit.IsAlive) continue;
-                var ud = new UnitSaveData();
-                ud.x = unit.transform.position.x;
-                ud.y = unit.transform.position.y;
-                ud.z = unit.transform.position.z;
-                ud.hp = unit.Health.CurrentHP;
-                ud.maxHP = unit.Health.MaxHP;
-                ud.formationIndex = unit.FormationIndex;
-                data.units.Add(ud);
+                data.units.Add(MakeSnapshot(unit));
             }
+        }
+
+        // All enemy units (have EnemyTag)
+        data.enemies = new List<UnitSaveData>();
+        var enemyTags = Object.FindObjectsOfType<EnemyTag>();
+        foreach (var tag in enemyTags)
+        {
+            if (tag == null) continue;
+            var ai = tag.GetComponent<UnitAI>();
+            if (ai == null || !ai.IsAlive) continue;
+            data.enemies.Add(MakeSnapshot(ai));
         }
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"Game saved to {SavePath}");
+        Debug.Log($"Game saved: {data.units.Count} squad, {data.enemies.Count} enemies → {SavePath}");
     }
 
     public void Load()
@@ -64,6 +70,7 @@ public class SaveSystem : MonoBehaviour
         string json = File.ReadAllText(SavePath);
         var data = JsonUtility.FromJson<SaveData>(json);
 
+        // Teleport player first so freshly-spawned friendlies form around the saved location
         var cc = GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;
         transform.position = new Vector3(data.playerX, data.playerY, data.playerZ);
@@ -74,25 +81,77 @@ public class SaveSystem : MonoBehaviour
         if (playerStamina != null)
             playerStamina.SetStamina(data.playerStamina);
 
+        // Wipe all current units and respawn fresh — this resets aggro AND brings back
+        // any units that died between save and load
+        if (unitSpawner != null)
+            unitSpawner.RespawnAll();
+
+        // Now overlay the saved snapshots onto the freshly-spawned units
         if (squadManager != null && data.units != null)
         {
-            var units = squadManager.Units;
-            for (int i = 0; i < data.units.Count && i < units.Count; i++)
+            foreach (var snap in data.units)
             {
-                var unit = units[i];
-                if (unit == null || !unit.IsAlive) continue;
-
-                var ucc = unit.GetComponent<CharacterController>();
-                if (ucc != null) ucc.enabled = false;
-                unit.transform.position = new Vector3(
-                    data.units[i].x, data.units[i].y, data.units[i].z);
-                if (ucc != null) ucc.enabled = true;
-
-                unit.Health.SetHP(data.units[i].hp);
+                UnitAI match = FindFriendlyByFormation(snap.formationIndex);
+                if (match != null) ApplySnapshot(match, snap);
             }
         }
 
-        Debug.Log("Game loaded.");
+        if (data.enemies != null)
+        {
+            foreach (var snap in data.enemies)
+            {
+                UnitAI match = FindEnemyByFormation(snap.formationIndex);
+                if (match != null) ApplySnapshot(match, snap);
+            }
+        }
+
+        Debug.Log($"Game loaded: {(data.units?.Count ?? 0)} squad, {(data.enemies?.Count ?? 0)} enemies");
+    }
+
+    UnitAI FindFriendlyByFormation(int formationIndex)
+    {
+        if (squadManager == null) return null;
+        foreach (var unit in squadManager.Units)
+        {
+            if (unit != null && unit.IsAlive && unit.FormationIndex == formationIndex)
+                return unit;
+        }
+        return null;
+    }
+
+    UnitAI FindEnemyByFormation(int formationIndex)
+    {
+        var tags = Object.FindObjectsOfType<EnemyTag>();
+        foreach (var tag in tags)
+        {
+            if (tag == null) continue;
+            var ai = tag.GetComponent<UnitAI>();
+            if (ai != null && ai.IsAlive && ai.FormationIndex == formationIndex)
+                return ai;
+        }
+        return null;
+    }
+
+    static UnitSaveData MakeSnapshot(UnitAI unit)
+    {
+        return new UnitSaveData
+        {
+            x = unit.transform.position.x,
+            y = unit.transform.position.y,
+            z = unit.transform.position.z,
+            hp = unit.Health.CurrentHP,
+            maxHP = unit.Health.MaxHP,
+            formationIndex = unit.FormationIndex,
+        };
+    }
+
+    static void ApplySnapshot(UnitAI unit, UnitSaveData snap)
+    {
+        var ucc = unit.GetComponent<CharacterController>();
+        if (ucc != null) ucc.enabled = false;
+        unit.transform.position = new Vector3(snap.x, snap.y, snap.z);
+        if (ucc != null) ucc.enabled = true;
+        unit.Health.SetHP(snap.hp);
     }
 }
 
@@ -103,6 +162,7 @@ public class SaveData
     public float playerHP, playerMaxHP;
     public float playerStamina, playerMaxStamina;
     public List<UnitSaveData> units;
+    public List<UnitSaveData> enemies;
 }
 
 [System.Serializable]

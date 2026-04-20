@@ -169,5 +169,11 @@
 - **Status:** [x] Complete
 
 ### Task A5.7 — Playtest sessions 2 & 3
-- **Spec:** Two more rounds, same documentation, compare notes, go/no-go decision for Phase B
-- **Status:** [ ] Not started ← **CURRENT**
+- **Delivered:** 3 total playtest reports in `playtest-notes-A1.md`. Minor jump float tuning (gravity 18→14.5). **GO decision for Phase B.** Throwing weapons + bows explicitly deferred to Phase B (B2 equipment / B3 archer squads).
+- **Status:** [x] Complete
+
+---
+
+## PHASE A — COMPLETE
+
+All 5 sprints (A1–A5) delivered. Core loop validated: hero combat, squad command, death/respawn, save/load, arena. Go decision for Phase B locked in.

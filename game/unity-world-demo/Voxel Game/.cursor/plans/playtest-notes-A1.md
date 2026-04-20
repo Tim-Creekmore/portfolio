@@ -69,3 +69,27 @@
 - All three blocker fixes confirmed working and well-received
 - "Loved the fixes" — combat feedback, stamina, jump/fence all feel right
 - Session A3 scheduled for tomorrow
+
+---
+
+# Playtest Notes — Session A3 (final, Phase A exit gate)
+
+**Build:** A5.6 fixes + jump polish
+**Tester:** Tim
+
+## Verdict: **GO for Phase B**
+
+> "Everything we have built is solid and interesting to play. Especially taking into account this is beginning stage development. The core loop gets old and boring after the initial loop — but thankfully this won't be the entire focus of the game. What we do have here works."
+
+## Minor tweak applied (in-scope polish)
+- Jump felt slightly too snappy. Gravity 18 → 14.5, jump velocity 4.6 → 4.8. A touch more hang time without being moon-y.
+
+## Out of scope — deferred to Phase B
+- **Throwing weapons + bows** — natural fit for Sprint B2 (weapon equip system) and B3 (archer squads)
+
+## Phase B priorities surfaced from this playtest
+- Core loop is fun but thin — needs more content variety (biomes, enemy types, weapons, objectives) to stay engaging beyond 15 minutes
+- Phase B plan addresses this via: B1 biomes, B2 inventory/weapon variety, B3 larger field battles, B4 dungeon
+
+## Late A5.7 fixes (in-scope save/load polish)
+- **Save/load enemy state** — F9 now restores all enemies (alive + dead at save time), wipes aggro, and snaps everyone to saved positions/HP. Achieved by routing Load through `UnitSpawner.RespawnAll()` then applying snapshots by `FormationIndex`.
