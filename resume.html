@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timothy Creekmore Resume</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #4b5563;
+      --line: #d1d5db;
+      --accent: #007ba7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f3f4f6;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9.7pt;
+      line-height: 1.25;
+    }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      padding: 0.42in 0.55in;
+      background: #ffffff;
+    }
+
+    header {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.09in;
+      margin-bottom: 0.12in;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20pt;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .contact {
+      margin-top: 0.045in;
+      color: var(--muted);
+      font-size: 9.4pt;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    section {
+      margin-top: 0.115in;
+    }
+
+    h2 {
+      margin: 0 0 0.045in;
+      color: var(--accent);
+      font-size: 10pt;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.03in;
+    }
+
+    .item {
+      margin-top: 0.06in;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.2in;
+      align-items: baseline;
+    }
+
+    .title {
+      font-weight: 700;
+    }
+
+    .org,
+    .date {
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 0.035in 0 0 0.16in;
+      padding: 0;
+    }
+
+    li {
+      margin: 0.018in 0;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.025in;
+    }
+
+    .skills div {
+      break-inside: avoid;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Timothy Creekmore</h1>
+      <div class="contact">
+        Batesville, AR &middot;
+        <a href="mailto:timcreekmore2002@gmail.com">timcreekmore2002@gmail.com</a> &middot;
+        <a href="https://www.timothycreekmore.com/">timothycreekmore.com</a> &middot;
+        <a href="https://github.com/Tim-Creekmore">github.com/Tim-Creekmore</a> &middot;
+        <a href="https://www.linkedin.com/in/timcreekmore">linkedin.com/in/timcreekmore</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Professional Summary</h2>
+      <p>
+        Junior Software Developer and Lyon College graduate with dual degrees in Computer Science and Data Science. Experienced in software development, Python, R, SQL, machine learning, predictive modeling, OCR/data extraction, and practical AI engineering workflows. Brings a strong troubleshooting background from years as an appliance repair technician, with a focus on turning ambiguous problems into reliable systems.
+      </p>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <div class="skills">
+        <div><span class="label">Languages:</span> Python, R, SQL, Java, JavaScript, HTML/CSS, C/C++</div>
+        <div><span class="label">Data / ML:</span> pandas, NumPy, scikit-learn, XGBoost, GBM, Random Forest, regression, EDA, visualization, model evaluation</div>
+        <div><span class="label">AI / Automation:</span> LLM API integration, prompt/workflow design, OCR pipelines, structured extraction, validation workflows</div>
+        <div><span class="label">Tools:</span> Git/GitHub, Azure Document Intelligence, SQLite/PostgreSQL, Tailwind CSS, Unity/C#</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Professional Experience</h2>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">Junior Software Developer</span> &mdash; <span class="org">Lifeplus</span></div>
+          <div class="date">June 2025 &ndash; Present</div>
+        </div>
+        <ul>
+          <li>Develop and maintain software features, bug fixes, and internal tooling as part of a production software team.</li>
+          <li>Collaborate with senior developers to understand requirements, debug issues, review implementation details, and ship reliable updates.</li>
+          <li>Apply programming, database, automation, and data-analysis skills to improve business workflows.</li>
+          <li>Bring a troubleshooting-first mindset to diagnosing defects, tracing root causes, and communicating technical findings clearly.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">Appliance Repair Technician</span> &mdash; <span class="org">Alpine Appliance, Batesville, AR</span></div>
+          <div class="date">August 2017 &ndash; 2024</div>
+        </div>
+        <ul>
+          <li>Diagnosed and repaired a wide range of appliance issues across brands, models, and equipment ages.</li>
+          <li>Communicated repair options and technical findings to customers clearly.</li>
+          <li>Managed daily schedules, parts, component inventories, and field-service priorities.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">ProphetCMA &mdash; Real Estate Price Prediction</span></div>
+          <div class="date">R, GBM, XGBoost, kNN, Random Forest</div>
+        </div>
+        <ul>
+          <li>Built an R-based ensemble modeling pipeline to automate Comparative Market Analysis for residential real estate.</li>
+          <li>Compared Linear Regression, kNN, Random Forest, GBM, and XGBoost using MAE/RMSE.</li>
+          <li>Achieved best result with a 15% XGBoost / 85% GBM blend: MAE 6,776 and RMSE 11,166.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">Signature Data Extraction</span></div>
+          <div class="date">Python, Azure Document Intelligence, OCR</div>
+        </div>
+        <ul>
+          <li>Built a Python + Azure Document Intelligence OCR pipeline to convert scanned signature sheets into structured CSV output.</li>
+          <li>Used validation logic and confidence review to separate reliable printed fields from low-confidence handwritten signatures.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">Portfolio Site / AI Engineering Sandbox</span></div>
+          <div class="date">HTML, Tailwind CSS, JavaScript, LLM workflows</div>
+        </div>
+        <ul>
+          <li>Built an interactive portfolio site with Tailwind, SEO metadata, shared navigation, and an animated Three.js/Vanta background.</li>
+          <li>Developing LLM-backed demos around retrieval, structured extraction, and evaluation workflows.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="row">
+          <div><span class="title">Unity Game Lab</span></div>
+          <div class="date">Unity URP, C#</div>
+        </div>
+        <ul>
+          <li>Building a Unity URP world demo with procedural terrain, biome data assets, editor tooling, and C# placement systems.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="row">
+        <div><span class="title">Lyon College</span> &mdash; Batesville, AR</div>
+        <div class="date">Graduated May 2025</div>
+      </div>
+      <ul>
+        <li>Bachelor of Arts in Computer Science</li>
+        <li>Bachelor of Science in Data Science</li>
+        <li>GPA: 3.8 / 4.0 &middot; Dean's List 2022&ndash;2024</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
