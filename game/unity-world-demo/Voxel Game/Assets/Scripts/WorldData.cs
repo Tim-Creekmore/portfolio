@@ -2,8 +2,13 @@ using UnityEngine;
 
 public static class WorldData
 {
-    // PHASE A: simplified grass arena. Set false to restore full 13-biome map.
-    public const bool ARENA_MODE = true;
+    // PHASE A: simplified grass arena. Set false to enter the Phase B biome world.
+    public const bool ARENA_MODE = false;
+
+    // PHASE B: when ARENA_MODE is false, LEGACY_OVERLAYS controls whether the old
+    // 13-biome extras (lakes, rivers, roads, villages) still appear. Phase B uses
+    // the new BiomeRegistry and 3-biome system, so we default this to false.
+    public const bool LEGACY_OVERLAYS = false;
 
     public const int   SIZE = 120;
     public const int   GRID = 192;
@@ -104,17 +109,20 @@ public static class WorldData
     {
         if (ARENA_MODE) return Biome.Meadow;
 
-        // Overlay checks first (river, road, lake)
-        if (IsLake(fx, fz))
-            return Biome.Pond;
+        // Legacy overlays (river, road, lake) only apply in the old 13-biome map
+        if (LEGACY_OVERLAYS)
+        {
+            if (IsLake(fx, fz))
+                return Biome.Pond;
 
-        float rd = RiverSDF(fx, fz);
-        if (rd < RIVER_HALF_WIDTH)
-            return Biome.River;
+            float rd = RiverSDF(fx, fz);
+            if (rd < RIVER_HALF_WIDTH)
+                return Biome.River;
 
-        float roadD = RoadSDF(fx, fz);
-        if (roadD < ROAD_HALF_WIDTH)
-            return Biome.Road;
+            float roadD = RoadSDF(fx, fz);
+            if (roadD < ROAD_HALF_WIDTH)
+                return Biome.Road;
+        }
 
         return GetBaseBiome(fx, fz);
     }
@@ -166,6 +174,29 @@ public static class WorldData
             return Mathf.Clamp(baseH, 0.5f, 16.0f);
 
         float h = baseH;
+
+        // Phase B biome-world height: gentle rise into the Mountain region (north)
+        if (!LEGACY_OVERLAYS)
+        {
+            // Mountain seed at (60, 95) — rise terrain around it
+            float dxM = fx - 60f;
+            float dzM = fz - 95f;
+            float mountainDist = Mathf.Sqrt(dxM * dxM + dzM * dzM);
+            float mountainMask = Smoothstep(50f, 15f, mountainDist);
+            h += mountainMask * (5.5f
+                + 1.2f * Mathf.Sin(fx * 0.15f + fz * 0.1f)
+                + 0.8f * Mathf.Sin(fx * 0.3f));
+
+            // Frontier has subtle rolling hills
+            float dxF = fx - 95f;
+            float dzF = fz - 45f;
+            float frontierMask = Smoothstep(35f, 10f, Mathf.Sqrt(dxF * dxF + dzF * dzF));
+            h += frontierMask * 0.6f * Mathf.Sin(fx * 0.2f + fz * 0.18f);
+
+            return Mathf.Clamp(h, 0.5f, 16.0f);
+        }
+
+        // ── Legacy 13-biome terrain shaping (LEGACY_OVERLAYS only) ───────
 
         // Cliff: steep rise in the north-center
         float cliffMask = Smoothstep(80f, 105f, fz) * BellCurve(fx, 60f, 30f);
@@ -249,13 +280,13 @@ public static class WorldData
 
     public static bool IsLake(float fx, float fz)
     {
-        if (ARENA_MODE) return false;
+        if (ARENA_MODE || !LEGACY_OVERLAYS) return false;
         return LakeSDF(fx, fz) < LAKE_RADIUS * 0.85f;
     }
 
     public static bool IsWater(float fx, float fz)
     {
-        if (ARENA_MODE) return false;
+        if (ARENA_MODE || !LEGACY_OVERLAYS) return false;
         return IsLake(fx, fz) || RiverSDF(fx, fz) < RIVER_HALF_WIDTH;
     }
 
@@ -296,7 +327,7 @@ public static class WorldData
 
     public static bool IsRoad(float fx, float fz)
     {
-        if (ARENA_MODE) return false;
+        if (ARENA_MODE || !LEGACY_OVERLAYS) return false;
         return RoadSDF(fx, fz) < ROAD_HALF_WIDTH;
     }
 
@@ -320,9 +351,10 @@ public static class WorldData
     // ── Spawn ───────────────────────────────────────────────────────────
     public static Vector3 GetSpawnPosition()
     {
-        // South end of the 50x50 arena (centered at 60,60)
-        float sx = 60f;
-        float sz = 38f;
+        // Arena mode: south end of the 50x50 arena (centered at 60,60).
+        // Biome world: deep inside Temperate region (seed at 40,40).
+        float sx = ARENA_MODE ? 60f : 40f;
+        float sz = ARENA_MODE ? 38f : 40f;
         float sy = HeightSmooth(sx, sz);
         return new Vector3(sx, sy + 0.85f, sz);
     }

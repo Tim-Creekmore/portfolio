@@ -205,6 +205,26 @@ public class WorldSceneSetup : EditorWindow
         var world = new GameObject("World");
         var wc = world.AddComponent<WorldController>();
 
+        // Biome Registry (Phase B — must exist before terrain generates)
+        var biomeRegGO = new GameObject("BiomeRegistry");
+        biomeRegGO.transform.SetParent(world.transform);
+        var biomeReg = biomeRegGO.AddComponent<BiomeRegistry>();
+        var temperateAsset = AssetDatabase.LoadAssetAtPath<BiomeData>("Assets/Data/Biomes/Temperate.asset");
+        var mountainAsset  = AssetDatabase.LoadAssetAtPath<BiomeData>("Assets/Data/Biomes/Mountain.asset");
+        var frontierAsset  = AssetDatabase.LoadAssetAtPath<BiomeData>("Assets/Data/Biomes/Frontier.asset");
+        if (temperateAsset != null && mountainAsset != null && frontierAsset != null)
+        {
+            var brSO = new SerializedObject(biomeReg);
+            brSO.FindProperty("temperate").objectReferenceValue = temperateAsset;
+            brSO.FindProperty("mountain").objectReferenceValue  = mountainAsset;
+            brSO.FindProperty("frontier").objectReferenceValue  = frontierAsset;
+            brSO.ApplyModifiedProperties();
+        }
+        else
+        {
+            Debug.LogWarning("Biome assets missing — run 'Voxel Kingdom / Build Starter Biomes' first.");
+        }
+
         // Terrain
         var terrainGO = new GameObject("Terrain");
         terrainGO.transform.SetParent(world.transform);
@@ -360,11 +380,12 @@ public class WorldSceneSetup : EditorWindow
         if (combatHUD != null)
             SetField(combatHUD, "combatSystem", playerGO.GetComponent<CombatSystem>());
 
-        // Test Dummy (passive, for aiming practice)
-        CreateTestDummy(world.transform);
-
-        // Attack Dummy (swings at you, for blocking practice)
-        CreateAttackDummy(world.transform);
+        // Test Dummy + Attack Dummy — only in arena mode
+        if (WorldData.ARENA_MODE)
+        {
+            CreateTestDummy(world.transform);
+            CreateAttackDummy(world.transform);
+        }
 
         // Global Volume
         var volumeGO = new GameObject("Global Volume");
@@ -420,17 +441,21 @@ public class WorldSceneSetup : EditorWindow
         // Toast Canvas
         CreateToastUI(world.transform, toast);
 
-        // Squad System
-        SetupSquadSystem(playerGO, world.transform);
+        // Squad System — only in arena mode (Phase B will reintroduce squads in sprint B3)
+        if (WorldData.ARENA_MODE)
+        {
+            SetupSquadSystem(playerGO, world.transform);
 
-        // Wire SquadManager to HUD (must happen after squad system exists)
-        var combatHUDAfterSquad = Object.FindObjectOfType<CombatHUD>();
-        var squadMgrRef = playerGO.GetComponent<SquadManager>();
-        if (combatHUDAfterSquad != null && squadMgrRef != null)
-            SetField(combatHUDAfterSquad, "squadManager", squadMgrRef);
+            // Wire SquadManager to HUD (must happen after squad system exists)
+            var combatHUDAfterSquad = Object.FindObjectOfType<CombatHUD>();
+            var squadMgrRef = playerGO.GetComponent<SquadManager>();
+            if (combatHUDAfterSquad != null && squadMgrRef != null)
+                SetField(combatHUDAfterSquad, "squadManager", squadMgrRef);
+        }
 
-        // Arena props (A5.1)
-        SetupArena(world.transform);
+        // Arena props (A5.1) — only in arena mode
+        if (WorldData.ARENA_MODE)
+            SetupArena(world.transform);
 
         // A5.4 — Save/Load system (F5 save, F9 load)
         var saveSystem = playerGO.AddComponent<SaveSystem>();

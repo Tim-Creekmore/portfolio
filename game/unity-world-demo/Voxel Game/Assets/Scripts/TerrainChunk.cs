@@ -12,83 +12,109 @@ public class TerrainChunk : MonoBehaviour
     public Material terrainMaterial;
     public Material waterMaterial;
 
-    void Awake()
+    void Start()
     {
+        // Start() (not Awake) so BiomeRegistry.Awake has already run and is ready
         BuildTerrain();
-        BuildWater();
+
+        // Water plane only relevant for legacy overlays (lakes/rivers)
+        if (WorldData.LEGACY_OVERLAYS)
+            BuildWater();
     }
 
-    // ── Per-biome ground colors ─────────────────────────────────────────
-    static Color BiomeColor(WorldData.Biome biome, float slope)
-    {
-        Color grass  = new Color(0.40f, 0.52f, 0.26f);
-        Color dirt   = new Color(0.55f, 0.44f, 0.30f);
-        Color rock   = new Color(0.52f, 0.50f, 0.46f);
+    // ── Visual Bible palette (exact hex values from .cursor/rules/visual-bible.md) ───
+    static readonly Color VB_GRASS_TOP  = new Color(0.353f, 0.478f, 0.227f); // #5a7a3a
+    static readonly Color VB_GRASS_SIDE = new Color(0.290f, 0.416f, 0.165f); // #4a6a2a
+    static readonly Color VB_DIRT       = new Color(0.478f, 0.361f, 0.227f); // #7a5c3a
+    static readonly Color VB_STONE      = new Color(0.416f, 0.396f, 0.376f); // #6a6560
+    static readonly Color VB_STONE_DARK = new Color(0.290f, 0.271f, 0.251f); // #4a4540
+    static readonly Color VB_SAND       = new Color(0.769f, 0.659f, 0.439f); // #c4a870
+    static readonly Color VB_SNOW       = new Color(0.847f, 0.816f, 0.784f); // #d8d0c8
+    static readonly Color VB_LEAF       = new Color(0.227f, 0.353f, 0.165f); // #3a5a2a
 
+    // ── Per-biome ground colors ─────────────────────────────────────────
+    // Phase B biomes (Temperate/Mountain/Frontier) resolve via BiomeRegistry using world-space xz.
+    // Arena mode and legacy biomes fall through to the switch below (Visual Bible palette).
+    static Color BiomeColor(WorldData.Biome biome, float slope, float fx, float fz)
+    {
+        // Phase B: data-driven biome palette when BiomeRegistry is active
+        if (!WorldData.ARENA_MODE && BiomeRegistry.IsReady)
+        {
+            BiomeRegistry.Instance.GetBlendedBiomes(fx, fz, out var primary, out var secondary, out float blend);
+            return BlendedBiomeColor(primary, secondary, blend, slope);
+        }
+
+        return LegacyBiomeColor(biome, slope);
+    }
+
+    /// <summary>Resolves ground color from a BiomeData palette with slope-driven grass/dirt/stone transitions.</summary>
+    static Color SampleBiomeData(BiomeData data, float slope)
+    {
+        if (data == null) return VB_GRASS_TOP;
+        if (slope > 0.85f)       return data.grassTop;
+        else if (slope > 0.6f)   return Color.Lerp(data.grassSide, data.grassTop, (slope - 0.6f) / 0.25f);
+        else if (slope > 0.35f)  return Color.Lerp(data.dirt, data.grassSide, (slope - 0.35f) / 0.25f);
+        else                     return Color.Lerp(data.stone, data.dirt, Mathf.Clamp01((slope - 0.1f) / 0.25f));
+    }
+
+    static Color BlendedBiomeColor(BiomeData primary, BiomeData secondary, float blend, float slope)
+    {
+        Color a = SampleBiomeData(primary, slope);
+        if (blend <= 0.001f || secondary == null) return a;
+        Color b = SampleBiomeData(secondary, slope);
+        return Color.Lerp(a, b, blend * 0.5f); // max 50% blend at the border
+    }
+
+    static Color LegacyBiomeColor(WorldData.Biome biome, float slope)
+    {
         switch (biome)
         {
             case WorldData.Biome.Beach:
-                return Color.Lerp(
-                    new Color(0.80f, 0.74f, 0.55f),
-                    new Color(0.90f, 0.85f, 0.68f),
-                    Mathf.Clamp01(slope));
+                return Color.Lerp(VB_SAND * 0.9f, VB_SAND, Mathf.Clamp01(slope));
 
             case WorldData.Biome.Farm:
-                return Color.Lerp(
-                    new Color(0.50f, 0.38f, 0.22f),
-                    new Color(0.58f, 0.48f, 0.30f),
-                    slope);
+                // Tilled earth — dirt with slight warmth on flat tops
+                return Color.Lerp(VB_DIRT * 0.85f, VB_DIRT, slope);
 
             case WorldData.Biome.Village:
-                return Color.Lerp(
-                    new Color(0.56f, 0.48f, 0.38f),
-                    new Color(0.62f, 0.54f, 0.42f),
-                    slope);
+                // Trampled dirt paths
+                return Color.Lerp(VB_DIRT, Color.Lerp(VB_DIRT, VB_STONE, 0.4f), slope);
 
             case WorldData.Biome.Road:
-                return Color.Lerp(
-                    new Color(0.58f, 0.56f, 0.52f),
-                    new Color(0.64f, 0.62f, 0.58f),
-                    slope);
+                // Stone road surface
+                return Color.Lerp(VB_STONE_DARK, VB_STONE, slope);
 
             case WorldData.Biome.Moor:
+                // Muted heathland — dirt/leaf mix, desaturated
                 return Color.Lerp(
-                    new Color(0.44f, 0.38f, 0.30f),
-                    new Color(0.50f, 0.46f, 0.34f),
+                    Color.Lerp(VB_DIRT, VB_LEAF, 0.3f) * 0.8f,
+                    Color.Lerp(VB_DIRT, VB_LEAF, 0.4f) * 0.9f,
                     slope);
 
             case WorldData.Biome.Cliff:
-                return Color.Lerp(
-                    new Color(0.52f, 0.48f, 0.42f),
-                    new Color(0.60f, 0.56f, 0.48f),
-                    Mathf.Clamp01((slope - 0.3f) / 0.5f));
+                return Color.Lerp(VB_STONE_DARK, VB_STONE, Mathf.Clamp01((slope - 0.3f) / 0.5f));
 
             case WorldData.Biome.Rocky:
-                return Color.Lerp(rock, dirt, Mathf.Clamp01((slope - 0.3f) / 0.3f));
+                return Color.Lerp(VB_STONE, VB_DIRT, Mathf.Clamp01((slope - 0.3f) / 0.3f));
 
             case WorldData.Biome.Thicket:
-                return Color.Lerp(
-                    new Color(0.28f, 0.32f, 0.18f),
-                    new Color(0.38f, 0.40f, 0.24f),
-                    slope);
+                // Dense forest floor — darker leaf tone
+                return Color.Lerp(VB_LEAF * 0.75f, VB_LEAF, slope);
 
             case WorldData.Biome.Ruins:
-                return Color.Lerp(
-                    new Color(0.50f, 0.48f, 0.42f),
-                    new Color(0.44f, 0.46f, 0.34f),
-                    slope);
+                return Color.Lerp(VB_STONE_DARK, VB_STONE * 0.9f, slope);
 
             case WorldData.Biome.River:
             case WorldData.Biome.Pond:
-                return dirt;
+                return VB_DIRT;
 
-            default: // Meadow, Forest
+            default: // Meadow, Forest — grass with rocky exposed slopes
                 if (slope > 0.85f)
-                    return grass;
+                    return VB_GRASS_TOP;
                 else if (slope > 0.6f)
-                    return Color.Lerp(dirt, grass, (slope - 0.6f) / 0.25f);
+                    return Color.Lerp(VB_GRASS_SIDE, VB_GRASS_TOP, (slope - 0.6f) / 0.25f);
                 else
-                    return Color.Lerp(rock, dirt, Mathf.Clamp01((slope - 0.3f) / 0.3f));
+                    return Color.Lerp(VB_STONE, VB_DIRT, Mathf.Clamp01((slope - 0.3f) / 0.3f));
         }
     }
 
@@ -136,15 +162,15 @@ public class TerrainChunk : MonoBehaviour
                 {
                     var baseBiome = (biome == WorldData.Biome.Road)
                         ? WorldData.GetBaseBiome(fx, fz) : biome;
-                    Color baseCol = BiomeColor(baseBiome, slope);
-                    Color roadCol = BiomeColor(WorldData.Biome.Road, slope);
+                    Color baseCol = BiomeColor(baseBiome, slope, fx, fz);
+                    Color roadCol = BiomeColor(WorldData.Biome.Road, slope, fx, fz);
                     float t = Mathf.Clamp01((roadD - WorldData.ROAD_HALF_WIDTH_PUBLIC * 0.5f)
                               / (roadBlendRadius - WorldData.ROAD_HALF_WIDTH_PUBLIC * 0.5f));
                     colors[vi] = Color.Lerp(roadCol, baseCol, t * t);
                 }
                 else
                 {
-                    colors[vi] = BiomeColor(biome, slope);
+                    colors[vi] = BiomeColor(biome, slope, fx, fz);
                 }
             }
         }
@@ -192,7 +218,7 @@ public class TerrainChunk : MonoBehaviour
     int AddSkirtEdge(Vector3[] verts, Vector3[] normals, Color[] colors, int[] indices,
                      float[] heights, int cols, int rows, int vOff, int iOff)
     {
-        Color cliffColor = new Color(0.36f, 0.30f, 0.22f);
+        Color cliffColor = VB_STONE_DARK;
         int si = vOff;
         int ii = iOff;
 

@@ -55,7 +55,7 @@ public class VillagePlacer : MonoBehaviour
 
     void Awake()
     {
-        if (WorldData.ARENA_MODE) return;
+        if (WorldData.ARENA_MODE || !WorldData.LEGACY_OVERLAYS) return;
         PlaceVillage();
     }
 

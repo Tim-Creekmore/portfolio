@@ -36,3 +36,9 @@ globs: ["Assets/**/*.shader", "Assets/**/*.mat", "Assets/**/*.cs"]
 - No white or cool-toned lighting
 - No bloom or lens flare
 - No default URP materials — everything gets custom
+
+## Design Philosophy (BotW-aligned)
+- Map edges and hostile zones feel **mysterious, not dreadful**. BotW's Akkala / Hebra stay visually interesting and warm even when dangerous.
+- Even cold biomes keep warmth: amber-tinted stone, cream-tinted snow — never pure cold grey.
+- Even hostile biomes avoid "ugly." Autumn/feral > plague/wasteland.
+- A player should feel drawn forward by curiosity, not pushed back by revulsion.

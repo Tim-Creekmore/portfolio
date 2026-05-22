@@ -71,9 +71,10 @@ public static class TreeGenerator
 
         Solidify(ref g, LEAF);
 
+        // Visual bible: wood #8a6040 (0.541, 0.376, 0.251), wood dark #6a4830 (0.416, 0.282, 0.188)
         Color barkBase = (style == Style.Birch)
             ? new Color(0.62f, 0.58f, 0.52f)
-            : new Color(0.35f, 0.24f, 0.14f);
+            : new Color(0.416f, 0.282f, 0.188f);
 
         var wood   = BuildVoxelMesh(g, BARK, barkBase, rng);
         var leaves = BuildVoxelMesh(g, LEAF, leafColor, rng);
@@ -82,7 +83,8 @@ public static class TreeGenerator
 
     public static TreeMeshes Generate(Style style, System.Random rng)
     {
-        return Generate(style, rng, new Color(0.16f, 0.28f, 0.10f));
+        // Default leaf: visual bible #3a5a2a
+        return Generate(style, rng, new Color(0.227f, 0.353f, 0.165f));
     }
 
     static void Solidify(ref Grid g, byte type)

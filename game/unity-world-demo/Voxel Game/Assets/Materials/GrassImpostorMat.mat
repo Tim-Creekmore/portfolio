@@ -33,6 +33,6 @@ Material:
     m_Colors:
     - _ColorOld: {r: 0.41999996, g: 0.53999996, b: 0.09999997, a: 1}
     - _ColorYoung: {r: 0.19999996, g: 0.47999996, b: 0.059999965, a: 1}
-    - _GroundColor: {r: 0.11999995, g: 0.09999997, b: 0.059999965, a: 1}
+    - _GroundColor: {r: 0.61020577, g: 0.9685534, b: 0.5512835, a: 1}
     - _WindDir: {r: 1, g: 0.3, b: 0, a: 0}
   m_BuildTextureStacks: []

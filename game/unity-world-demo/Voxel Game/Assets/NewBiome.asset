@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91ddfea4a449984aa2d2296a948f52a, type: 3}
+  m_Name: NewBiome
+  m_EditorClassIdentifier: 
+  displayName: Unnamed
+  moodDescription: 
+  grassTop: {r: 0.353, g: 0.478, b: 0.227, a: 1}
+  grassSide: {r: 0.29, g: 0.416, b: 0.165, a: 1}
+  dirt: {r: 0.478, g: 0.361, b: 0.227, a: 1}
+  stone: {r: 0.416, g: 0.396, b: 0.376, a: 1}
+  stoneDark: {r: 0.29, g: 0.271, b: 0.251, a: 1}
+  leafColor: {r: 0.227, g: 0.353, b: 0.165, a: 1}
+  trunkColor: {r: 0.416, g: 0.282, b: 0.188, a: 1}
+  ambientTint: {r: 1, g: 1, b: 1, a: 1}
+  fogTint: {r: 0.784, g: 0.722, b: 0.596, a: 0}
+  treeDensity: 0.6
+  grassDensity: 0.8
+  treeStyle: 0
+  ambientProfileId: default
+  ambientVolume: 0.2

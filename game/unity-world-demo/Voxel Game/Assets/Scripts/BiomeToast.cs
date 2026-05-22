@@ -11,8 +11,8 @@ public class BiomeToast : MonoBehaviour
     const float FADE_OUT  = 0.5f;
     const float DEBOUNCE  = 0.5f;
 
-    WorldData.Biome _currentBiome;
-    WorldData.Biome _displayedBiome;
+    string _currentKey;
+    string _displayedKey;
     float _timer;
     float _debounceTimer;
     enum State { Idle, FadeIn, Hold, FadeOut }
@@ -21,43 +21,60 @@ public class BiomeToast : MonoBehaviour
     void Start()
     {
         if (toastGroup != null) toastGroup.alpha = 0f;
-        _currentBiome = SampleBiome();
-        _displayedBiome = _currentBiome;
+        _currentKey = SampleBiomeKey(out _);
+        _displayedKey = _currentKey;
     }
 
     void Update()
     {
-        var biome = SampleBiome();
+        string key = SampleBiomeKey(out string displayName);
 
-        if (biome != _currentBiome)
+        if (key != _currentKey)
         {
-            _currentBiome = biome;
+            _currentKey = key;
             _debounceTimer = DEBOUNCE;
         }
 
         if (_debounceTimer > 0f)
         {
             _debounceTimer -= Time.deltaTime;
-            if (_debounceTimer <= 0f && _currentBiome != _displayedBiome)
+            if (_debounceTimer <= 0f && _currentKey != _displayedKey)
             {
-                ShowToast(_currentBiome);
+                ShowToast(_currentKey, displayName);
             }
         }
 
         UpdateFade();
     }
 
-    WorldData.Biome SampleBiome()
+    /// <summary>
+    /// Returns a stable key for the current biome (for change detection) and a display name.
+    /// Prefers BiomeRegistry when in Phase B biome world; falls back to legacy enum.
+    /// </summary>
+    string SampleBiomeKey(out string displayName)
     {
         Vector3 pos = transform.position;
-        return WorldData.GetBiome(pos.x, pos.z);
+
+        if (!WorldData.ARENA_MODE && BiomeRegistry.IsReady)
+        {
+            var data = BiomeRegistry.Instance.GetBiomeAt(pos.x, pos.z);
+            if (data != null)
+            {
+                displayName = string.IsNullOrEmpty(data.displayName) ? data.name : data.displayName;
+                return "biome:" + data.name;
+            }
+        }
+
+        var b = WorldData.GetBiome(pos.x, pos.z);
+        displayName = WorldData.BiomeDisplayName(b);
+        return "enum:" + b.ToString();
     }
 
-    void ShowToast(WorldData.Biome biome)
+    void ShowToast(string key, string displayName)
     {
-        _displayedBiome = biome;
+        _displayedKey = key;
         if (toastLabel != null)
-            toastLabel.text = "~ " + WorldData.BiomeDisplayName(biome) + " ~";
+            toastLabel.text = "~ " + displayName + " ~";
 
         _state = State.FadeIn;
         _timer = 0f;

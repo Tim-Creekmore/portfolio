@@ -29,18 +29,18 @@ public class FoliagePlacer : MonoBehaviour
         new Color(0.42f, 0.48f, 0.60f),
     };
 
+    // Leaf palette clustered around visual bible #3a5a2a (0.227, 0.353, 0.165)
+    // Variations kept tight so canopies stay readable as "medieval forest" not jewel-box colors
     static readonly Color[] TREE_COLORS =
     {
-        new Color(0.14f, 0.26f, 0.08f),
-        new Color(0.18f, 0.30f, 0.10f),
-        new Color(0.16f, 0.28f, 0.06f),
-        new Color(0.22f, 0.34f, 0.12f),
-        new Color(0.20f, 0.32f, 0.14f),
-        new Color(0.12f, 0.24f, 0.08f),
-        new Color(0.24f, 0.36f, 0.10f),
-        new Color(0.16f, 0.30f, 0.12f),
-        new Color(0.26f, 0.38f, 0.16f),
-        new Color(0.10f, 0.22f, 0.06f),
+        new Color(0.227f, 0.353f, 0.165f), // VB leaf
+        new Color(0.200f, 0.325f, 0.145f), // slightly darker
+        new Color(0.255f, 0.380f, 0.185f), // slightly lighter
+        new Color(0.220f, 0.360f, 0.170f),
+        new Color(0.210f, 0.345f, 0.155f),
+        new Color(0.240f, 0.365f, 0.175f),
+        new Color(0.225f, 0.340f, 0.160f),
+        new Color(0.195f, 0.330f, 0.150f),
     };
 
     void Start()
@@ -54,10 +54,15 @@ public class FoliagePlacer : MonoBehaviour
         PlaceTrees();
         PlaceRocks();
         PlaceWildflowers();
-        PlaceFarmProps();
-        PlaceVillageProps();
-        PlaceRuinsProps();
-        PlaceRiverReeds();
+
+        // Legacy-only: farm wheat, village props, ruins, river reeds are tied to 13-biome map
+        if (WorldData.ARENA_MODE || WorldData.LEGACY_OVERLAYS)
+        {
+            PlaceFarmProps();
+            PlaceVillageProps();
+            PlaceRuinsProps();
+            PlaceRiverReeds();
+        }
     }
 
     // ── Grass ────────────────────────────────────────────────────────────
@@ -83,8 +88,29 @@ public class FoliagePlacer : MonoBehaviour
                 if (WorldData.IsWater(mx, mz)) continue;
                 if (WorldData.IsRoad(mx, mz)) continue;
 
-                var biome = WorldData.GetBiome(mx, mz);
-                if (!WorldData.HasGrass(biome)) continue;
+                // Phase B biome world: use BiomeData.grassDensity to decide where grass grows.
+                // Higher density → more chance of placing this grass patch. Uses spatial hash so same
+                // pos always gives same result, no flicker.
+                if (!WorldData.ARENA_MODE && BiomeRegistry.IsReady)
+                {
+                    var bdata = BiomeRegistry.Instance.GetBiomeAt(mx, mz);
+                    if (bdata == null) continue;
+                    float density = bdata.grassDensity;
+                    if (density <= 0.001f) continue;
+
+                    // Deterministic noise threshold — only skip grass if density is partial
+                    if (density < 0.99f)
+                    {
+                        float h = Mathf.Abs(Mathf.Sin(gx * 12.9898f + gz * 78.233f) * 43758.5453f);
+                        h -= Mathf.Floor(h);
+                        if (h > density) continue;
+                    }
+                }
+                else
+                {
+                    var biome = WorldData.GetBiome(mx, mz);
+                    if (!WorldData.HasGrass(biome)) continue;
+                }
 
                 float y00 = WorldData.HeightSmooth(x0, z0) + 0.01f;
                 float y10 = WorldData.HeightSmooth(x1, z0) + 0.01f;
@@ -141,6 +167,12 @@ public class FoliagePlacer : MonoBehaviour
         {
             // Sparse scattered trees across the whole arena
             PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Meadow, 5f, 115f, 5f, 115f, 12f, 0.55f);
+        }
+        else if (!WorldData.LEGACY_OVERLAYS)
+        {
+            // Phase B biome world — coarse density pass across the whole map; B1.4 will
+            // refine this with per-biome density from BiomeData.
+            PlaceBiomeTrees(rng, ref treeIdx, WorldData.Biome.Meadow, 5f, 115f, 5f, 115f, 9f, 0.35f);
         }
         else
         {

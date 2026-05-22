@@ -27,8 +27,8 @@ Material:
     m_Floats:
     - _HorizonSharpness: 4
     m_Colors:
-    - _GroundBottomColor: {r: 0.15860374, g: 0.13881856, b: 0.09946298, a: 1}
-    - _GroundHorizonColor: {r: 0.44602603, g: 0.37656307, b: 0.29763713, a: 1}
-    - _SkyHorizonColor: {r: 0.7729113, g: 0.713341, b: 0.5752742, a: 1}
-    - _SkyTopColor: {r: 0.2972075, g: 0.44570383, b: 0.6742002, a: 1}
+    - _GroundBottomColor: {r: 0.16, g: 0.14, b: 0.1, a: 1}
+    - _GroundHorizonColor: {r: 0.45, g: 0.38, b: 0.3, a: 1}
+    - _SkyHorizonColor: {r: 0.78, g: 0.72, b: 0.58, a: 1}
+    - _SkyTopColor: {r: 0.3, g: 0.45, b: 0.68, a: 1}
   m_BuildTextureStacks: []
