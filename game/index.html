@@ -35,8 +35,8 @@
         <a href="/resume.pdf" class="hover:text-violet-400 transition">Resume</a>
       </div>
       <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <i class="fas fa-bars text-xl" id="hub-nav-icon-open"></i>
-        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close"></i>
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
       </button>
     </div>
     <div id="hub-mobile-nav" class="hidden md:hidden border-t border-violet-500/20 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-slate-200 bg-slate-900/95">
@@ -46,29 +46,54 @@
     </div>
   </nav>
 
-  <main id="main-content" class="pt-24 px-4 pb-16 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
+  <main id="main-content" class="pt-28 px-4 pb-16 max-w-6xl mx-auto min-h-[80vh]">
 
-    <div class="text-center max-w-lg">
-      <div class="mb-8">
-        <i class="fas fa-hammer text-violet-400/60 text-6xl"></i>
-      </div>
-      <p class="text-violet-400/90 text-sm font-medium uppercase tracking-widest mb-3">Coming Soon</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Game in Dev</h1>
-      <p class="text-lg text-slate-400 leading-relaxed mb-8">
-        A medieval open-world built in <strong class="text-slate-300">Unity URP</strong> — procedural terrain, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. Check back soon for a playable web build.
-      </p>
-      <div class="flex items-center justify-center gap-3 text-sm text-slate-500">
-        <span class="inline-flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Actively in development
-        </span>
-      </div>
-    </div>
+    <section class="glass-panel p-6 md:p-10">
+      <div class="grid lg:grid-cols-[1fr_0.9fr] gap-10 items-center">
+        <div>
+          <p class="eyebrow mb-4">Game lab &middot; Unity URP</p>
+          <h1 class="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">A systems lab disguised as a medieval world.</h1>
+          <p class="text-lg text-slate-400 leading-relaxed mb-8">
+            Procedural terrain, biome boundaries, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. This page is here to show the engineering taste behind the side project, even before the web build lands.
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-2 rounded-full border border-amber-200/30 px-4 py-2 text-sm text-slate-500">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
+              Actively in development
+            </span>
+            <a href="/portfolio/#projects" class="glow-link">See portfolio projects &rarr;</a>
+          </div>
+        </div>
 
-    <div class="mt-16 text-slate-500 text-sm text-center">
-      <a href="/" class="text-violet-400 hover:underline">&larr; Hub home</a>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">World</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Biomes</h2>
+            <p class="text-sm text-slate-400">Temperate, frontier, and mountain data assets drive placement and presentation.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Visuals</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Shaders</h2>
+            <p class="text-sm text-slate-400">Geometry grass, stylized sky, material tuning, and warm low-poly atmosphere.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Systems</p>
+            <h2 class="text-xl font-semibold text-white mb-2">C# tooling</h2>
+            <p class="text-sm text-slate-400">Editor builders, registries, save data, procedural placers, and scene setup scripts.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Goal</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Playable web build</h2>
+            <p class="text-sm text-slate-400">The current splash will become a browser-playable showcase when the build is ready.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-10 text-slate-500 text-sm text-center">
+      <a href="/" class="glow-link">&larr; Hub home</a>
       &nbsp;&middot;&nbsp;
-      <a href="/portfolio/#contact" class="text-violet-400 hover:underline">Contact</a>
+      <a href="/portfolio/#contact" class="glow-link">Contact</a>
     </div>
   </main>
 

@@ -45,59 +45,69 @@
     </div>
   </nav>
 
-  <header id="main-content" class="pt-28 pb-12 px-6 bg-white">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-teal-700 text-sm font-medium uppercase tracking-wide mb-2">Case study</p>
-      <h1 class="text-3xl md:text-4xl font-bold mb-3">ProphetCMA &mdash; Real Estate Price Prediction</h1>
-      <p class="text-lg text-gray-600">A machine-learning approach to automating Comparative Market Analysis (CMA)</p>
+  <header id="main-content" class="pt-28 pb-8 px-6">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">Case study &middot; Predictive modeling</p>
+      <div class="grid lg:grid-cols-[1fr_0.72fr] gap-8 items-end">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold mb-4 text-white">ProphetCMA &mdash; Real Estate Price Prediction</h1>
+          <p class="text-lg text-gray-600 leading-relaxed">
+            A machine-learning approach to automating Comparative Market Analysis (CMA), built around ensemble modeling and honest error reporting.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">MAE</p>
+            <p class="text-2xl font-bold text-gray-900 mt-1">6,776</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">RMSE</p>
+            <p class="text-2xl font-bold text-gray-900 mt-1">11,166</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Blend</p>
+            <p class="text-2xl font-bold text-gray-900 mt-1">15 / 85</p>
+            <p class="text-[10px] text-gray-500 mt-1">XGBoost / GBM</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Stack</p>
+            <p class="text-base font-semibold text-gray-900 mt-1">R</p>
+            <p class="text-[10px] text-gray-500 mt-1">caret + xgboost</p>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <section class="px-6 py-10 bg-gray-50">
-    <div class="max-w-4xl mx-auto grid sm:grid-cols-4 gap-4">
-      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
-        <p class="text-xs uppercase tracking-wide text-gray-500">MAE</p>
-        <p class="text-2xl font-bold text-gray-900 mt-1">6,776</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
-        <p class="text-xs uppercase tracking-wide text-gray-500">RMSE</p>
-        <p class="text-2xl font-bold text-gray-900 mt-1">11,166</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
-        <p class="text-xs uppercase tracking-wide text-gray-500">Blend</p>
-        <p class="text-2xl font-bold text-gray-900 mt-1">15 / 85</p>
-        <p class="text-[10px] text-gray-500 mt-1">XGBoost / GBM</p>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
-        <p class="text-xs uppercase tracking-wide text-gray-500">Stack</p>
-        <p class="text-base font-semibold text-gray-900 mt-1">R</p>
-        <p class="text-[10px] text-gray-500 mt-1">caret + xgboost</p>
-      </div>
-    </div>
-  </section>
+  <main class="px-6 pb-16">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10 space-y-10">
 
-  <section class="px-6 py-12 bg-white">
-    <div class="max-w-4xl mx-auto space-y-8">
-
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Problem</h2>
+      <section>
+        <p class="eyebrow mb-3">Problem</p>
+        <h2 class="text-2xl font-semibold mb-3">Pricing homes from messy comps</h2>
         <p class="text-gray-700 leading-relaxed">
           Comparative Market Analysis is the manual process real-estate agents use to price a home from recent comparable sales. It&rsquo;s slow, expert-dependent, and uneven across price tiers. The goal: an ML model that estimates fair market price from objective property features (square footage, beds/baths, acreage, property type) so the human stays in the loop on judgment, not arithmetic.
         </p>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Approach</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Approach</p>
+        <h2 class="text-2xl font-semibold mb-3">Compare, blend, then audit the errors</h2>
         <p class="text-gray-700 leading-relaxed mb-3">
           Trained and compared five supervised models on a cleaned dataset of residential properties: Linear Regression, k-Nearest Neighbors, Random Forest, Gradient Boosting Machines (GBM), and XGBoost. Evaluated on Mean Absolute Error (MAE) and Root Mean Square Error (RMSE) under cross-validation.
         </p>
         <p class="text-gray-700 leading-relaxed">
           The winning model was a blend &mdash; <strong>15% XGBoost + 85% GBM</strong> &mdash; reached via grid search over blend weights. The blend smoothed XGBoost&rsquo;s aggressive splits while keeping its sensitivity to feature interactions.
         </p>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Results</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Result</p>
+        <h2 class="text-2xl font-semibold mb-3">Good signal, with clear boundaries</h2>
         <div class="grid md:grid-cols-2 gap-6 items-center">
           <img src="MAEresults.png" alt="MAE comparison chart across model variants" width="900" height="600" loading="lazy" class="rounded-xl shadow border border-gray-200" />
           <ul class="space-y-2 text-gray-700">
@@ -106,10 +116,13 @@
             <li>Best performance concentrated in the $130k&ndash;$185k band where comp density is highest.</li>
           </ul>
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Challenges &amp; limitations</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Limitations</p>
+        <h2 class="text-2xl font-semibold mb-3">Where the model got honest</h2>
         <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
           <li>
             <strong>Clustering as preprocessing hurt accuracy.</strong> Grouping by price-derived features caused class imbalance above $185k and produced erratic predictions for higher-end homes.
@@ -121,16 +134,19 @@
             <strong>Feature gaps mattered.</strong> Dataset lacked year built, renovation history, garages, pools, and condition grades &mdash; all of which materially move price. The model under-predicted homes with significant unmeasured upside.
           </li>
         </ul>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Next steps</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Next</p>
+        <h2 class="text-2xl font-semibold mb-3">How I would push it further</h2>
         <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
           <li>Source a richer dataset that includes year built, condition, and renovation history.</li>
           <li>Replace blanket clustering with hierarchical models per price tier.</li>
           <li>Add SHAP-based explanations so the agent sees <em>why</em> a price came out where it did.</li>
         </ul>
-      </div>
+      </section>
 
       <div class="border-t border-gray-200 pt-6 flex flex-wrap items-center justify-between gap-4">
         <a href="/portfolio/#projects" class="text-teal-700 font-medium hover:underline">&larr; Back to portfolio</a>
@@ -141,7 +157,7 @@
       </div>
 
     </div>
-  </section>
+  </main>
 
   <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white">
     <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>

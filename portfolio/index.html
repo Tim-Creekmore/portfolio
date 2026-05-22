@@ -65,6 +65,7 @@
         <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
         <a href="/portfolio/#about" class="hover:text-teal-600 transition">About</a>
         <a href="/portfolio/#projects" class="hover:text-teal-600 transition">Projects</a>
+        <a href="/portfolio/#skills" class="hover:text-teal-600 transition">Skills</a>
         <a href="/portfolio/#contact" class="hover:text-teal-600 transition">Contact</a>
         <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
@@ -78,6 +79,7 @@
       <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
       <a href="#about" class="py-2 hover:text-teal-600">About (this page)</a>
       <a href="#projects" class="py-2 hover:text-teal-600">Projects</a>
+      <a href="#skills" class="py-2 hover:text-teal-600">Skills</a>
       <a href="#contact" class="py-2 hover:text-teal-600">Contact</a>
       <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
     </div>
@@ -110,7 +112,7 @@
   </section>
 
 <section id="about" class="px-6 py-16 bg-gray-100">
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-4xl mx-auto glass-panel p-6 md:p-10">
     <h2 class="text-3xl font-bold text-center mb-3">About</h2>
     <p class="text-center text-teal-700 font-medium tracking-wide uppercase text-sm mb-10">Data scientist &middot; ML practitioner &middot; AI engineer</p>
 
@@ -125,7 +127,7 @@
     </p>
 
     <div class="grid sm:grid-cols-2 gap-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div class="metric-card p-6">
         <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
           <span class="inline-block w-2 h-2 rounded-full bg-teal-600" aria-hidden="true"></span>
           Education
@@ -136,7 +138,7 @@
           <li>B.S. Data Science</li>
         </ul>
       </div>
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div class="metric-card p-6">
         <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
           <span class="inline-block w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
           Experience
@@ -151,10 +153,90 @@
 </section>
 
 
+  <!-- Projects Section -->
+  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <h2 class="text-3xl font-bold text-center mb-3">Projects</h2>
+      <p class="text-center text-gray-600 text-sm mb-10">Featured work, then what&rsquo;s next on deck.</p>
+
+      <h3 class="text-sm font-semibold text-teal-700 tracking-wide uppercase mb-4">Featured</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <a href="/prophetcma.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">ProphetCMA &mdash; Real Estate Price Prediction</h4>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate Comparative Market Analysis &mdash; predict sale prices from historical comps and property features.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized blend (15% XGBoost / 85% GBM) &mdash; MAE 6,776 &middot; RMSE 11,166</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/prophetcma.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="ProphetCMA on GitHub">
+              <i class="fab fa-github" aria-hidden="true"></i> Code
+            </a>
+          </div>
+        </article>
+
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <a href="/signature-extraction.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">Signature Data Extraction</h4>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure Document Intelligence, pandas, OCR</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Convert scanned signature sheets into a structured CSV for downstream analysis.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Printed fields (name, address, county) extracted cleanly; handwritten signatures flagged for human review.</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/signature-extraction.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="Signature Extraction on GitHub">
+              <i class="fab fa-github" aria-hidden="true"></i> Code
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <h3 class="text-sm font-semibold text-amber-700 tracking-wide uppercase mb-4">In progress</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Building</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">AI engineering sandbox</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> OpenAI / Anthropic APIs, LangChain, pgvector, eval harness</p>
+          <p class="text-sm text-gray-700">A small set of LLM demos &mdash; a RAG pipeline, a structured-output extractor, and an eval suite that fails loudly when prompts drift. Notebook + repo link landing here soon.</p>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Prototype</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Local Store Price Scraper</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Scrapy, pandas</p>
+          <p class="text-sm text-gray-700">Compare building-supply prices across local stores (2x4s, drywall, paint). Proof of concept handles HTML snapshots and dynamic content; migrating crawl to Scrapy.</p>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">R&amp;D</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Store Pricing Sync</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, Google Sheets API, Render</p>
+          <p class="text-sm text-gray-700">Help local stores without online catalogs surface real-time prices on a searchable website by bridging their inventory system. In talks with a store owner for API access.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <section id="skills" class="px-6 py-16" style="background-color: #007BA7;">
-  <div class="max-w-5xl mx-auto">
+  <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
     <h2 class="text-3xl font-bold text-center text-white mb-3">Skills</h2>
-    <p class="text-center text-teal-100 text-sm mb-10">Languages and toolkits I reach for, with the libraries I actually use.</p>
+    <p class="text-center text-teal-100 text-sm mb-10">Languages and toolkits behind the projects above.</p>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Python -->
@@ -256,89 +338,8 @@
   </div>
 </section>
 
-  
-  <!-- Projects Section -->
-  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-3">Projects</h2>
-      <p class="text-center text-gray-600 text-sm mb-10">Featured work, then what&rsquo;s next on deck.</p>
-
-      <h3 class="text-sm font-semibold text-teal-700 tracking-wide uppercase mb-4">Featured</h3>
-      <div class="grid md:grid-cols-2 gap-6 mb-12">
-
-        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
-          <a href="/prophetcma.html" class="block p-6 flex-1">
-            <h4 class="text-xl font-semibold mb-2">ProphetCMA &mdash; Real Estate Price Prediction</h4>
-            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
-            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate Comparative Market Analysis &mdash; predict sale prices from historical comps and property features.</p>
-            <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized blend (15% XGBoost / 85% GBM) &mdash; MAE 6,776 &middot; RMSE 11,166</p>
-          </a>
-          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
-            <a href="/prophetcma.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
-            <!-- TODO: swap to specific repo URL when public -->
-            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="ProphetCMA on GitHub">
-              <i class="fab fa-github" aria-hidden="true"></i> Code
-            </a>
-          </div>
-        </article>
-
-        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
-          <a href="/signature-extraction.html" class="block p-6 flex-1">
-            <h4 class="text-xl font-semibold mb-2">Signature Data Extraction</h4>
-            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure Document Intelligence, pandas, OCR</p>
-            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Convert scanned signature sheets into a structured CSV for downstream analysis.</p>
-            <p class="text-sm text-gray-700"><strong>Result:</strong> Printed fields (name, address, county) extracted cleanly; handwritten signatures flagged for human review.</p>
-          </a>
-          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
-            <a href="/signature-extraction.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
-            <!-- TODO: swap to specific repo URL when public -->
-            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="Signature Extraction on GitHub">
-              <i class="fab fa-github" aria-hidden="true"></i> Code
-            </a>
-          </div>
-        </article>
-
-      </div>
-
-      <h3 class="text-sm font-semibold text-amber-700 tracking-wide uppercase mb-4">In progress</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-
-        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
-            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Building</span>
-          </div>
-          <h4 class="text-lg font-semibold mb-2">AI engineering sandbox</h4>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> OpenAI / Anthropic APIs, LangChain, pgvector, eval harness</p>
-          <p class="text-sm text-gray-700">A small set of LLM demos &mdash; a RAG pipeline, a structured-output extractor, and an eval suite that fails loudly when prompts drift. Notebook + repo link landing here soon.</p>
-        </article>
-
-        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
-            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Prototype</span>
-          </div>
-          <h4 class="text-lg font-semibold mb-2">Local Store Price Scraper</h4>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Scrapy, pandas</p>
-          <p class="text-sm text-gray-700">Compare building-supply prices across local stores (2x4s, drywall, paint). Proof of concept handles HTML snapshots and dynamic content; migrating crawl to Scrapy.</p>
-        </article>
-
-        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
-            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">R&amp;D</span>
-          </div>
-          <h4 class="text-lg font-semibold mb-2">Store Pricing Sync</h4>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, Google Sheets API, Render</p>
-          <p class="text-sm text-gray-700">Help local stores without online catalogs surface real-time prices on a searchable website by bridging their inventory system. In talks with a store owner for API access.</p>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
   <section id="cover-letter" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-3xl mx-auto text-center">
+    <div class="max-w-3xl mx-auto text-center glass-panel p-6 md:p-10">
       <h2 class="text-3xl font-bold mb-4">Cover letter</h2>
       <p class="text-lg text-gray-700 mb-8">
         For hiring teams and introductions, you can download my cover letter as a PDF. You can also reach me directly in the contact section below.
@@ -351,7 +352,7 @@
 
   <!-- Contact Section -->
 <section id="contact" class="px-6 py-16 bg-gray-100">
-  <div class="max-w-5xl mx-auto">
+  <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
     <h2 class="text-3xl font-bold text-center mb-10">Contact</h2>
 
     <p id="form-thanks" class="hidden text-center text-green-700 font-medium mb-6" role="status">

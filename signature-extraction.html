@@ -45,58 +45,93 @@
     </div>
   </nav>
 
-  <header id="main-content" class="pt-28 pb-12 px-6 bg-white">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-teal-700 text-sm font-medium uppercase tracking-wide mb-2">Case study</p>
-      <h1 class="text-3xl md:text-4xl font-bold mb-3">Signature Data Extraction</h1>
-      <p class="text-lg text-gray-600">Scanned petition sheets &rarr; structured CSV via OCR and validation</p>
+  <header id="main-content" class="pt-28 pb-8 px-6">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">Case study &middot; OCR pipeline</p>
+      <div class="grid lg:grid-cols-[1fr_0.72fr] gap-8 items-end">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold mb-4 text-white">Signature Data Extraction</h1>
+          <p class="text-lg text-gray-600 leading-relaxed">Scanned petition sheets &rarr; structured CSV via OCR, validation, and human-review flags.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Input</p>
+            <p class="text-xl font-bold text-gray-900 mt-1">Scans</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Output</p>
+            <p class="text-xl font-bold text-gray-900 mt-1">CSV</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Stack</p>
+            <p class="text-xl font-bold text-gray-900 mt-1">Python</p>
+          </div>
+          <div class="metric-card p-4 text-center">
+            <p class="text-xs uppercase tracking-wide text-gray-500">Review</p>
+            <p class="text-xl font-bold text-gray-900 mt-1">HITL</p>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <section class="px-6 py-12 bg-gray-50">
-    <div class="max-w-4xl mx-auto space-y-8">
+  <main class="px-6 pb-16">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10 space-y-10">
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Problem</h2>
+      <section>
+        <p class="eyebrow mb-3">Problem</p>
+        <h2 class="text-2xl font-semibold mb-3">Paper forms needed to become usable data</h2>
         <p class="text-gray-700 leading-relaxed">
           Part of an effort to evaluate public support for a measure across Arkansas. Volunteers had collected thousands of paper petition sheets &mdash; printed fields for name, address, county, and date, plus a handwritten signature per row. The data had to land in a structured CSV before any analysis could begin, and manual entry was a non-starter at that volume.
         </p>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Approach</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Approach</p>
+        <h2 class="text-2xl font-semibold mb-3">Extract fields, flag uncertainty</h2>
         <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
           <li>Scanned sheets ingested via Python; pre-processed for skew and contrast.</li>
           <li>Field-level OCR with <strong>Azure Document Intelligence</strong> against a custom layout model trained on the petition format.</li>
           <li>Extracted records normalized in pandas (county lookups, address splits) and written to CSV.</li>
           <li>Validation pass on each row to flag low-confidence fields for human review.</li>
         </ul>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Outcome</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Outcome</p>
+        <h2 class="text-2xl font-semibold mb-3">Useful automation with a clear human boundary</h2>
         <p class="text-gray-700 leading-relaxed">
           Printed text &mdash; names, addresses, counties, dates &mdash; came through with high reliability and was usable for aggregation work downstream. <strong>Handwritten signatures</strong> were the hard problem: OCR confidence was low and validation was effectively human-in-the-loop. The pipeline shipped as &ldquo;completed in part&rdquo; &mdash; useful for the structured fields, with signature verification deferred to a follow-on workflow.
         </p>
-      </div>
+      </section>
 
-      <div>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Retrospective</p>
         <h2 class="text-2xl font-semibold mb-3">What I&rsquo;d do differently</h2>
         <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
           <li>Stand up a lightweight reviewer UI for the low-confidence rows from day one.</li>
           <li>Try a dedicated handwriting model (TrOCR or a specialized signature-verification network) for the signature box only.</li>
           <li>Build a small held-out gold set up front so accuracy isn&rsquo;t measured by eyeballing CSV diffs.</li>
         </ul>
-      </div>
+      </section>
 
-      <div>
-        <h2 class="text-2xl font-semibold mb-3">Stack</h2>
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Stack</p>
+        <h2 class="text-2xl font-semibold mb-3">Pipeline pieces</h2>
         <ul class="list-disc ml-6 space-y-1 text-gray-700">
           <li>Python (pandas, Pillow)</li>
           <li>Azure Document Intelligence (custom layout model)</li>
           <li>CSV / Excel for downstream consumers</li>
         </ul>
-      </div>
+      </section>
 
       <div class="border-t border-gray-200 pt-6 flex flex-wrap items-center justify-between gap-4">
         <a href="/portfolio/#projects" class="text-teal-700 font-medium hover:underline">&larr; Back to portfolio</a>
@@ -107,7 +142,7 @@
       </div>
 
     </div>
-  </section>
+  </main>
 
   <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white">
     <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>

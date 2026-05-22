@@ -46,44 +46,83 @@
     </div>
   </nav>
 
-  <header class="relative overflow-hidden pt-24 pb-16 md:pb-24 px-4">
-    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#0d4f6e] to-[#007BA7] opacity-[0.97]"></div>
-    <div class="absolute inset-0 opacity-[0.08]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-    <div class="relative z-10 max-w-3xl mx-auto text-center">
-      <p class="text-teal-200/90 text-sm font-medium tracking-wide uppercase mb-3">One domain, several threads</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Timothy Creekmore</h1>
-      <p class="text-lg md:text-xl text-slate-200 leading-relaxed mb-10">
-        Data science, applied ML, and AI engineering — plus a growing game lab where I build worlds, systems, and interactive experiments.
-      </p>
-      <p class="text-slate-300 text-sm max-w-xl mx-auto mb-8">
-        Pick a section below. For now the site is intentionally focused: portfolio first, game lab second.
-      </p>
+  <header class="relative overflow-hidden pt-28 pb-14 md:pt-36 md:pb-20 px-4">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#1c120b] to-[#0d4f6e] opacity-[0.84]"></div>
+    <div class="relative z-10 max-w-5xl mx-auto">
+      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+        <div>
+          <p class="text-amber-200/90 text-sm font-medium tracking-[0.35em] uppercase mb-4">Portfolio first · systems always</p>
+          <h1 class="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">
+            Data scientist and AI engineer building practical models, tools, and interactive systems.
+          </h1>
+          <p class="text-lg md:text-xl text-slate-200 leading-relaxed mb-8 max-w-3xl">
+            I turn messy data into decisions, build ML workflows that can be explained, and use game/system projects to keep the engineering muscle sharp.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="/portfolio/" class="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition">
+              View portfolio
+            </a>
+            <a href="/game/" class="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-amber-200/60 text-amber-100 font-semibold hover:bg-white/10 transition">
+              Explore game lab
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 md:p-7 shadow-sm">
+          <p class="text-xs uppercase tracking-[0.3em] text-amber-700 font-semibold mb-5">Quick signal</p>
+          <div class="space-y-5">
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Best proof page</p>
+              <a href="/portfolio/#projects" class="text-xl font-semibold text-gray-900 hover:text-teal-600 transition">Featured ML + AI projects →</a>
+            </div>
+            <div class="h-px bg-gray-200"></div>
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Technical side lab</p>
+              <a href="/game/" class="text-xl font-semibold text-gray-900 hover:text-violet-400 transition">Unity terrain, biomes, shaders →</a>
+            </div>
+            <div class="h-px bg-gray-200"></div>
+            <div>
+              <p class="text-sm text-gray-500 mb-1">Main CTA</p>
+              <a href="/portfolio/#contact" class="text-xl font-semibold text-gray-900 hover:text-amber-400 transition">Talk about a role or project →</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main id="main-content" class="max-w-5xl mx-auto px-4 -mt-8 md:-mt-12 pb-20 relative z-10">
-    <h2 class="sr-only">Site directory</h2>
-    <div class="grid sm:grid-cols-2 gap-5 md:gap-6">
-
-      <a href="/portfolio/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-teal-600/40 transition text-left">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 text-lg mb-4 group-hover:bg-teal-100 transition" aria-hidden="true">◆</span>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">Portfolio</h3>
-        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
-          Projects, skills, resume, cover letter, and contact — including ML work and AI engineering notes.
+  <main id="main-content" class="max-w-5xl mx-auto px-4 pb-20 relative z-10">
+    <section aria-labelledby="featured-work-heading" class="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        <div>
+          <p class="text-amber-700 text-sm font-semibold uppercase tracking-[0.3em] mb-2">Start here</p>
+          <h2 id="featured-work-heading" class="text-2xl md:text-3xl font-bold text-gray-900">Two paths, one story</h2>
+        </div>
+        <p class="text-gray-600 text-sm md:text-right max-w-xl">
+          The portfolio is the hiring surface. The game lab is the systems-thinking proof: C#, procedural terrain, visual polish, and iteration discipline.
         </p>
-        <span class="text-teal-600 text-sm font-medium group-hover:underline">Open portfolio →</span>
-      </a>
+      </div>
 
-      <a href="/game/" class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-violet-500/50 transition text-left">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-700 text-lg mb-4 group-hover:bg-violet-100 transition" aria-hidden="true">▦</span>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">Voxel game</h3>
-        <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
-          Medieval open-world demo built in Unity URP — procedural terrain, biomes, geometry-shader grass, and a hand-placed village. Web build coming soon.
-        </p>
-        <span class="text-violet-700 text-sm font-medium group-hover:underline">Enter lab →</span>
-      </a>
+      <div class="grid md:grid-cols-2 gap-5">
+        <a href="/portfolio/" class="group flex flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 hover:border-teal-600/50 transition text-left">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 text-lg mb-4 group-hover:bg-teal-100 transition" aria-hidden="true">◆</span>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Portfolio</h3>
+          <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+            Projects, experience, skills, resume, cover letter, and contact — the main path for recruiters and collaborators.
+          </p>
+          <span class="text-teal-600 text-sm font-medium group-hover:underline">Open portfolio →</span>
+        </a>
 
-    </div>
+        <a href="/game/" class="group flex flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 hover:border-violet-500/50 transition text-left">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-700 text-lg mb-4 group-hover:bg-violet-100 transition" aria-hidden="true">▦</span>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Game lab</h3>
+          <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
+            A Unity URP world demo showing procedural terrain, biomes, geometry-shader grass, and C# systems architecture.
+          </p>
+          <span class="text-violet-700 text-sm font-medium group-hover:underline">Explore lab →</span>
+        </a>
+      </div>
+    </section>
 
     <ul class="mt-12 text-center text-sm text-gray-500 space-y-2">
       <li><a href="/portfolio/#contact" class="text-teal-600 hover:underline">Contact</a> · <a href="https://github.com/Tim-Creekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/timcreekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
