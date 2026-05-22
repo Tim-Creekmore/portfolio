@@ -71,6 +71,13 @@ Asset[Ss]tore[Tt]ools/
 sysinfo.txt
 crashlytics-buildid.txt
 
+# Unity URP/script upgrader logs (regenerated)
+**/UpgradeLog.htm
+
+# Node / Tailwind build
+node_modules/
+package-lock.json
+
 # Unity Bee build cache
 **/Library/Bee/
 

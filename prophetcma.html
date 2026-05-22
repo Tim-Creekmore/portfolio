@@ -3,102 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ProphetCMA Project | Timothy Creekmore</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="ProphetCMA: an R-based ensemble (GBM, XGBoost, kNN, Random Forest) that automates Comparative Market Analysis for residential real estate." />
+  <title>ProphetCMA — Real Estate Price Prediction | Timothy Creekmore</title>
+  <link rel="canonical" href="https://www.timothycreekmore.com/prophetcma.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23007BA7'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Timothy Creekmore" />
+  <meta property="og:title" content="ProphetCMA — Real Estate Price Prediction" />
+  <meta property="og:description" content="R-based ensemble model that automates Comparative Market Analysis for residential real estate." />
+  <meta property="og:url" content="https://www.timothycreekmore.com/prophetcma.html" />
+  <meta property="og:image" content="https://www.timothycreekmore.com/MAEresults.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ProphetCMA — Real Estate Price Prediction" />
+  <meta name="twitter:description" content="R-based ensemble model that automates Comparative Market Analysis for residential real estate." />
+  <meta name="twitter:image" content="https://www.timothycreekmore.com/MAEresults.png" />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800" data-hub="portfolio" data-site-theme="warm-dark">
 
-  <!-- Project Header -->
-  <section class="px-6 py-16 bg-white">
-    <div class="max-w-4xl mx-auto text-center">
-      <h1 class="text-4xl font-bold mb-4">🏡 ProphetCMA: Real Estate Price Prediction</h1>
-      <p class="text-lg text-gray-600">A machine learning approach to automate Comparative Market Analysis (CMA)</p>
-    </div>
-  </section>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
 
- <!-- Abstract Section -->
-<section class="px-6 py-10 bg-gray-50">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-2xl font-semibold mb-4">📄 Abstract</h2>
-    
-    <div>
-      <div id="abstractContainer" class="overflow-hidden max-h-60 transition-all duration-500 ease-in-out">
-        <p class="text-gray-700 leading-relaxed" id="abstractText">
-          <!-- 🔽 Paste your full abstract here -->
-  This project explores the application of machine learning (ML) for automating the Comparative Market Analysis (CMA) process in real estate valuation. Using a cleaned dataset of residential properties, we aimed to develop a predictive model that estimates the fair market price of a home based on characteristics such as square footage, number of bedrooms and bathrooms, acreage, and type of property. The goal was to provide real estate professionals, property investors, and homebuyers with a tool that can automate price prediction, removing the reliance on manual appraisals.
-
-We employed several supervised learning models, including Linear Regression, k-Nearest Neighbors (kNN), Random Forest, Gradient Boosting Machines (GBM), and XGBoost, followed by performance evaluation using Root Mean Square Error (RMSE) and Mean Absolute Error (MAE). Our best outcome came from blending the models, with an optimized blend of 15% XGBoost and 85% GBM, which achieved an Optimized Blend MAE of 6776.11 and an Optimized Blend RMSE of 11166.11. However, it’s important to note that the earlier, better results were likely due to overfitting, especially in specific price ranges.
-
-An attempt was made to apply data clustering as a preprocessing step to improve model performance. Unfortunately, this approach did not yield favorable results. Clustering caused problems, particularly in higher price ranges, where the predictions became too messy and inconsistent. The inclusion of price-derived features in the clustering led to imbalances, particularly for houses priced above $185k.
-
-Challenges and Limitations: Clustering Issues: Data clustering was initially used to group similar properties together, but it didn’t improve the model's accuracy. In the higher price ranges, clustering created erratic predictions due to a lack of sufficient data to represent these property types accurately.
-
-Overfitting: The earlier successes in model performance, especially with MAE and RMSE, were found to be a result of overfitting, particularly in the $130k to $185k price range. The model performed well within this price range but struggled to generalize for properties outside this range.
-
-Missing Features: The dataset, while comprehensive in basic real estate features (square footage, number of rooms, acreage), lacked important attributes such as year built, renovations, and additional property features like garages and pools. These gaps in data contributed to some inaccuracy in predictions, particularly for properties that had special features not captured in the dataset.        <!-- 🔼 -->
-      </p>
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
-      <button 
-        id="toggleButton" 
-        onclick="toggleAbstract()" 
-        class="mt-4 text-blue-600 hover:underline focus:outline-none text-sm font-medium">
-        See more ▼
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
       </button>
     </div>
-  </div>
-</section>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+    </div>
+  </nav>
 
+  <header id="main-content" class="pt-28 pb-12 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-teal-700 text-sm font-medium uppercase tracking-wide mb-2">Case study</p>
+      <h1 class="text-3xl md:text-4xl font-bold mb-3">ProphetCMA &mdash; Real Estate Price Prediction</h1>
+      <p class="text-lg text-gray-600">A machine-learning approach to automating Comparative Market Analysis (CMA)</p>
+    </div>
+  </header>
 
-  <!-- PNG Visuals -->
-  <section class="px-6 py-10 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-6">📸 Visualizations</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <img src="MAEresults.png" alt="Visualization 1" class="rounded-xl shadow" />
-        <!-- ➕ Add more <img> tags as needed -->
+  <section class="px-6 py-10 bg-gray-50">
+    <div class="max-w-4xl mx-auto grid sm:grid-cols-4 gap-4">
+      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
+        <p class="text-xs uppercase tracking-wide text-gray-500">MAE</p>
+        <p class="text-2xl font-bold text-gray-900 mt-1">6,776</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
+        <p class="text-xs uppercase tracking-wide text-gray-500">RMSE</p>
+        <p class="text-2xl font-bold text-gray-900 mt-1">11,166</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
+        <p class="text-xs uppercase tracking-wide text-gray-500">Blend</p>
+        <p class="text-2xl font-bold text-gray-900 mt-1">15 / 85</p>
+        <p class="text-[10px] text-gray-500 mt-1">XGBoost / GBM</p>
+      </div>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 text-center">
+        <p class="text-xs uppercase tracking-wide text-gray-500">Stack</p>
+        <p class="text-base font-semibold text-gray-900 mt-1">R</p>
+        <p class="text-[10px] text-gray-500 mt-1">caret + xgboost</p>
       </div>
     </div>
   </section>
 
-  <!-- Tools + Metrics -->
-  <section class="px-6 py-10 bg-gray-50">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-4">🛠 Tools & Performance</h2>
-      <ul class="list-disc list-inside text-gray-700 leading-loose">
-        <li><strong>Languages:</strong> R</li>
-        <li><strong>Models:</strong> GBM, XGBoost, kNN, Random Forest</li>
-        <li><strong>Techniques:</strong> Feature Engineering, Ensemble Blending, Cross-validation</li>
-        <li><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</li>
-      </ul>
+  <section class="px-6 py-12 bg-white">
+    <div class="max-w-4xl mx-auto space-y-8">
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Problem</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Comparative Market Analysis is the manual process real-estate agents use to price a home from recent comparable sales. It&rsquo;s slow, expert-dependent, and uneven across price tiers. The goal: an ML model that estimates fair market price from objective property features (square footage, beds/baths, acreage, property type) so the human stays in the loop on judgment, not arithmetic.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Approach</h2>
+        <p class="text-gray-700 leading-relaxed mb-3">
+          Trained and compared five supervised models on a cleaned dataset of residential properties: Linear Regression, k-Nearest Neighbors, Random Forest, Gradient Boosting Machines (GBM), and XGBoost. Evaluated on Mean Absolute Error (MAE) and Root Mean Square Error (RMSE) under cross-validation.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          The winning model was a blend &mdash; <strong>15% XGBoost + 85% GBM</strong> &mdash; reached via grid search over blend weights. The blend smoothed XGBoost&rsquo;s aggressive splits while keeping its sensitivity to feature interactions.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Results</h2>
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <img src="MAEresults.png" alt="MAE comparison chart across model variants" width="900" height="600" loading="lazy" class="rounded-xl shadow border border-gray-200" />
+          <ul class="space-y-2 text-gray-700">
+            <li><strong>Optimized Blend MAE:</strong> 6,776.11</li>
+            <li><strong>Optimized Blend RMSE:</strong> 11,166.11</li>
+            <li>Best performance concentrated in the $130k&ndash;$185k band where comp density is highest.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Challenges &amp; limitations</h2>
+        <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
+          <li>
+            <strong>Clustering as preprocessing hurt accuracy.</strong> Grouping by price-derived features caused class imbalance above $185k and produced erratic predictions for higher-end homes.
+          </li>
+          <li>
+            <strong>Overfitting concentrated in the middle band.</strong> Strong early scores were partly an artifact of dense data in the $130k&ndash;$185k range; generalization above and below that range was weaker.
+          </li>
+          <li>
+            <strong>Feature gaps mattered.</strong> Dataset lacked year built, renovation history, garages, pools, and condition grades &mdash; all of which materially move price. The model under-predicted homes with significant unmeasured upside.
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Next steps</h2>
+        <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
+          <li>Source a richer dataset that includes year built, condition, and renovation history.</li>
+          <li>Replace blanket clustering with hierarchical models per price tier.</li>
+          <li>Add SHAP-based explanations so the agent sees <em>why</em> a price came out where it did.</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-gray-200 pt-6 flex flex-wrap items-center justify-between gap-4">
+        <a href="/portfolio/#projects" class="text-teal-700 font-medium hover:underline">&larr; Back to portfolio</a>
+        <!-- TODO: swap to specific repo URL when public -->
+        <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+          <i class="fab fa-github" aria-hidden="true"></i> View code on GitHub
+        </a>
+      </div>
+
     </div>
   </section>
 
-  <!-- Back to Home -->
-  <section class="text-center py-10">
-    <a href="/portfolio/" class="text-blue-600 hover:underline text-lg">← Back to portfolio</a>
-  </section>
-
-  <footer class="text-center text-gray-500 text-sm py-6">
-    Built with 💻 and ☕ by Timothy Creekmore
+  <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white">
+    <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
+    <p class="mt-1 text-gray-400">
+      <a href="/" class="hover:text-gray-700">Home</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="/portfolio/#contact" class="hover:text-gray-700">Contact</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700">GitHub</a>
+    </p>
   </footer>
 
-<script>
-  function toggleAbstract() {
-    const container = document.getElementById('abstractContainer');
-    const button = document.getElementById('toggleButton');
-
-    if (container.classList.contains('max-h-60')) {
-      container.classList.remove('max-h-60');
-      container.classList.add('max-h-[2000px]'); // make it taller if necessary
-      button.textContent = 'See less ▲';
-    } else {
-      container.classList.remove('max-h-[2000px]');
-      container.classList.add('max-h-60');
-      button.textContent = 'See more ▼';
-    }
-  }
-</script>
-
-  
+  <script src="/assets/js/hub-nav.js" defer></script>
 </body>
 </html>

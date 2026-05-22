@@ -3,70 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Signature Data Extraction: a Python + Azure Document Intelligence pipeline that converts scanned signature sheets into structured CSV." />
   <title>Signature Data Extraction | Timothy Creekmore</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="canonical" href="https://www.timothycreekmore.com/signature-extraction.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23007BA7'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Timothy Creekmore" />
+  <meta property="og:title" content="Signature Data Extraction" />
+  <meta property="og:description" content="Python + Azure Document Intelligence pipeline that converts scanned signature sheets into structured CSV." />
+  <meta property="og:url" content="https://www.timothycreekmore.com/signature-extraction.html" />
+  <meta property="og:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Signature Data Extraction" />
+  <meta name="twitter:description" content="Python + Azure Document Intelligence pipeline that converts scanned signature sheets into structured CSV." />
+  <meta name="twitter:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800" data-hub="portfolio" data-site-theme="warm-dark">
 
-  <!-- Header -->
-  <header class="text-center py-10 bg-white shadow">
-    <h1 class="text-3xl font-bold">📝 Signature Data Extraction</h1>
-    <p class="text-sm text-gray-500 mt-2">Project by Timothy Creekmore</p>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
+
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+    </div>
+  </nav>
+
+  <header id="main-content" class="pt-28 pb-12 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-teal-700 text-sm font-medium uppercase tracking-wide mb-2">Case study</p>
+      <h1 class="text-3xl md:text-4xl font-bold mb-3">Signature Data Extraction</h1>
+      <p class="text-lg text-gray-600">Scanned petition sheets &rarr; structured CSV via OCR and validation</p>
+    </div>
   </header>
 
-  <!-- Content Section -->
-  <main class="max-w-4xl mx-auto px-6 py-12 space-y-8">
-    
-    <!-- Overview -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">🔍 Project Overview</h2>
-      <p class="text-gray-700">
-        This project aimed to automate the extraction of information from scanned signature sheets, converting them into a structured CSV format for later use and analysis. It was part of a larger initiative to evaluate public support based on signature collections across Arkansas.
-      </p>
-    </section>
+  <section class="px-6 py-12 bg-gray-50">
+    <div class="max-w-4xl mx-auto space-y-8">
 
-    <!-- Tools Used -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">🧰 Tools & Technologies</h2>
-      <ul class="list-disc list-inside text-gray-700">
-        <li>Python</li>
-        <li>Azure Document Intelligence (OCR)</li>
-        <li>Pandas / EDA</li>
-        <li>Machine Learning for Signature Validation</li>
-      </ul>
-    </section>
-
-    <!-- Goals -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">🎯 Project Goal</h2>
-      <p class="text-gray-700">
-        Convert a large batch of scanned signature sheets into a tabular CSV format, enabling easy analysis and aggregation of names, addresses, counties, and signature dates.
-      </p>
-    </section>
-
-    <!-- Results -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">📈 Outcome</h2>
-      <p class="text-gray-700">
-        The project was completed in-part. While the extraction of printed text (e.g., names, addresses, and counties) was successful, handwritten signatures proved to be a challenge due to OCR limitations. Future improvements include integrating handwriting recognition models or a human-in-the-loop validation workflow.
-      </p>
-    </section>
-
-    <!-- Screenshots or Visuals -->
-    <section>
-      <h2 class="text-2xl font-semibold mb-2">🖼️ Screenshots / Visuals</h2>
-      <p class="text-gray-600 mb-2">Example output, CSV snippet, or dashboard coming soon.</p>
-      <!-- Placeholder for visuals -->
-      <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-400 rounded-lg">
-        Screenshot Placeholder
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Problem</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Part of an effort to evaluate public support for a measure across Arkansas. Volunteers had collected thousands of paper petition sheets &mdash; printed fields for name, address, county, and date, plus a handwritten signature per row. The data had to land in a structured CSV before any analysis could begin, and manual entry was a non-starter at that volume.
+        </p>
       </div>
-    </section>
 
-    <!-- Back Link -->
-    <div class="text-center pt-8">
-      <a href="/portfolio/" class="text-blue-600 hover:underline">&larr; Back to portfolio</a>
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Approach</h2>
+        <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
+          <li>Scanned sheets ingested via Python; pre-processed for skew and contrast.</li>
+          <li>Field-level OCR with <strong>Azure Document Intelligence</strong> against a custom layout model trained on the petition format.</li>
+          <li>Extracted records normalized in pandas (county lookups, address splits) and written to CSV.</li>
+          <li>Validation pass on each row to flag low-confidence fields for human review.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Outcome</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Printed text &mdash; names, addresses, counties, dates &mdash; came through with high reliability and was usable for aggregation work downstream. <strong>Handwritten signatures</strong> were the hard problem: OCR confidence was low and validation was effectively human-in-the-loop. The pipeline shipped as &ldquo;completed in part&rdquo; &mdash; useful for the structured fields, with signature verification deferred to a follow-on workflow.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">What I&rsquo;d do differently</h2>
+        <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
+          <li>Stand up a lightweight reviewer UI for the low-confidence rows from day one.</li>
+          <li>Try a dedicated handwriting model (TrOCR or a specialized signature-verification network) for the signature box only.</li>
+          <li>Build a small held-out gold set up front so accuracy isn&rsquo;t measured by eyeballing CSV diffs.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold mb-3">Stack</h2>
+        <ul class="list-disc ml-6 space-y-1 text-gray-700">
+          <li>Python (pandas, Pillow)</li>
+          <li>Azure Document Intelligence (custom layout model)</li>
+          <li>CSV / Excel for downstream consumers</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-gray-200 pt-6 flex flex-wrap items-center justify-between gap-4">
+        <a href="/portfolio/#projects" class="text-teal-700 font-medium hover:underline">&larr; Back to portfolio</a>
+        <!-- TODO: swap to specific repo URL when public -->
+        <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+          <i class="fab fa-github" aria-hidden="true"></i> View code on GitHub
+        </a>
+      </div>
+
     </div>
-  </main>
+  </section>
 
+  <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white">
+    <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
+    <p class="mt-1 text-gray-400">
+      <a href="/" class="hover:text-gray-700">Home</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="/portfolio/#contact" class="hover:text-gray-700">Contact</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700">GitHub</a>
+    </p>
+  </footer>
+
+  <script src="/assets/js/hub-nav.js" defer></script>
 </body>
 </html>

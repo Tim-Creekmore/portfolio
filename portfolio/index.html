@@ -3,40 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Timothy Creekmore — portfolio: data science, ML, AI engineering, projects, and contact." />
-  <title>Portfolio | Timothy Creekmore</title>
-  <style>html { scroll-padding-top: 5.5rem; }</style>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/assets/css/hub.css" />
+  <meta name="description" content="Portfolio of Timothy Creekmore — data scientist and AI engineer. Projects in machine learning, predictive modeling, OCR, and LLM-backed tools." />
+  <title>Timothy Creekmore — Data Scientist &amp; AI Engineer | Portfolio</title>
+  <link rel="canonical" href="https://www.timothycreekmore.com/portfolio/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23007BA7'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Timothy Creekmore" />
+  <meta property="og:title" content="Timothy Creekmore — Data Scientist &amp; AI Engineer" />
+  <meta property="og:description" content="Portfolio: machine learning, predictive modeling, OCR, and LLM-backed tools." />
+  <meta property="og:url" content="https://www.timothycreekmore.com/portfolio/" />
+  <meta property="og:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <meta property="profile:first_name" content="Timothy" />
+  <meta property="profile:last_name" content="Creekmore" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Timothy Creekmore — Data Scientist &amp; AI Engineer" />
+  <meta name="twitter:description" content="Portfolio: machine learning, predictive modeling, OCR, and LLM-backed tools." />
+  <meta name="twitter:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Timothy Creekmore",
+    "url": "https://www.timothycreekmore.com/",
+    "image": "https://www.timothycreekmore.com/assets/images/og-card.png",
+    "jobTitle": "Data Scientist and AI Engineer",
+    "email": "mailto:timcreekmore2002@gmail.com",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Lyon College"
+    },
+    "knowsAbout": [
+      "Data Science",
+      "Machine Learning",
+      "AI Engineering",
+      "Python",
+      "R",
+      "Java",
+      "SQL"
+    ],
+    "sameAs": [
+      "https://github.com/Tim-Creekmore",
+      "https://www.linkedin.com/in/timcreekmore"
+    ]
+  }
+  </script>
 </head>
-<body class="bg-gray-100 text-gray-800" data-hub="portfolio">
+<body class="bg-gray-100 text-gray-800" data-hub="portfolio" data-site-theme="warm-dark">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
       <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
       <div class="hidden md:flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs font-medium text-gray-600 flex-1 min-w-0 pl-4">
         <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/shop/" class="hover:text-teal-600 transition" data-hub-link="shop">Shop</a>
         <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
-        <a href="/content/" class="hover:text-teal-600 transition" data-hub-link="content">Content</a>
         <a href="/portfolio/#about" class="hover:text-teal-600 transition">About</a>
         <a href="/portfolio/#projects" class="hover:text-teal-600 transition">Projects</a>
         <a href="/portfolio/#contact" class="hover:text-teal-600 transition">Contact</a>
         <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
       <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <i class="fas fa-bars text-xl" id="hub-nav-icon-open"></i>
-        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close"></i>
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
       </button>
     </div>
     <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95 max-h-[70vh] overflow-y-auto">
       <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
-      <a href="/shop/" class="py-2 hover:text-teal-600" data-hub-link="shop">Shop</a>
       <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
-      <a href="/content/" class="py-2 hover:text-teal-600" data-hub-link="content">Content</a>
       <a href="#about" class="py-2 hover:text-teal-600">About (this page)</a>
       <a href="#projects" class="py-2 hover:text-teal-600">Projects</a>
       <a href="#contact" class="py-2 hover:text-teal-600">Contact</a>
@@ -48,11 +87,11 @@
 
 
 
- <!-- Vanta Background -->
-  <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
+ <!-- Hero background (gradient fallback; Vanta swaps in on capable devices) -->
+  <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
 
   <!-- Hero Section -->
-  <section class="relative z-10 min-h-screen flex items-center justify-center px-4 pt-20">
+  <section id="main-content" class="relative z-10 min-h-screen flex items-center justify-center px-4 pt-20">
     <div class="text-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
         Timothy Creekmore
@@ -64,132 +103,154 @@
         <a href="/" class="underline decoration-white/40 hover:decoration-white">← Hub home</a>
       </p>
       <div class="flex justify-center gap-4">
-        <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">View Projects</a>
-        <a href="#about" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition">About Me</a>
+        <a href="#projects" class="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">View projects</a>
+        <a href="#about" class="px-6 py-3 border border-white/70 text-white rounded-xl hover:bg-white/10 transition">About me</a>
       </div>
     </div>
   </section>
 
 <section id="about" class="px-6 py-16 bg-gray-100">
-  <div class="max-w-5xl mx-auto text-left">
-    <h2 class="text-3xl font-bold text-center mb-10">Timothy Creekmore</h2>
-    
-    <!-- Name and College Information -->
-    <div class="text-center mb-6">
-      <p class="text-lg text-gray-700 mt-2">Lyon College &rsquo;25 graduate &mdash; Computer Science, Data Science, and applied ML</p>
-    </div>
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-3">About</h2>
+    <p class="text-center text-teal-700 font-medium tracking-wide uppercase text-sm mb-10">Data scientist &middot; ML practitioner &middot; AI engineer</p>
 
-    <!-- Bio Paragraph -->
-    <p class="text-lg text-gray-700 mt-6 mb-6 text-left">
-      I graduated from Lyon College in 2025 with dual degrees in Computer Science and Data Science. I care about turning raw data into clear decisions: machine learning, predictive modeling, visualization, and solid engineering around the whole pipeline. Lately I have leaned into <strong>AI engineering</strong> as well — LLM-backed tools, careful prompting and evaluation, and wiring models into reliable workflows alongside classic ML.
+    <p class="text-lg text-gray-700 mb-5 leading-relaxed">
+      I turn messy data into decisions people can act on. My core toolkit is classic ML and statistics &mdash; regression, tree ensembles, careful cross-validation &mdash; with growing depth in <strong>AI engineering</strong>: LLM-backed tools, prompt and workflow design, retrieval, and evaluation harnesses that keep models honest in production.
     </p>
-    <p class="text-lg text-gray-700 mb-6 text-left">
-      I am building portfolio projects and am always interested in roles where I can grow as a data scientist, ML engineer, or AI-minded builder.
+    <p class="text-lg text-gray-700 mb-5 leading-relaxed">
+      I picked up problem-solving the long way: six years working alongside my dad at <strong>Alpine Appliance</strong> diagnosing washers, dryers, and refrigerators before I ever wrote a Python script. That habit &mdash; observe, hypothesize, test, swap a part, repeat &mdash; is the same loop I use on a stubborn model now.
+    </p>
+    <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+      I&rsquo;m looking for roles where I can ship: <strong>data scientist</strong>, <strong>ML engineer</strong>, or <strong>AI engineer</strong>. Remote or relocate &mdash; comfortable owning a project end to end.
     </p>
 
-    <!-- Education Section -->
-    <div class="font-semibold mt-6 text-left">
-      Lyon College (2021&ndash;2025)
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-teal-600" aria-hidden="true"></span>
+          Education
+        </h3>
+        <p class="text-sm text-gray-600 mb-1">Lyon College &middot; 2021&ndash;2025</p>
+        <ul class="list-disc ml-5 mt-2 text-gray-700 text-sm space-y-1">
+          <li>B.A. Computer Science</li>
+          <li>B.S. Data Science</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+          Experience
+        </h3>
+        <p class="text-sm text-gray-600 mb-1">Alpine Appliance &middot; 2018&ndash;present (intermittent)</p>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Field appliance-repair technician; later refurbishing and reselling used appliances. Built the habits &mdash; root-cause diagnosis, working with documentation, telling a customer the truth &mdash; that I carry into every codebase.
+        </p>
+      </div>
     </div>
-    <ul class="list-disc ml-6 mt-2 text-gray-700 text-left">
-      <li>Bachelor of Arts in Computer Science</li>
-      <li>Bachelor of Science in Data Science</li>
-    </ul>
   </div>
 </section>
 
 
   <section id="skills" class="px-6 py-16" style="background-color: #007BA7;">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-center text-white mb-10">Skills</h2>
+    <h2 class="text-3xl font-bold text-center text-white mb-3">Skills</h2>
+    <p class="text-center text-teal-100 text-sm mb-10">Languages and toolkits I reach for, with the libraries I actually use.</p>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Java -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">☕</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Java</h3>
-        <p class="text-sm text-gray-700">
-          I have over 6 years experience in Java, creating games, small-apps and various other applications.
-        </p>
-      </div>
-
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Python -->
       <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🐍</span>
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-python-plain colored" aria-hidden="true"></i>
         </div>
         <h3 class="text-xl font-semibold mb-2">Python</h3>
-        <p class="text-sm text-gray-700">
-          Over the past 3 years, I have extensive experience with Python in research, coursework, and personal projects.
+        <p class="text-sm text-gray-700 mb-3">
+          3+ years across research, coursework, and shipping projects. My default language for data work and back-end glue.
         </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> pandas, NumPy, scikit-learn, PyTorch, FastAPI, Selenium, BeautifulSoup</p>
       </div>
 
       <!-- R -->
       <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">📊</span>
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-r-plain colored" aria-hidden="true"></i>
         </div>
         <h3 class="text-xl font-semibold mb-2">R</h3>
-        <p class="text-sm text-gray-700">
-          Skilled in R for statistical analysis, data visualization, and machine learning applications.
+        <p class="text-sm text-gray-700 mb-3">
+          My go-to for statistical modeling and quick visualization. Used heavily on ProphetCMA for ensemble tuning.
         </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> tidyverse, ggplot2, caret, xgboost, gbm, randomForest</p>
       </div>
 
-      <!-- Js/HTML/CSS -->
+      <!-- Machine Learning -->
       <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">💻</span>
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-tensorflow-original colored" aria-hidden="true"></i>
         </div>
-        <h3 class="text-xl font-semibold mb-2">JavaScript, HTML, CSS</h3>
-        <p class="text-sm text-gray-700">
-          Over 4 years of experience using JavaScript, HTML, and CSS.
+        <h3 class="text-xl font-semibold mb-2">Machine Learning</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          Classical ML across regression, tree ensembles, kNN, and blending. Comfortable with cross-validation, leakage checks, and honest metric reporting.
         </p>
-      </div>
-
-      <!-- C/C++ -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">💾</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">C/C++</h3>
-        <p class="text-sm text-gray-700">
-          2 years of experience programming in C++ with projects in coursework.
-        </p>
-      </div>
-
-      <!-- Machine Learning/AI -->
-      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🤖</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Machine Learning / AI</h3>
-        <p class="text-sm text-gray-700">
-          I have worked on machine learning projects in my coursework using various libraries from languages such as R and Python.
-        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> scikit-learn, XGBoost, GBM, Random Forest, Optuna</p>
       </div>
 
       <!-- AI engineering -->
       <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🧠</span>
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-openai-original" aria-hidden="true" style="color:#10A37F;"></i>
         </div>
         <h3 class="text-xl font-semibold mb-2">AI engineering</h3>
-        <p class="text-sm text-gray-700">
-          Practical work with modern AI stacks: API integration, prompt and workflow design, evaluation of model outputs, and shipping assistants and automations that stay maintainable next to traditional code.
+        <p class="text-sm text-gray-700 mb-3">
+          LLM-backed tools end to end: API integration, prompt and workflow design, retrieval, and evaluation that catches regressions before users do.
         </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> OpenAI / Anthropic SDKs, LangChain, vector DBs (pgvector / Chroma), Pydantic, eval harnesses</p>
       </div>
 
-      <!-- SQL/SQLite -->
+      <!-- SQL -->
       <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-center text-4xl mb-4">
-          <span class="text-yellow-500">🗃️</span>
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-postgresql-plain colored" aria-hidden="true"></i>
         </div>
-        <h3 class="text-xl font-semibold mb-2">SQL / SQLite</h3>
-        <p class="text-sm text-gray-700">
-          Experienced in SQL for managing databases, including SQLite for efficient data storage and retrieval in various projects.
+        <h3 class="text-xl font-semibold mb-2">SQL</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          Window functions, CTEs, query planning. Comfortable in Postgres and SQLite; happy living in the query plan when something is slow.
         </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> PostgreSQL, SQLite, pgvector, sqlalchemy</p>
+      </div>
+
+      <!-- Java -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-java-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Java</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          6+ years; my first serious language. Used for games, small apps, and OOP-heavy coursework.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> JavaFX, JUnit, Maven, LWJGL</p>
+      </div>
+
+      <!-- Web -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-javascript-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">JavaScript, HTML, CSS</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          4+ years building front-ends. This site is hand-rolled HTML + Tailwind; comfortable picking up frameworks when a project demands them.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> Vanilla JS, Tailwind CSS, React (when needed), Vite</p>
+      </div>
+
+      <!-- C/C++ -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-cplusplus-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">C / C++</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          2 years through coursework. Useful when I need to read library internals or care about memory layout.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> STL, CMake, gdb</p>
       </div>
     </div>
   </div>
@@ -199,57 +260,90 @@
   <!-- Projects Section -->
   <section id="projects" class="relative z-10 px-6 py-16 bg-white">
     <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-10">Projects</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- ProphetCMA Project Card -->
-        <a href="/prophetcma.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">🏡 ProphetCMA: Real Estate Price Prediction</h3>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
-          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate the CMA process to predict house sale prices based on historical data and key property features.</p>
-          <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized Blend — MAE: 6,776.11 | RMSE: 11,166.11</p>
-          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-        </a>
+      <h2 class="text-3xl font-bold text-center mb-3">Projects</h2>
+      <p class="text-center text-gray-600 text-sm mb-10">Featured work, then what&rsquo;s next on deck.</p>
 
-        <!-- Signature Data Extraction Project Card -->
-        <a href="/signature-extraction.html" class="block p-6 bg-gray-50 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">Signature Data Extraction</h3>
-          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure, EDA, Machine Learning, OCR</p>
-          <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Take scanned signature sheets and put the contents in a CSV file for later use.</p>
-          <p class="text-sm text-gray-700"><strong>Result:</strong> Completed in-part. Handwritten signatures proved a challenge in this context.</p>
-          <div class="mt-4 text-blue-600 font-medium hover:underline">📊 See Full Project</div>
-        </a>
+      <h3 class="text-sm font-semibold text-teal-700 tracking-wide uppercase mb-4">Featured</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-12">
 
-          <!-- Local Store Price Scraper Project Card -->
-<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
-  <h3 class="text-xl font-semibold mb-2">🛒 Local Store Price Scraper - InProgress</h3>
-  <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Pandas</p>
-  <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Scrape and display current prices of building supplies from several stores (like 2x4s, drywall, and paint), showing which stores have best prices for key items.</p>
-          <p class="text-sm text-gray-700"><strong>Status:</strong> Prototype complete — proof of concept built using HTML snapshot parsing and dynamic content handling. Experimenting with Scrapy (Python web scraping). Feel free to ask questions.</p>
-          <div class="mt-4 text-gray-600 font-medium">🔍 In development</div>
-</div>
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <a href="/prophetcma.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">ProphetCMA &mdash; Real Estate Price Prediction</h4>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate Comparative Market Analysis &mdash; predict sale prices from historical comps and property features.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized blend (15% XGBoost / 85% GBM) &mdash; MAE 6,776 &middot; RMSE 11,166</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/prophetcma.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="ProphetCMA on GitHub">
+              <i class="fab fa-github" aria-hidden="true"></i> Code
+            </a>
+          </div>
+        </article>
 
-<!-- Local Store Online Pricing Project Card -->
-<div class="block p-6 bg-gray-50 rounded-2xl shadow transition">
-  <h3 class="text-xl font-semibold mb-2">🛍️ Local Store Pricing System Sync - InProgress</h3>
-  <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, HTML/CSS, CSV, Google Sheets, Render</p>
-  <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Help local stores without online catalogs provide real-time pricing by connecting their current inventory system to a searchable website.</p>
-  <p class="text-sm text-gray-700"><strong>Progress:</strong> Prototype in development; in talks with a store owner to get API access and start website synchronization. Feel free to ask questions.</p>
-  <div class="mt-4 text-gray-600 font-medium">📊 In R&amp;D phase</div>
-</div>
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <a href="/signature-extraction.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">Signature Data Extraction</h4>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure Document Intelligence, pandas, OCR</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Convert scanned signature sheets into a structured CSV for downstream analysis.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Printed fields (name, address, county) extracted cleanly; handwritten signatures flagged for human review.</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/signature-extraction.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="Signature Extraction on GitHub">
+              <i class="fab fa-github" aria-hidden="true"></i> Code
+            </a>
+          </div>
+        </article>
 
+      </div>
 
+      <h3 class="text-sm font-semibold text-amber-700 tracking-wide uppercase mb-4">In progress</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Building</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">AI engineering sandbox</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> OpenAI / Anthropic APIs, LangChain, pgvector, eval harness</p>
+          <p class="text-sm text-gray-700">A small set of LLM demos &mdash; a RAG pipeline, a structured-output extractor, and an eval suite that fails loudly when prompts drift. Notebook + repo link landing here soon.</p>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Prototype</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Local Store Price Scraper</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Scrapy, pandas</p>
+          <p class="text-sm text-gray-700">Compare building-supply prices across local stores (2x4s, drywall, paint). Proof of concept handles HTML snapshots and dynamic content; migrating crawl to Scrapy.</p>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">R&amp;D</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Store Pricing Sync</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, Google Sheets API, Render</p>
+          <p class="text-sm text-gray-700">Help local stores without online catalogs surface real-time prices on a searchable website by bridging their inventory system. In talks with a store owner for API access.</p>
+        </article>
 
       </div>
     </div>
   </section>
 
-  <section id="thesis" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
+  <section id="cover-letter" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl font-bold mb-4">Cover letter</h2>
       <p class="text-lg text-gray-700 mb-8">
         For hiring teams and introductions, you can download my cover letter as a PDF. You can also reach me directly in the contact section below.
       </p>
-      <a href="/cover-letter.pdf" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium">
+      <a href="/coverletter.pdf" class="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-medium">
         Download cover letter (PDF)
       </a>
     </div>
@@ -258,48 +352,49 @@
   <!-- Contact Section -->
 <section id="contact" class="px-6 py-16 bg-gray-100">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-10">Contact Me</h2>
+    <h2 class="text-3xl font-bold text-center mb-10">Contact</h2>
 
     <p id="form-thanks" class="hidden text-center text-green-700 font-medium mb-6" role="status">
       Thanks — your message was sent. I will get back to you soon.
     </p>
 
     <div class="text-center mb-8">
-      <p class="text-lg text-gray-700">📧 Email me at: 
-        <a href="mailto:timcreekmore2002@gmail.com" class="text-blue-600 hover:underline">
-          timcreekmore2002@gmail.com
-        </a>
+      <p class="text-lg text-gray-700">
+        <i class="fas fa-envelope text-teal-700 mr-2" aria-hidden="true"></i>
+        <a id="contact-email" href="#contact" data-user="timcreekmore2002" data-domain="gmail.com" class="text-teal-700 hover:underline">click to reveal email</a>
       </p>
-      <!-- You could add a number here if you really want, but not recommended for public security -->
     </div>
 
+    <!--
+      The form's `action` attribute currently posts to the raw Gmail address, which exposes it in HTML to scrapers.
+      Recommended: in your FormSubmit dashboard, activate the hashed endpoint (formsubmit.co/el/<random>)
+      and replace the action URL below.
+    -->
     <form action="https://formsubmit.co/timcreekmore2002@gmail.com" method="POST" class="grid gap-6">
       <input type="hidden" name="_subject" value="Message from timothycreekmore.com /portfolio" />
       <input type="hidden" name="_next" value="https://www.timothycreekmore.com/portfolio/?sent=1" />
-      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
-      </div>
+      <input type="hidden" name="_captcha" value="true" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
       <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (optional)</label>
-        <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200" autocomplete="name" />
       </div>
 
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200" />
+        <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200" autocomplete="email" />
       </div>
 
       <div>
         <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-blue-200"></textarea>
+        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200"></textarea>
       </div>
 
       <div class="text-center">
-        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
-          Send Message
+        <button type="submit" class="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">
+          Send message
         </button>
       </div>
     </form>
@@ -309,78 +404,55 @@
 
   <!-- Social + Contact Links -->
   <div class="relative z-10 flex justify-center gap-6 py-8">
-    <a href="https://github.com/Tim-Creekmore" target="_blank" class="text-gray-600 hover:text-black text-2xl" title="GitHub">
-      <i class="fab fa-github"></i>
+    <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-black text-2xl" aria-label="GitHub profile" title="GitHub">
+      <i class="fab fa-github" aria-hidden="true"></i>
     </a>
-    <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" class="text-blue-600 hover:text-blue-800 text-2xl" title="LinkedIn">
-      <i class="fab fa-linkedin"></i>
+    <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-2xl" aria-label="LinkedIn profile" title="LinkedIn">
+      <i class="fab fa-linkedin" aria-hidden="true"></i>
     </a>
   </div>
 
   <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-6 relative z-10">
-    Built with 💻 and ☕ by Timothy Creekmore
+  <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white relative z-10">
+    <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
+    <p class="mt-1 text-gray-400">
+      <a href="/" class="hover:text-gray-700">Home</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="/portfolio/#contact" class="hover:text-gray-700">Contact</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700">GitHub</a>
+    </p>
   </footer>
 
-  <!-- About Me Overlay  _commenting this out aswell for now_
-  <div id="aboutOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-    <div class="bg-white max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl p-8 shadow-lg relative">
-      <button onclick="toggleAbout()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
-      <h2 class="text-2xl font-bold mb-4">👨‍💻 About Me</h2>
-      <p class="mb-4">
-        Hey, I'm Timothy Creekmore — a Data/Computer Scientist with a love for all things technical. Whether it’s computers, the intricacies of sports, or the stock market, it really doesn't matter — I find joy in things with a high skill ceiling that I can improve at over time.
-      </p>
-      <p class="mb-4">
-        This probably all started when I was 12. I played (and still do) the online game <em>World of Tanks</em> on an old Acer laptop my parents gave me. That laptop constantly overheated, so I had to take it apart and clean out the exhaust fan. After that, it worked great. From then on, I’ve always had a love for computers.
-      </p>
-      <p class="mb-4">
-        As I got older, my dad roped me into becoming an appliance repair technician at 16. I worked for his company — Alpine Appliance — off and on for about six years while juggling school and college. That job helped me develop real technical skills in diagnosing and solving problems. Eventually, I transitioned into the used appliance market — kind of like flipping cars, but smaller. Everyone needs appliances. Now, I’ll occasionally find broken ones, fix them, and resell them — using the same skills I started developing at 12 and sharpened on the job.
-      </p>
-      <p class="mb-4">
-        Today, I’m fascinated by data and machine learning. Being able to harness insights from data is like having a superpower — and with how fast data is growing, there’s never been a better time to dive in. I’m especially passionate about projects that give people the ability to make better-informed decisions.
-      </p>
-      <p class="mb-4">
-        When I’m not working on a portfolio project, you’ll most likely find me playing strategy games, playing sports, or fixing a washer under my porch.
-      </p>
-      <p class="mb-4">
-        I’m married to my beautiful wife, Elise, and one of our big goals is to start a homestead on a nice piece of land — and somehow raise 8 kids. But for now, we’re just taking it one day at a time.
-      </p>
-    </div>
-  </div>
-  -->
-  
-  <!-- comment out the about me popup
-
-  <script>
-    function toggleAbout() {
-      const overlay = document.getElementById("aboutOverlay");
-      overlay.classList.toggle("hidden");
-      overlay.classList.toggle("flex");
-    }
-  </script>
-  -->
-    
   <script src="/assets/js/hub-nav.js" defer></script>
   <script>
-    if (new URLSearchParams(window.location.search).get('sent') === '1') {
-      var thanks = document.getElementById('form-thanks');
-      if (thanks) thanks.classList.remove('hidden');
-    }
-    VANTA.NET({
-      el: "#vanta-bg",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      color: 0x6d7af0,
-      backgroundColor: 0x0,
-      points: 20.00,
-      maxDistance: 29.00,
-      spacing: 20.00
-    })
+    (function () {
+      if (new URLSearchParams(window.location.search).get('sent') === '1') {
+        var thanks = document.getElementById('form-thanks');
+        if (thanks) thanks.classList.remove('hidden');
+      }
+
+      var emailEl = document.getElementById('contact-email');
+      if (emailEl) {
+        var revealEmail = function () {
+          var addr = emailEl.dataset.user + '@' + emailEl.dataset.domain;
+          emailEl.href = 'mailto:' + addr;
+          emailEl.textContent = addr;
+          emailEl.removeEventListener('mouseenter', revealEmail);
+          emailEl.removeEventListener('focus', revealEmail);
+          emailEl.removeEventListener('click', onClickReveal);
+        };
+        var onClickReveal = function (e) {
+          if (emailEl.getAttribute('href') === '#contact') {
+            e.preventDefault();
+            revealEmail();
+          }
+        };
+        emailEl.addEventListener('mouseenter', revealEmail);
+        emailEl.addEventListener('focus', revealEmail);
+        emailEl.addEventListener('click', onClickReveal);
+      }
+    })();
   </script>
 
 </body>

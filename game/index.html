@@ -3,22 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Medieval world demo — Unity URP. Timothy Creekmore." />
-  <title>Game | Timothy Creekmore</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/assets/css/hub.css" />
+  <meta name="description" content="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass. Timothy Creekmore." />
+  <title>Voxel game — In dev | Timothy Creekmore</title>
+  <link rel="canonical" href="https://www.timothycreekmore.com/game/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23007BA7'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Timothy Creekmore" />
+  <meta property="og:title" content="Voxel game — In dev | Timothy Creekmore" />
+  <meta property="og:description" content="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass." />
+  <meta property="og:url" content="https://www.timothycreekmore.com/game/" />
+  <meta property="og:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Voxel game — In dev | Timothy Creekmore" />
+  <meta name="twitter:description" content="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass." />
+  <meta name="twitter:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body class="min-h-screen bg-slate-950 text-gray-100 antialiased" data-hub="game">
+<body class="min-h-screen bg-slate-950 text-gray-100 antialiased" data-hub="game" data-site-theme="warm-dark">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
 
   <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-violet-500/20 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
       <a href="/" class="font-semibold text-white shrink-0 hover:text-violet-300 transition" data-hub-link="home">Timothy Creekmore</a>
       <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
         <a href="/portfolio/" class="hover:text-violet-400 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/shop/" class="hover:text-violet-400 transition" data-hub-link="shop">Shop</a>
         <a href="/game/" class="hover:text-violet-400 transition" data-hub-link="game">Game</a>
-        <a href="/content/" class="hover:text-violet-400 transition" data-hub-link="content">Content</a>
         <a href="/resume.pdf" class="hover:text-violet-400 transition">Resume</a>
       </div>
       <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
@@ -28,14 +41,12 @@
     </div>
     <div id="hub-mobile-nav" class="hidden md:hidden border-t border-violet-500/20 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-slate-200 bg-slate-900/95">
       <a href="/portfolio/" class="py-2 hover:text-violet-400" data-hub-link="portfolio">Portfolio</a>
-      <a href="/shop/" class="py-2 hover:text-violet-400" data-hub-link="shop">Shop</a>
       <a href="/game/" class="py-2 hover:text-violet-400" data-hub-link="game">Game</a>
-      <a href="/content/" class="py-2 hover:text-violet-400" data-hub-link="content">Content</a>
       <a href="/resume.pdf" class="py-2 hover:text-violet-400">Resume</a>
     </div>
   </nav>
 
-  <div class="pt-24 px-4 pb-16 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
+  <main id="main-content" class="pt-24 px-4 pb-16 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
 
     <div class="text-center max-w-lg">
       <div class="mb-8">
@@ -59,7 +70,18 @@
       &nbsp;&middot;&nbsp;
       <a href="/portfolio/#contact" class="text-violet-400 hover:underline">Contact</a>
     </div>
-  </div>
+  </main>
+
+  <footer class="text-center text-slate-500 text-sm py-8 border-t border-violet-500/20 bg-slate-900/40">
+    <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
+    <p class="mt-1 text-slate-600">
+      <a href="/" class="hover:text-violet-300">Home</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="/portfolio/#contact" class="hover:text-violet-300">Contact</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-violet-300">GitHub</a>
+    </p>
+  </footer>
 
   <script src="/assets/js/hub-nav.js" defer></script>
 </body>
