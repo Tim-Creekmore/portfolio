@@ -2,26 +2,442 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { getCollection } from 'astro:content';
-
-const projects = await getCollection('projects');
 ---
-<BaseLayout title="Portfolio | Timothy Creekmore" description="Portfolio source scaffold for Timothy Creekmore." active="portfolio">
-  <Nav active="portfolio" />
-  <main id="main-content" class="px-6 pt-28 pb-16">
-    <section class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
-      <p class="eyebrow mb-4">Portfolio source</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Projects from content collections</h1>
-      <div class="grid md:grid-cols-2 gap-5">
-        {projects.map((project) => (
-          <a href={project.data.url} class="metric-card p-5 block">
-            <p class="eyebrow mb-2">{project.data.status}</p>
-            <h2 class="text-xl font-semibold text-gray-900 mb-2">{project.data.title}</h2>
-            <p class="text-sm text-gray-700">{project.data.summary}</p>
-          </a>
-        ))}
+<BaseLayout
+  title="Portfolio | Timothy Creekmore — Software Developer & AI/Data Builder"
+  description="Portfolio of Timothy Creekmore — junior software developer, AI/data builder, and systems thinker. Projects in software, ML, OCR, AI workflows, and Unity systems."
+  ogTitle="Timothy Creekmore — Software Developer & AI/Data Builder"
+  ogDescription="Portfolio: production software experience, machine learning, OCR/data extraction, AI workflows, and Unity systems."
+  ogType="profile"
+  active="portfolio"
+  bodyClass="bg-gray-100 text-gray-800"
+>
+  <Nav variant="portfolio" />
+  <section id="main-content" class="relative z-10 min-h-screen flex items-center justify-center px-4 pt-20">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
+        Timothy Creekmore
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-200 mb-2">
+        Junior Software Developer | AI/Data Builder | Systems Thinker
+      </p>
+      <p class="text-base md:text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+        <a href="/" class="underline decoration-white/40 hover:decoration-white">← Hub home</a>
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="#projects" class="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">View projects</a>
+        <a href="/resume.pdf" data-analytics="Resume Download Hero" class="px-6 py-3 border border-amber-200/70 text-amber-100 rounded-xl hover:bg-white/10 transition">Download resume</a>
+        <a href="#about" class="px-6 py-3 border border-white/70 text-white rounded-xl hover:bg-white/10 transition">About me</a>
       </div>
-    </section>
-  </main>
-  <Footer />
+    </div>
+  </section>
+
+<section id="about" class="px-6 py-16 bg-gray-100">
+  <div class="max-w-4xl mx-auto glass-panel p-6 md:p-10">
+    <h2 class="text-3xl font-bold text-center mb-3">About</h2>
+    <p class="text-center text-teal-700 font-medium tracking-wide uppercase text-sm mb-10">Data scientist &middot; ML practitioner &middot; AI engineer</p>
+
+    <p class="text-lg text-gray-700 mb-5 leading-relaxed">
+      I turn messy data into decisions people can act on. My core toolkit is classic ML and statistics &mdash; regression, tree ensembles, careful cross-validation &mdash; with growing depth in <strong>AI engineering</strong>: LLM-backed tools, prompt and workflow design, retrieval, and evaluation harnesses that keep models honest in production.
+    </p>
+    <p class="text-lg text-gray-700 mb-5 leading-relaxed">
+      I picked up problem-solving the long way: six years working alongside my dad at <strong>Alpine Appliance</strong> diagnosing washers, dryers, and refrigerators before I ever wrote a Python script. That habit &mdash; observe, hypothesize, test, swap a part, repeat &mdash; is the same loop I use on a stubborn model now.
+    </p>
+    <p class="text-lg text-gray-700 mb-5 leading-relaxed">
+      I&rsquo;m currently working as a <strong>Junior Software Developer at Lifeplus</strong>, building production software, fixing bugs, supporting internal workflows, and learning from a real software team.
+    </p>
+    <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+      My personal brand sits at the overlap of <strong>software craft</strong>, <strong>AI/data systems</strong>, and <strong>hands-on troubleshooting</strong>.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      <div class="metric-card p-6">
+        <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-teal-600" aria-hidden="true"></span>
+          Education
+        </h3>
+        <p class="text-sm text-gray-600 mb-1">Lyon College &middot; 2021&ndash;2025</p>
+        <ul class="list-disc ml-5 mt-2 text-gray-700 text-sm space-y-1">
+          <li>B.A. Computer Science</li>
+          <li>B.S. Data Science</li>
+        </ul>
+      </div>
+      <div class="metric-card p-6">
+        <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+          Current work
+        </h3>
+        <p class="text-sm text-gray-600 mb-1">Lifeplus &middot; June 2025&ndash;present</p>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Junior Software Developer working on production software, bug fixes, internal tools, workflow support, and practical debugging.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="current-focus" class="px-6 py-16 bg-white">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-3 text-center">Current Focus</p>
+      <h2 class="text-3xl font-bold text-center mb-3">What I&rsquo;m building right now</h2>
+      <p class="text-center text-gray-600 text-sm max-w-2xl mx-auto mb-10">
+        This is the live snapshot of the brand: production software at work, AI/data projects in public, and systems experiments that keep me sharp.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <article class="metric-card p-5">
+          <p class="eyebrow mb-2">Software craft</p>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Lifeplus</h3>
+          <p class="text-sm text-gray-700">Junior Software Developer working on production features, bug fixes, internal tooling, and workflow support.</p>
+        </article>
+        <article class="metric-card p-5">
+          <p class="eyebrow mb-2">AI/Data</p>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Portfolio projects</h3>
+          <p class="text-sm text-gray-700">ProphetCMA, OCR extraction, and a planned AI engineering sandbox around structured extraction and eval workflows.</p>
+        </article>
+        <article class="metric-card p-5">
+          <p class="eyebrow mb-2">Systems</p>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Game lab</h3>
+          <p class="text-sm text-gray-700">Unity URP world-building with procedural terrain, biome assets, C# tooling, and visual polish.</p>
+        </article>
+        <article class="metric-card p-5">
+          <p class="eyebrow mb-2">Direction</p>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Field notes</h3>
+          <p class="text-sm text-gray-700">Short practical writing on software lessons, AI/ML experiments, game systems, and repair-to-software thinking.</p>
+        </article>
+        <article class="metric-card p-5">
+          <p class="eyebrow mb-2">Open to</p>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Good technical conversations</h3>
+          <p class="text-sm text-gray-700">Software, data, ML/AI workflows, game systems, and practical lessons from building and repairing things.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Projects Section -->
+  <section id="projects" class="relative z-10 px-6 py-16 bg-white">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <h2 class="text-3xl font-bold text-center mb-3">Projects</h2>
+      <p class="text-center text-gray-600 text-sm mb-10">Featured work, then what&rsquo;s next on deck.</p>
+
+      <h3 class="text-sm font-semibold text-teal-700 tracking-wide uppercase mb-4">Featured</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-12">
+
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <div class="h-40 border-b border-gray-200 bg-gray-100 flex items-center justify-center overflow-hidden">
+            <img src="/MAEresults.png" alt="ProphetCMA model error visualization" class="h-full w-full object-cover opacity-80" loading="lazy" />
+          </div>
+          <a href="/prophetcma.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">ProphetCMA &mdash; Real Estate Price Prediction</h4>
+            <div class="flex flex-wrap gap-2 mb-3 text-xs">
+              <span class="metric-card px-2.5 py-1">MAE 6,776</span>
+              <span class="metric-card px-2.5 py-1">RMSE 11,166</span>
+              <span class="metric-card px-2.5 py-1">15/85 blend</span>
+            </div>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> R, GBM, XGBoost, kNN, Random Forest</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Automate Comparative Market Analysis &mdash; predict sale prices from historical comps and property features.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Optimized blend (15% XGBoost / 85% GBM) &mdash; MAE 6,776 &middot; RMSE 11,166</p>
+            <p class="text-sm text-gray-700 mt-3"><strong>Lesson:</strong> the honest value came from finding where the model generalized and where it didn&rsquo;t.</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/prophetcma.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="ProphetCMA on GitHub">
+              Code
+            </a>
+          </div>
+        </article>
+
+        <article class="flex flex-col bg-gray-50 rounded-2xl shadow border border-gray-200 hover:shadow-lg transition overflow-hidden">
+          <div class="h-40 border-b border-gray-200 bg-gray-100 p-5 flex items-center justify-center">
+            <div class="w-full grid grid-cols-4 gap-2 text-center text-[10px] text-gray-600">
+              <span class="metric-card p-2">Scans</span>
+              <span class="metric-card p-2">OCR</span>
+              <span class="metric-card p-2">Validate</span>
+              <span class="metric-card p-2">CSV</span>
+            </div>
+          </div>
+          <a href="/signature-extraction.html" class="block p-6 flex-1">
+            <h4 class="text-xl font-semibold mb-2">Signature Data Extraction</h4>
+            <div class="flex flex-wrap gap-2 mb-3 text-xs">
+              <span class="metric-card px-2.5 py-1">OCR</span>
+              <span class="metric-card px-2.5 py-1">Human review</span>
+              <span class="metric-card px-2.5 py-1">CSV pipeline</span>
+            </div>
+            <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Azure Document Intelligence, pandas, OCR</p>
+            <p class="text-sm text-gray-700 mb-2"><strong>Goal:</strong> Convert scanned signature sheets into a structured CSV for downstream analysis.</p>
+            <p class="text-sm text-gray-700"><strong>Result:</strong> Printed fields (name, address, county) extracted cleanly; handwritten signatures flagged for human review.</p>
+            <p class="text-sm text-gray-700 mt-3"><strong>Lesson:</strong> OCR projects need a human-in-the-loop path designed from day one.</p>
+          </a>
+          <div class="px-6 py-3 border-t border-gray-200 flex items-center justify-between text-sm">
+            <a href="/signature-extraction.html" class="text-teal-700 font-medium hover:underline">Read case study &rarr;</a>
+            <!-- TODO: swap to specific repo URL when public -->
+            <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900" aria-label="Signature Extraction on GitHub">
+              Code
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <h3 class="text-sm font-semibold text-amber-700 tracking-wide uppercase mb-4">In progress</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Building</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">AI engineering sandbox</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> OpenAI / Anthropic APIs, LangChain, pgvector, eval harness</p>
+          <p class="text-sm text-gray-700">A small set of LLM demos &mdash; a RAG pipeline, a structured-output extractor, and an eval suite that fails loudly when prompts drift. Notebook + repo link landing here soon.</p>
+          <a href="/ai-engineering-sandbox.html" class="glow-link inline-block mt-4 text-sm">View planned architecture &rarr;</a>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">Prototype</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Local Store Price Scraper</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Selenium, BeautifulSoup, Scrapy, pandas</p>
+          <p class="text-sm text-gray-700">Compare building-supply prices across local stores (2x4s, drywall, paint). Proof of concept handles HTML snapshots and dynamic content; migrating crawl to Scrapy.</p>
+        </article>
+
+        <article class="p-5 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
+            <span class="text-xs text-amber-700 font-medium uppercase tracking-wide">R&amp;D</span>
+          </div>
+          <h4 class="text-lg font-semibold mb-2">Store Pricing Sync</h4>
+          <p class="text-sm text-gray-700 mb-2"><strong>Tools:</strong> Python, Flask, Google Sheets API, Render</p>
+          <p class="text-sm text-gray-700">Help local stores without online catalogs surface real-time prices on a searchable website by bridging their inventory system. In talks with a store owner for API access.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="px-6 py-16" style="background-color: #007BA7;">
+  <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+    <h2 class="text-3xl font-bold text-center text-white mb-3">Skills</h2>
+    <p class="text-center text-teal-100 text-sm mb-10">Languages and toolkits behind the projects above.</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Python -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-python-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Python</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          3+ years across research, coursework, and shipping projects. My default language for data work and back-end glue.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> pandas, NumPy, scikit-learn, PyTorch, FastAPI, Selenium, BeautifulSoup</p>
+      </div>
+
+      <!-- R -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-r-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">R</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          My go-to for statistical modeling and quick visualization. Used heavily on ProphetCMA for ensemble tuning.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> tidyverse, ggplot2, caret, xgboost, gbm, randomForest</p>
+      </div>
+
+      <!-- Machine Learning -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-tensorflow-original colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Machine Learning</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          Classical ML across regression, tree ensembles, kNN, and blending. Comfortable with cross-validation, leakage checks, and honest metric reporting.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> scikit-learn, XGBoost, GBM, Random Forest, Optuna</p>
+      </div>
+
+      <!-- AI engineering -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-openai-original" aria-hidden="true" style="color:#10A37F;"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">AI engineering</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          LLM-backed tools end to end: API integration, prompt and workflow design, retrieval, and evaluation that catches regressions before users do.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> OpenAI / Anthropic SDKs, LangChain, vector DBs (pgvector / Chroma), Pydantic, eval harnesses</p>
+      </div>
+
+      <!-- SQL -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-postgresql-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">SQL</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          Window functions, CTEs, query planning. Comfortable in Postgres and SQLite; happy living in the query plan when something is slow.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> PostgreSQL, SQLite, pgvector, sqlalchemy</p>
+      </div>
+
+      <!-- Java -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-java-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Java</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          6+ years; my first serious language. Used for games, small apps, and OOP-heavy coursework.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> JavaFX, JUnit, Maven, LWJGL</p>
+      </div>
+
+      <!-- Web -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-javascript-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">JavaScript, HTML, CSS</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          4+ years building front-ends. This site is hand-rolled HTML + Tailwind; comfortable picking up frameworks when a project demands them.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> Vanilla JS, Tailwind CSS, React (when needed), Vite</p>
+      </div>
+
+      <!-- C/C++ -->
+      <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-center text-5xl mb-4">
+          <i class="devicon-cplusplus-plain colored" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">C / C++</h3>
+        <p class="text-sm text-gray-700 mb-3">
+          2 years through coursework. Useful when I need to read library internals or care about memory layout.
+        </p>
+        <p class="text-xs text-gray-500"><strong>Tools:</strong> STL, CMake, gdb</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="cover-letter" class="relative z-10 px-6 py-16 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-3xl mx-auto text-center glass-panel p-6 md:p-10">
+      <h2 class="text-3xl font-bold mb-4">Cover letter</h2>
+      <p class="text-lg text-gray-700 mb-8">
+        For hiring teams and introductions, you can download my cover letter as a PDF. You can also reach me directly in the contact section below.
+      </p>
+      <a href="/coverletter.pdf" class="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition font-medium">
+        Download cover letter (PDF)
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+<section id="contact" class="px-6 py-16 bg-gray-100">
+  <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+    <h2 class="text-3xl font-bold text-center mb-10">Contact</h2>
+
+    <p id="form-thanks" class="hidden text-center text-green-700 font-medium mb-6" role="status">
+      Thanks — your message was sent. I will get back to you soon.
+    </p>
+
+    <div class="text-center mb-8">
+      <p class="text-lg text-gray-700">
+        <span class="text-teal-700 mr-2" aria-hidden="true">@</span>
+        <a id="contact-email" href="#contact" data-user="timcreekmore2002" data-domain="gmail.com" class="text-teal-700 hover:underline">click to reveal email</a>
+      </p>
+    </div>
+
+    <!--
+      The form's `action` attribute currently posts to the raw Gmail address, which exposes it in HTML to scrapers.
+      Recommended: in your FormSubmit dashboard, activate the hashed endpoint (formsubmit.co/el/<random>)
+      and replace the action URL below.
+    -->
+    <form action="https://formsubmit.co/timcreekmore2002@gmail.com" method="POST" class="grid gap-6">
+      <input type="hidden" name="_subject" value="Message from timothycreekmore.com /portfolio" />
+      <input type="hidden" name="_next" value="https://www.timothycreekmore.com/portfolio/?sent=1" />
+      <input type="hidden" name="_captcha" value="true" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <fieldset class="grid md:grid-cols-3 gap-3">
+        <legend class="sr-only">What would you like to talk about?</legend>
+        <label class="metric-card p-4 cursor-pointer">
+          <input type="radio" name="intent" value="software-data-roles" class="mr-2" checked />
+          <span class="text-sm font-semibold">Software/data roles</span>
+        </label>
+        <label class="metric-card p-4 cursor-pointer">
+          <input type="radio" name="intent" value="project-discussion" class="mr-2" />
+          <span class="text-sm font-semibold">Discuss a project</span>
+        </label>
+        <label class="metric-card p-4 cursor-pointer">
+          <input type="radio" name="intent" value="game-lab" class="mr-2" />
+          <span class="text-sm font-semibold">Ask about the game lab</span>
+        </label>
+      </fieldset>
+
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200" autocomplete="name" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200" autocomplete="email" />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+        <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg border border-gray-300 focus:ring focus:ring-teal-200"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">
+          Send message
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+  <div class="relative z-10 flex justify-center gap-6 py-8">
+    <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-black text-2xl" aria-label="GitHub profile" title="GitHub">
+      <span aria-hidden="true">GH</span>
+    </a>
+    <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-2xl" aria-label="LinkedIn profile" title="LinkedIn">
+      <span aria-hidden="true">in</span>
+    </a>
+  </div>
+  <Footer variant="portfolio" />
+  <script slot="scripts" is:inline>
+    (function () {
+      if (new URLSearchParams(window.location.search).get('sent') === '1') {
+        var thanks = document.getElementById('form-thanks');
+        if (thanks) thanks.classList.remove('hidden');
+      }
+
+      var emailEl = document.getElementById('contact-email');
+      if (emailEl) {
+        var revealEmail = function () {
+          var addr = emailEl.dataset.user + '@' + emailEl.dataset.domain;
+          emailEl.href = 'mailto:' + addr;
+          emailEl.textContent = addr;
+          emailEl.removeEventListener('mouseenter', revealEmail);
+          emailEl.removeEventListener('focus', revealEmail);
+          emailEl.removeEventListener('click', onClickReveal);
+        };
+        var onClickReveal = function (e) {
+          if (emailEl.getAttribute('href') === '#contact') {
+            e.preventDefault();
+            revealEmail();
+          }
+        };
+        emailEl.addEventListener('mouseenter', revealEmail);
+        emailEl.addEventListener('focus', revealEmail);
+        emailEl.addEventListener('click', onClickReveal);
+      }
+    })();
+  </script>
 </BaseLayout>
