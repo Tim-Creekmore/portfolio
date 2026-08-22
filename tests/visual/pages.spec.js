@@ -52,6 +52,18 @@ test.beforeEach(async ({ page }) => {
 // place) fails loudly instead of silently becoming the baseline.
 // It is used as `new RegExp(expectTitle)`, so a literal "|" in a
 // title (e.g. "Now | Timothy Creekmore") must be escaped as "\|".
+// CUTOVER NOTE (Task 13, commit <this commit>): the static site this
+// `static:` column points at was deleted at cutover — all root `.html`
+// files, `portfolio/`, `game/index.html`, `notes/*.html`, `now/`, `uses/`,
+// `shop/`, and `content/` are gone from the working tree as of that commit.
+// `VISUAL_MODE=static` can therefore no longer run; every `static:` URL
+// below now 404s against a checkout at or after this commit. The columns
+// are kept (not deleted) because they document what the pre-migration site
+// looked like and are what the committed baselines under
+// `tests/visual/__snapshots__/` were originally captured from. The
+// baselines remain the reference for `VISUAL_MODE=astro` (the default/only
+// runnable mode going forward) — do not re-baseline against them expecting
+// `static:` to still work.
 const PAGES = [
   { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Systems Thinker' },
   { name: 'portfolio',         static: '/portfolio/',                    astro: '/portfolio/',                        expectTitle: 'Portfolio' },
