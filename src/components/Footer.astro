@@ -1,16 +1,28 @@
 ---
 interface Props {
-  class?: string;
-  variant?: 'light' | 'game';
+  variant: 'home' | 'portfolio' | 'game';
 }
 
-const {
-  class: className = 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white',
-  variant = 'light',
-} = Astro.props;
+const { variant } = Astro.props;
+
+const VARIANTS = ['home', 'portfolio', 'game'];
+if (!VARIANTS.includes(variant)) {
+  throw new Error(
+    `Footer.astro: invalid variant ${JSON.stringify(variant)}. ` +
+    `Expected one of ${VARIANTS.join(', ')}. ` +
+    `A page rendering Footer without a valid variant would ship with an unstyled footer.`
+  );
+}
+
+const FOOTER_CLASS = {
+  home: 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white',
+  portfolio: 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white relative z-10',
+  game: 'text-center text-slate-500 text-sm py-8 border-t border-violet-500/20 bg-slate-900/40',
+} as const;
 
 const textClass = variant === 'game' ? 'text-slate-600' : 'text-gray-400';
 const linkClass = variant === 'game' ? 'hover:text-violet-300' : 'hover:text-gray-700';
+const className = FOOTER_CLASS[variant];
 ---
 <footer class={className}>
   <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
