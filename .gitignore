@@ -87,3 +87,7 @@ tests/screenshots/
 
 # Project-scoped Claude skills (local only)
 .claude/skills/
+
+# Claude worktrees (embedded git repos, local only)
+game/.claude/worktrees/
+.superpowers/
