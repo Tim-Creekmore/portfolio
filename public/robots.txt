@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.timothycreekmore.com/sitemap.xml
+Sitemap: https://www.timothycreekmore.com/sitemap-index.xml

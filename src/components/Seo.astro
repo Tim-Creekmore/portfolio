@@ -28,7 +28,7 @@ const personSchema = {
   url: 'https://www.timothycreekmore.com/',
   image: 'https://www.timothycreekmore.com/assets/images/og-card.svg',
   jobTitle: 'Junior Software Developer and AI/Data Builder',
-  email: 'mailto:timcreekmore2002@gmail.com',
+  ...(ogType === 'profile' ? { email: 'mailto:timcreekmore2002@gmail.com' } : {}),
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Lyon College' },
   knowsAbout: [
     'Data Science',
