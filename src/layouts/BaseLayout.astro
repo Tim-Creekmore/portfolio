@@ -7,6 +7,8 @@ interface Props {
   active?: 'home' | 'portfolio' | 'game';
   bodyClass?: string;
   ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   active = 'home',
   bodyClass = 'bg-gray-100 text-gray-800',
   ogType = 'website',
+  ogTitle,
+  ogDescription,
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -22,7 +26,7 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <Seo title={title} description={description} ogType={ogType} />
+    <Seo title={title} description={description} ogType={ogType} ogTitle={ogTitle} ogDescription={ogDescription} />
     <link rel="stylesheet" href="/assets/css/tailwind.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
     <slot name="head" />
