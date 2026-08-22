@@ -1,0 +1,156 @@
+---
+import Seo from '../components/Seo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Seo title={title} description={description} />
+    <style is:global>
+      :root {
+        --ink: #111827;
+        --muted: #4b5563;
+        --line: #d1d5db;
+        --accent: #007ba7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #f3f4f6;
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9.7pt;
+        line-height: 1.25;
+      }
+
+      .page {
+        width: 8.5in;
+        min-height: 11in;
+        margin: 0 auto;
+        padding: 0.42in 0.55in;
+        background: #ffffff;
+      }
+
+      header {
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 0.09in;
+        margin-bottom: 0.12in;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 20pt;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .contact {
+        margin-top: 0.045in;
+        color: var(--muted);
+        font-size: 9.4pt;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      section {
+        margin-top: 0.115in;
+      }
+
+      h2 {
+        margin: 0 0 0.045in;
+        color: var(--accent);
+        font-size: 10pt;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 0.03in;
+      }
+
+      .item {
+        margin-top: 0.06in;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.2in;
+        align-items: baseline;
+      }
+
+      .title {
+        font-weight: 700;
+      }
+
+      .org,
+      .date {
+        color: var(--muted);
+      }
+
+      ul {
+        margin: 0.035in 0 0 0.16in;
+        padding: 0;
+      }
+
+      li {
+        margin: 0.018in 0;
+      }
+
+      .skills {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.025in;
+      }
+
+      .skills div {
+        break-inside: avoid;
+      }
+
+      .label {
+        font-weight: 700;
+      }
+
+      @page {
+        size: letter;
+        margin: 0;
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          margin: 0;
+          box-shadow: none;
+        }
+      }
+    </style>
+    <style is:global>
+      .no-print { text-align: center; padding: 1rem; font-family: Arial, Helvetica, sans-serif; }
+      .no-print a { margin: 0 0.5rem; }
+      @media print { .no-print { display: none !important; } }
+    </style>
+  </head>
+  <body>
+    <div class="no-print">
+      <a href="/portfolio/">&larr; Back to portfolio</a>
+      <a href="/resume.pdf" download>Download PDF</a>
+    </div>
+    <slot />
+  </body>
+</html>
