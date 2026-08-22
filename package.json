@@ -4,7 +4,7 @@
   "private": true,
   "description": "Personal brand site for Timothy Creekmore: software craft, AI/data projects, and systems work.",
   "scripts": {
-    "build": "npm run build:css && npm run check:links",
+    "build": "npm run build:css && npx astro build && npm run check:links",
     "build:css": "tailwindcss -i ./src/styles/tailwind.src.css -o ./public/assets/css/tailwind.css --minify",
     "build:resume": "node scripts/build-resume.mjs",
     "check:links": "node scripts/check-links.mjs",
