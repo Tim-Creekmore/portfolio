@@ -1,5 +1,6 @@
 ---
-import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import NoteLayout from '../../layouts/NoteLayout.astro';
+import NoteParagraph from '../../components/NoteParagraph.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -10,9 +11,26 @@ export async function getStaticPaths() {
   }));
 }
 
+// Eyebrow text differs per note and is not part of the MDX frontmatter —
+// it comes from each static page's own eyebrow (notes/<slug>.html).
+const EYEBROWS: Record<string, string> = {
+  'repair-debugging': 'Repair to software',
+  'ocr-human-review': 'AI/Data',
+  'biomes-data-assets': 'Game lab',
+};
+
+// Static <title> uses Title Case, distinct from the sentence-case <h1>
+// (and MDX frontmatter title) — read verbatim from notes/<slug>.html.
+const PAGE_TITLES: Record<string, string> = {
+  'repair-debugging': 'What Appliance Repair Taught Me About Debugging Software | Timothy Creekmore',
+  'ocr-human-review': 'Why OCR Projects Need Human Review From Day One | Timothy Creekmore',
+  'biomes-data-assets': 'Designing Biomes as Data Assets in Unity | Timothy Creekmore',
+};
+
 const { note } = Astro.props;
+const slug = note.id.replace(/\.mdx?$/, '');
 const { Content } = await render(note);
 ---
-<CaseStudyLayout title={note.data.title} description={note.data.summary} eyebrow="Field note">
-  <Content />
-</CaseStudyLayout>
+<NoteLayout title={note.data.title} pageTitle={PAGE_TITLES[slug]} description={note.data.summary} eyebrow={EYEBROWS[slug]}>
+  <Content components={{ p: NoteParagraph }} />
+</NoteLayout>

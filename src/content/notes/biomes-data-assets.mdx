@@ -7,6 +7,8 @@ tags:
   - unity
 ---
 
-The more world rules I added, the more obvious it became that hardcoded terrain variation would not scale.
+The more world rules I added, the more obvious it became that hardcoded terrain variation would not scale. Biomes needed to be data, not scattered conditionals.
 
 Moving biome settings into assets makes placement rules, colors, foliage, and boundaries easier to tune without rewriting systems every time the world changes.
+
+That is the same instinct I like in software generally: put the thing that changes in a place where it is safe to change.

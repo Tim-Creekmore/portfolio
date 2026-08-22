@@ -1,26 +1,36 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
-import Footer from '../../components/Footer.astro';
-import { getCollection } from 'astro:content';
-
-const notes = await getCollection('notes');
 ---
-<BaseLayout title="Field Notes | Timothy Creekmore" description="Field notes from Timothy Creekmore." active="portfolio">
-  <Nav active="portfolio" />
+<BaseLayout
+  title="Field Notes | Timothy Creekmore"
+  description="Field notes from Timothy Creekmore on software, AI/data, game systems, and repair-to-software thinking."
+  active="portfolio"
+  bodyClass="bg-gray-100 text-gray-800"
+>
+  <Nav variant="home" />
   <main id="main-content" class="px-6 pt-28 pb-16">
     <section class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
-      <p class="eyebrow mb-4">Field notes</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-8">Short practical notes</h1>
+      <p class="eyebrow mb-4">Field Notes</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Short practical notes</h1>
+      <p class="text-lg text-gray-600 max-w-3xl leading-relaxed mb-10">Not a formal blog. More like a workbench log: lessons from software, data projects, AI workflows, game systems, and repair work.</p>
       <div class="grid md:grid-cols-3 gap-5">
-        {notes.map((note) => (
-          <a href={`/notes/${note.id.replace(/\.mdx?$/, '')}/`} class="metric-card p-5 block">
-            <h2 class="text-xl font-semibold text-gray-900 mb-2">{note.data.title}</h2>
-            <p class="text-sm text-gray-700">{note.data.summary}</p>
-          </a>
-        ))}
+        <a href="/notes/repair-debugging/" class="metric-card p-5 block hover:border-amber-300/60 transition">
+          <p class="eyebrow mb-2">Repair to software</p>
+          <h2 class="text-xl font-semibold text-gray-900 mb-2">What appliance repair taught me about debugging software</h2>
+          <p class="text-sm text-gray-700">Diagnosis, constraints, customer communication, and why the first theory is often wrong.</p>
+        </a>
+        <a href="/notes/ocr-human-review/" class="metric-card p-5 block hover:border-amber-300/60 transition">
+          <p class="eyebrow mb-2">AI/Data</p>
+          <h2 class="text-xl font-semibold text-gray-900 mb-2">Why OCR projects need human review from day one</h2>
+          <p class="text-sm text-gray-700">The Signature Extraction lesson: automate what is reliable, flag what is not.</p>
+        </a>
+        <a href="/notes/biomes-data-assets/" class="metric-card p-5 block hover:border-amber-300/60 transition">
+          <p class="eyebrow mb-2">Game lab</p>
+          <h2 class="text-xl font-semibold text-gray-900 mb-2">Designing biomes as data assets in Unity</h2>
+          <p class="text-sm text-gray-700">Why world variation belongs in data, not hardcoded placement logic.</p>
+        </a>
       </div>
     </section>
   </main>
-  <Footer />
 </BaseLayout>

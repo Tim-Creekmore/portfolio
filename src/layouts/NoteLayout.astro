@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  // Static detail pages use Title Case in <title> but sentence case in
+  // <h1>. When they genuinely differ, pass pageTitle explicitly rather
+  // than deriving one from the other.
+  pageTitle?: string;
+  description: string;
+  eyebrow: string;
+}
+
+const { title, pageTitle, description, eyebrow } = Astro.props;
+const fullTitle = pageTitle ?? `${title} | Timothy Creekmore`;
+---
+<BaseLayout title={fullTitle} description={description} active="portfolio" bodyClass="bg-gray-100 text-gray-800">
+  <main id="main-content" class="px-6 py-16">
+    <article class="max-w-3xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">{eyebrow}</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-6">{title}</h1>
+      <div class="note-prose">
+        <slot />
+      </div>
+      <p class="mt-8"><a href="/notes/" class="glow-link">&larr; Back to notes</a></p>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  /*
+   * Astro's scoped `<style>` never reaches slotted content (it only
+   * rewrites elements this component's own template renders), so a plain
+   * selector here would silently do nothing. `:global()` opts this rule
+   * out of scoping entirely, turning it into a true global CSS rule that
+   * does reach the MDX-rendered <p> tags inside <slot />. Verified against
+   * the built dist HTML and the parity gate, not assumed.
+   *
+   * Static paragraphs are `mb-4` on every paragraph except the last
+   * (which relies on the back-link's own `mt-8` for spacing). Using
+   * `margin-top` on non-first paragraphs instead of `margin-bottom` on
+   * non-last ones reproduces that exactly without depending on CSS
+   * margin-collapsing behavior across the note-prose wrapper boundary.
+   */
+  .note-prose :global(p + p) {
+    margin-top: 1rem;
+  }
+
+  /*
+   * The static detail pages (notes/<slug>.html) have no skip-link at all.
+   * BaseLayout always renders one as the first child of <body>, and
+   * tailwind.src.css's warm-dark skin flips it from `position: absolute`
+   * to `position: relative` for layering
+   * (`body[data-site-theme="warm-dark"] > .skip-link`, specificity 0,2,1 —
+   * beats the base .skip-link rule's 0,1,0). Under `position: relative`
+   * the link's `left: -9999px` no longer removes it from flow, so it
+   * reserves its own ~24px line box at the very top of the page, pushing
+   * <main> down by that amount relative to the static original. Elsewhere
+   * on the site this is invisible because the static originals for those
+   * pages also carry a skip-link, so both sides reserve the same space —
+   * only these three pages, which never had one, are affected. This rule
+   * is unscoped (`:global`) because the skip-link is rendered by
+   * BaseLayout, not by NoteLayout itself, so scoped selectors can't reach
+   * it at all; Astro still only ships this CSS on pages that render
+   * NoteLayout, so the fix is limited to the three note detail pages and
+   * does not touch any other already-passing page.
+   */
+  :global(body[data-site-theme="warm-dark"] > .skip-link) {
+    position: absolute !important;
+  }
+</style>
