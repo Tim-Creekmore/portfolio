@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout
+  title="AI Engineering Sandbox | Timothy Creekmore"
+  description="AI Engineering Sandbox — planned structured extraction, retrieval, validation, and evaluation demos by Timothy Creekmore."
+  ogTitle="AI Engineering Sandbox"
+  ogDescription="Structured extraction, retrieval, validation, and evaluation demos in progress."
+  ogType="article"
+  active="portfolio"
+  bodyClass="bg-gray-100 text-gray-800"
+>
+  <Nav variant="project" />
+
+  <header id="main-content" class="pt-28 pb-8 px-6">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">AI Engineering &middot; In progress</p>
+      <h1 class="text-3xl md:text-5xl font-bold mb-4 text-white">AI Engineering Sandbox</h1>
+      <p class="text-lg text-gray-600 leading-relaxed max-w-3xl">
+        A public lab for practical LLM workflows: structured extraction, retrieval, validation, and evals that make model behavior easier to inspect.
+      </p>
+    </div>
+  </header>
+
+  <main class="px-6 pb-16">
+    <div class="max-w-5xl mx-auto glass-panel p-6 md:p-10 space-y-10">
+      <section>
+        <p class="eyebrow mb-3">Planned architecture</p>
+        <div class="grid md:grid-cols-4 gap-3 text-sm text-center">
+          <div class="metric-card p-4">Messy input</div>
+          <div class="metric-card p-4">LLM extraction</div>
+          <div class="metric-card p-4">Schema validation</div>
+          <div class="metric-card p-4">Eval checks</div>
+        </div>
+      </section>
+
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">MVP demo</p>
+        <h2 class="text-2xl font-semibold mb-3">Structured extraction first</h2>
+        <p class="text-gray-700 leading-relaxed">
+          The first demo will use static sample inputs and mocked outputs before any live API is wired in. That keeps the demo safe, fast, and reviewable while still showing the engineering shape: input constraints, JSON schema, validation errors, and an eval checklist.
+        </p>
+        <div class="mt-6 grid lg:grid-cols-2 gap-5">
+          <div>
+            <label for="demo-input" class="block text-sm font-semibold mb-2">Messy input</label>
+            <textarea id="demo-input" rows="8" class="w-full p-4 rounded-xl border border-gray-300" spellcheck="false">Customer: Jane Doe
+County: Independence
+Needs follow-up about scanned petition sheet row 14.
+Address appears to be 120 Maple St, Batesville AR.
+Signature confidence low, printed text confidence high.</textarea>
+            <button id="run-extraction-demo" type="button" class="mt-3 px-5 py-2.5 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition">Run mocked extraction</button>
+          </div>
+          <div>
+            <p class="block text-sm font-semibold mb-2">Structured output</p>
+            <pre id="demo-output" class="metric-card p-4 text-xs overflow-auto min-h-[14rem] text-left">Click the demo button to render a validated JSON-style result.</pre>
+          </div>
+        </div>
+      </section>
+
+      <div class="warm-rule"></div>
+
+      <section>
+        <p class="eyebrow mb-3">Why it belongs here</p>
+        <ul class="list-disc ml-6 space-y-2 text-gray-700 leading-relaxed">
+          <li>It connects the OCR project to modern AI extraction workflows.</li>
+          <li>It demonstrates prompt design, validation, and evaluation instead of a generic chatbot.</li>
+          <li>It gives the portfolio a live, memorable AI engineering proof point.</li>
+        </ul>
+      </section>
+
+      <div class="border-t border-gray-200 pt-6">
+        <a href="/portfolio/#projects" class="glow-link">&larr; Back to portfolio projects</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer variant="home" />
+
+  <script slot="scripts" is:inline>
+    (function () {
+      var btn = document.getElementById('run-extraction-demo');
+      var output = document.getElementById('demo-output');
+      if (!btn || !output) return;
+
+      btn.addEventListener('click', function () {
+        var result = {
+          person: {
+            name: 'Jane Doe',
+            address: '120 Maple St, Batesville, AR',
+            county: 'Independence'
+          },
+          document: {
+            type: 'petition_sheet_row',
+            row: 14
+          },
+          confidence: {
+            printedText: 'high',
+            signature: 'low'
+          },
+          validation: [
+            'address_present',
+            'county_present',
+            'signature_requires_human_review'
+          ],
+          nextAction: 'Route to review queue before final CSV export'
+        };
+        output.textContent = JSON.stringify(result, null, 2);
+      });
+    })();
+  </script>
+</BaseLayout>
