@@ -24,12 +24,18 @@ const tailwindBin = join(
 function run() {
   // shell: true is required on Windows because .bin/tailwindcss.cmd is a
   // batch shim, not a directly-spawnable executable; it's harmless on POSIX.
-  // No argument here contains shell metacharacters, so this is safe.
-  const result = spawnSync(tailwindBin, ['-i', source, '-o', tempOut, '--minify'], {
-    cwd: root,
-    encoding: 'utf8',
-    shell: true
-  });
+  // Quote every path argument explicitly so a checkout path (or the OS temp
+  // dir) containing spaces doesn't get split by the shell.
+  const quote = (arg) => `"${arg.replace(/"/g, '\\"')}"`;
+  const result = spawnSync(
+    quote(tailwindBin),
+    ['-i', quote(source), '-o', quote(tempOut), '--minify'],
+    {
+      cwd: root,
+      encoding: 'utf8',
+      shell: true
+    }
+  );
 
   if (result.status !== 0) {
     console.error('Failed to run tailwindcss to regenerate CSS for comparison.');
