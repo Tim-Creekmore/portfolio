@@ -1,14 +1,14 @@
 # timothycreekmore.com
 
-Personal hub for Timothy Creekmore — data scientist and AI engineer.
+Personal brand site for Timothy Creekmore — software developer, AI/data builder, and systems thinker.
 
 Live: <https://www.timothycreekmore.com/> (GitHub Pages, custom domain via `CNAME`)
 
 ## Stack
 
-- Static HTML.
+- Static HTML for current GitHub Pages output, with an Astro source scaffold in `src/` for the next migration step.
 - Styling: [Tailwind CSS](https://tailwindcss.com/) v3, pre-built and minified into [`assets/css/tailwind.css`](assets/css/tailwind.css) (~20 KB). Source: [`assets/css/tailwind.src.css`](assets/css/tailwind.src.css). Run `npm run build:css` after editing any HTML / `tailwind.src.css`.
-- Icons: [Font Awesome 6](https://fontawesome.com/) via CDN, plus [Devicon](https://devicon.dev/) on the portfolio for tech-stack logos. Planned: subset / replace with inline SVG to drop another CDN.
+- Icons: mostly inline text/SVG-style marks. Font/CDN icon usage is being removed as pages are touched.
 - Portfolio hero animation: [Vanta.NET](https://www.vantajs.com/) + Three.js r134. Lazy-loaded on `IntersectionObserver`-style gate — skipped on `prefers-reduced-motion` and viewports under 768 px.
 - Contact form: [FormSubmit](https://formsubmit.co/) — no backend required.
 - Shared nav behavior: [`assets/js/hub-nav.js`](assets/js/hub-nav.js) (mobile toggle + active-link highlight via `<body data-hub="…">` + footer year stamp).
@@ -19,8 +19,9 @@ Live: <https://www.timothycreekmore.com/> (GitHub Pages, custom domain via `CNAM
 /                          GitHub Pages root
 ├── index.html             Hub home
 ├── portfolio/index.html   Portfolio (about, skills, projects, cover letter, contact)
-├── shop/index.html        Shop placeholder
-├── content/index.html     Content/video placeholder
+├── now/index.html         Current focus page
+├── notes/index.html       Field notes index
+├── uses/index.html        Toolbox page
 ├── game/index.html        Voxel game splash (linked to Unity URP demo)
 ├── prophetcma.html        Project subpage — ProphetCMA
 ├── signature-extraction.html  Project subpage — signature OCR
@@ -33,7 +34,10 @@ Live: <https://www.timothycreekmore.com/> (GitHub Pages, custom domain via `CNAM
 ├── assets/
 │   ├── css/tailwind.src.css   Input (directives + site overrides)
 │   ├── css/tailwind.css       Built, minified output (committed)
+│   ├── images/og-card.svg     Social sharing image
 │   └── js/hub-nav.js          Shared nav + footer-year behavior
+├── src/                   Astro layouts/components/content scaffold
+├── scripts/               Link check and resume PDF build scripts
 ├── package.json           Tailwind build scripts
 ├── tailwind.config.js     Content paths + brand color tokens
 └── game/                  Game subproject (Unity + Godot demos)
@@ -67,13 +71,25 @@ npm run build:css
 
 The committed `assets/css/tailwind.css` is the artifact GitHub Pages serves. Re-run after any change to HTML or `tailwind.src.css`.
 
+Run local checks:
+
+```bash
+npm run check:links
+```
+
+Rebuild the resume PDF from `resume.html`:
+
+```bash
+npm run build:resume
+```
+
 ## Deploy
 
 Pushes to `main` are published by GitHub Pages. The `CNAME` file pins the custom domain `www.timothycreekmore.com`.
 
 ## TODO assets
 
-- `assets/images/og-card.png` — 1200×630 Open Graph share image (referenced by every page's `og:image` / `twitter:image` meta). Until added, link previews on LinkedIn/Discord/X will fall back to no image.
+- Project-specific screenshots for ProphetCMA, Signature Extraction, the AI Engineering Sandbox, and the Unity Game Lab.
 
 ## Analytics (opt-in)
 

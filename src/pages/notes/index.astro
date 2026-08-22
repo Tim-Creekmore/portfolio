@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const notes = await getCollection('notes');
+---
+<BaseLayout title="Field Notes | Timothy Creekmore" description="Field notes from Timothy Creekmore." active="portfolio">
+  <Nav active="portfolio" />
+  <main id="main-content" class="px-6 pt-28 pb-16">
+    <section class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">Field notes</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-8">Short practical notes</h1>
+      <div class="grid md:grid-cols-3 gap-5">
+        {notes.map((note) => (
+          <a href={`/notes/${note.id.replace(/\.mdx?$/, '')}/`} class="metric-card p-5 block">
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">{note.data.title}</h2>
+            <p class="text-sm text-gray-700">{note.data.summary}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

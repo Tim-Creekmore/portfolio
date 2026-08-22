@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  active?: 'home' | 'portfolio' | 'game';
+}
+
+const { title, description, active = 'home' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+    <slot name="head" />
+  </head>
+  <body class="bg-gray-100 text-gray-800 antialiased" data-hub={active} data-site-theme="warm-dark">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
+    <slot />
+    <script src="/assets/js/hub-nav.js" defer></script>
+  </body>
+</html>

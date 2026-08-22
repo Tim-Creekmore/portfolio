@@ -1,0 +1,25 @@
+---
+interface Props {
+  active?: 'home' | 'portfolio' | 'game';
+}
+
+const { active = 'home' } = Astro.props;
+---
+<nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+    <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+    <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+      <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+      <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
+    </div>
+    <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+      <span aria-hidden="true">Menu</span>
+    </button>
+  </div>
+  <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+    <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+    <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+    <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+  </div>
+</nav>

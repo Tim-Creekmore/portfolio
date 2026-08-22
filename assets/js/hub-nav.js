@@ -102,6 +102,16 @@
     bindMobile();
     stampYear();
     initInteractiveBackground();
+    bindAnalyticsEvents();
+  }
+
+  function bindAnalyticsEvents() {
+    document.querySelectorAll('[data-analytics]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var name = el.getAttribute('data-analytics');
+        if (window.plausible && name) window.plausible(name);
+      });
+    });
   }
 
   if (document.readyState === 'loading') {

@@ -1,0 +1,21 @@
+---
+title: ProphetCMA — Real Estate Price Prediction
+summary: R-based ensemble modeling pipeline for automating Comparative Market Analysis.
+status: featured
+tools:
+  - R
+  - GBM
+  - XGBoost
+  - kNN
+  - Random Forest
+metrics:
+  - MAE 6,776
+  - RMSE 11,166
+  - 15/85 blend
+url: /prophetcma.html
+repo: https://github.com/Tim-Creekmore
+---
+
+ProphetCMA compares classical ML models and ensemble blends for residential real estate pricing.
+
+The strongest result came from a 15% XGBoost / 85% GBM blend. The main lesson was not just the metric improvement, but identifying where the model generalized and where missing property features limited accuracy.

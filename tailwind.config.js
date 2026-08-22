@@ -7,6 +7,7 @@ module.exports = {
     "./shop/**/*.html",
     "./content/**/*.html",
     "./game/index.html",
+    "./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}",
     "./assets/js/**/*.js"
   ],
   theme: {

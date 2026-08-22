@@ -76,10 +76,14 @@ crashlytics-buildid.txt
 
 # Node / Tailwind build
 node_modules/
-package-lock.json
+dist/
+.astro/
 
 # Unity Bee build cache
 **/Library/Bee/
 
 # Test screenshots (regenerated)
 tests/screenshots/
+
+# Project-scoped Claude skills (local only)
+.claude/skills/

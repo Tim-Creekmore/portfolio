@@ -18,7 +18,6 @@
   <meta name="twitter:description" content="R-based ensemble model that automates Comparative Market Analysis for residential real estate." />
   <meta name="twitter:image" content="https://www.timothycreekmore.com/MAEresults.png" />
   <link rel="stylesheet" href="/assets/css/tailwind.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body class="bg-gray-100 text-gray-800" data-hub="portfolio" data-site-theme="warm-dark">
 
@@ -34,8 +33,8 @@
         <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
       <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
-        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
+        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
+        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
       </button>
     </div>
     <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
@@ -95,6 +94,14 @@
       <section>
         <p class="eyebrow mb-3">Approach</p>
         <h2 class="text-2xl font-semibold mb-3">Compare, blend, then audit the errors</h2>
+        <div class="grid md:grid-cols-6 gap-2 text-center text-[11px] text-gray-600 mb-6">
+          <div class="metric-card p-3">Raw data</div>
+          <div class="metric-card p-3">Cleaning</div>
+          <div class="metric-card p-3">Features</div>
+          <div class="metric-card p-3">Models</div>
+          <div class="metric-card p-3">Blend search</div>
+          <div class="metric-card p-3">MAE/RMSE</div>
+        </div>
         <p class="text-gray-700 leading-relaxed mb-3">
           Trained and compared five supervised models on a cleaned dataset of residential properties: Linear Regression, k-Nearest Neighbors, Random Forest, Gradient Boosting Machines (GBM), and XGBoost. Evaluated on Mean Absolute Error (MAE) and Root Mean Square Error (RMSE) under cross-validation.
         </p>
@@ -152,7 +159,7 @@
         <a href="/portfolio/#projects" class="text-teal-700 font-medium hover:underline">&larr; Back to portfolio</a>
         <!-- TODO: swap to specific repo URL when public -->
         <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
-          <i class="fab fa-github" aria-hidden="true"></i> View code on GitHub
+          View code on GitHub
         </a>
       </div>
 

@@ -3,23 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Timothy Creekmore — data scientist and AI engineer. Hub for portfolio, projects, a voxel game, and content." />
-  <title>Timothy Creekmore — Data Scientist &amp; AI Engineer</title>
+  <meta name="description" content="Timothy Creekmore — software developer, AI/data builder, and systems thinker building practical models, tools, and interactive systems." />
+  <title>Timothy Creekmore — Software Developer, AI/Data Builder, Systems Thinker</title>
   <link rel="canonical" href="https://www.timothycreekmore.com/" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23007BA7'/%3E%3Ctext x='32' y='44' font-family='system-ui,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff'%3ET%3C/text%3E%3C/svg%3E" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Timothy Creekmore" />
-  <meta property="og:title" content="Timothy Creekmore — Data Scientist &amp; AI Engineer" />
-  <meta property="og:description" content="Personal hub: portfolio, projects, a voxel game, and content." />
+  <meta property="og:title" content="Timothy Creekmore — Software Developer, AI/Data Builder, Systems Thinker" />
+  <meta property="og:description" content="Practical technologist building models, tools, and interactive systems." />
   <meta property="og:url" content="https://www.timothycreekmore.com/" />
-  <meta property="og:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
+  <meta property="og:image" content="https://www.timothycreekmore.com/assets/images/og-card.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Timothy Creekmore — Data Scientist &amp; AI Engineer" />
-  <meta name="twitter:description" content="Personal hub: portfolio, projects, a voxel game, and content." />
-  <meta name="twitter:image" content="https://www.timothycreekmore.com/assets/images/og-card.png" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <meta name="twitter:title" content="Timothy Creekmore — Software Developer, AI/Data Builder, Systems Thinker" />
+  <meta name="twitter:description" content="Practical technologist building models, tools, and interactive systems." />
+  <meta name="twitter:image" content="https://www.timothycreekmore.com/assets/images/og-card.svg" />
   <link rel="stylesheet" href="/assets/css/tailwind.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body class="min-h-screen bg-slate-50 text-gray-800 antialiased" data-hub="home" data-site-theme="warm-dark">
 
@@ -32,16 +30,20 @@
       <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
         <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
         <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/now/" class="hover:text-teal-600 transition">Now</a>
+        <a href="/notes/" class="hover:text-teal-600 transition">Notes</a>
         <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
       </div>
       <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
-        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
+        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
+        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
       </button>
     </div>
     <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
       <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
       <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/now/" class="py-2 hover:text-teal-600">Now</a>
+      <a href="/notes/" class="py-2 hover:text-teal-600">Notes</a>
       <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
     </div>
   </nav>
@@ -51,18 +53,18 @@
     <div class="relative z-10 max-w-5xl mx-auto">
       <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
         <div>
-          <p class="text-amber-200/90 text-sm font-medium tracking-[0.35em] uppercase mb-4">Portfolio first · systems always</p>
+          <p class="text-amber-200/90 text-sm font-medium tracking-[0.35em] uppercase mb-4">Software craft · AI/data · systems thinking</p>
           <h1 class="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">
-            Data scientist and AI engineer building practical models, tools, and interactive systems.
+            Practical technologist building models, tools, and interactive systems.
           </h1>
           <p class="text-lg md:text-xl text-slate-200 leading-relaxed mb-8 max-w-3xl">
-            I turn messy data into decisions, build ML workflows that can be explained, and use game/system projects to keep the engineering muscle sharp.
+            I write production software at Lifeplus, turn messy data into usable systems, and build game/tools projects that keep the engineering muscle sharp.
           </p>
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="/portfolio/" class="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition">
+            <a href="/portfolio/" data-analytics="Home Portfolio CTA" class="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition">
               View portfolio
             </a>
-            <a href="/game/" class="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-amber-200/60 text-amber-100 font-semibold hover:bg-white/10 transition">
+            <a href="/game/" data-analytics="Home Game Lab CTA" class="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-amber-200/60 text-amber-100 font-semibold hover:bg-white/10 transition">
               Explore game lab
             </a>
           </div>
@@ -72,8 +74,8 @@
           <p class="text-xs uppercase tracking-[0.3em] text-amber-700 font-semibold mb-5">Quick signal</p>
           <div class="space-y-5">
             <div>
-              <p class="text-sm text-gray-500 mb-1">Best proof page</p>
-              <a href="/portfolio/#projects" class="text-xl font-semibold text-gray-900 hover:text-teal-600 transition">Featured ML + AI projects →</a>
+              <p class="text-sm text-gray-500 mb-1">Current focus</p>
+              <a href="/portfolio/#current-focus" class="text-xl font-semibold text-gray-900 hover:text-teal-600 transition">Lifeplus + AI/data projects →</a>
             </div>
             <div class="h-px bg-gray-200"></div>
             <div>
@@ -99,7 +101,7 @@
           <h2 id="featured-work-heading" class="text-2xl md:text-3xl font-bold text-gray-900">Two paths, one story</h2>
         </div>
         <p class="text-gray-600 text-sm md:text-right max-w-xl">
-          The portfolio is the hiring surface. The game lab is the systems-thinking proof: C#, procedural terrain, visual polish, and iteration discipline.
+          The portfolio is the main proof surface. The game lab is the systems-thinking proof: C#, procedural terrain, visual polish, and iteration discipline.
         </p>
       </div>
 

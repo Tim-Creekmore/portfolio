@@ -1,0 +1,22 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+}
+
+const { title, description, eyebrow } = Astro.props;
+---
+<BaseLayout title={`${title} | Timothy Creekmore`} description={description} active="portfolio">
+  <main id="main-content" class="px-6 pt-28 pb-16">
+    <article class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">{eyebrow}</p>
+      <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">{title}</h1>
+      <p class="text-lg text-gray-600 leading-relaxed mb-8">{description}</p>
+      <div class="warm-rule mb-8"></div>
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
