@@ -4,6 +4,15 @@ interface Props {
 }
 
 const { variant } = Astro.props;
+
+const VARIANTS = ['home', 'portfolio', 'game'];
+if (!VARIANTS.includes(variant)) {
+  throw new Error(
+    `Nav.astro: invalid variant ${JSON.stringify(variant)}. ` +
+    `Expected one of ${VARIANTS.join(', ')}. ` +
+    `A page rendering Nav without a valid variant would ship with no navigation.`
+  );
+}
 ---
 {variant === 'home' && (
   <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
