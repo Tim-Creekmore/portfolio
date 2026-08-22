@@ -52,7 +52,7 @@ test.beforeEach(async ({ page }) => {
 // place) fails loudly instead of silently becoming the baseline.
 // It is used as `new RegExp(expectTitle)`, so a literal "|" in a
 // title (e.g. "Now | Timothy Creekmore") must be escaped as "\|".
-// CUTOVER NOTE (Task 13, commit <this commit>): the static site this
+// CUTOVER NOTE (Task 13, commit cce9d70): the static site this
 // `static:` column points at was deleted at cutover — all root `.html`
 // files, `portfolio/`, `game/index.html`, `notes/*.html`, `now/`, `uses/`,
 // `shop/`, and `content/` are gone from the working tree as of that commit.
