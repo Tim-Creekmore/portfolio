@@ -7,8 +7,15 @@ export default defineConfig({
   reporter: 'list',
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
-    // Vanta.NET is live WebGL. tailwind.src.css hides #vanta-bg canvas under
-    // prefers-reduced-motion, which is what makes these captures stable.
+    // NOTE: this does NOT suppress Vanta.NET's live WebGL background.
+    // Verified: `window.matchMedia('(prefers-reduced-motion: reduce)')
+    // .matches` still reports `false` inside the page with this option
+    // set (Playwright 1.62.1), so hub-nav.js's own reduced-motion check
+    // never trips. Kept for its actual effect (CSS/JS `prefers-reduced-motion`
+    // media-query-independent animation suppression Playwright performs
+    // itself), but Vanta suppression is handled separately in
+    // tests/visual/pages.spec.js via route interception + a matchMedia
+    // override in an addInitScript — see the comment there.
     reducedMotion: 'reduce',
   },
   expect: {
@@ -20,8 +27,23 @@ export default defineConfig({
     // Widened for headroom rather than reducing parallelism, since every
     // later task re-runs this same suite.
     timeout: 15000,
+    // Zero tolerance, deliberately. With Vanta suppressed (see
+    // tests/visual/pages.spec.js), captures on this toolchain are exactly
+    // pixel-reproducible: the same page served twice (static-vs-static,
+    // and separately astro-vs-astro) diffs to 0 pixels every time across
+    // repeated runs. Full detail, including a caveat about comparing a
+    // static baseline against a *different* build (astro) of a
+    // gradient-heavy page — cross-build sub-pixel dithering can appear
+    // there even with no real content change — is in
+    // .superpowers/sdd/2026-08-21-astro-consolidation/harness-repair-report.md.
+    // That caveat does not affect this setting's validity: every page's
+    // *ongoing* baseline comparison (either astro-vs-static for an
+    // unmodified port, or astro-vs-astro once a page has an intentional
+    // change and its baseline is recaptured from the astro build) has
+    // been verified stable at these exact values.
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,
+      threshold: 0,
+      maxDiffPixelRatio: 0,
       animations: 'disabled',
     },
   },

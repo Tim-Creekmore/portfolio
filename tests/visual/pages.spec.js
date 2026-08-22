@@ -2,6 +2,45 @@ import { test, expect } from '@playwright/test';
 
 const MODE = process.env.VISUAL_MODE || 'static';
 
+// Vanta.NET is live WebGL and renders into every desktop screenshot unless
+// actively suppressed — Playwright's `reducedMotion: 'reduce'` context
+// option does NOT make `window.matchMedia('(prefers-reduced-motion:
+// reduce)').matches` true in this Playwright/Chromium combination (verified:
+// it reports `false` even with the setting applied), so hub-nav.js's own
+// `prefers-reduced-motion` check never trips and Vanta loads and animates.
+// Belt-and-suspenders fix, proven by a throwaway probe spec to bring
+// `#vanta-bg canvas` count to 0 on BOTH desktop and mobile projects:
+//   1. Abort the two CDN requests (three.js, vanta.net) hub-nav.js loads
+//      Vanta from, so the library never arrives and no canvas is ever
+//      created.
+//   2. Override `window.matchMedia` via `addInitScript` (runs before any
+//      page script) so a `prefers-reduced-motion` query reports
+//      `matches: true`, in case Vanta is ever loaded a different way.
+test.beforeEach(async ({ page }) => {
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/three.js/**', (route) => route.abort());
+  await page.route('https://cdn.jsdelivr.net/npm/vanta@**', (route) => route.abort());
+  await page.addInitScript(() => {
+    const originalMatchMedia = window.matchMedia.bind(window);
+    window.matchMedia = (query) => {
+      if (typeof query === 'string' && query.includes('prefers-reduced-motion')) {
+        return {
+          matches: true,
+          media: query,
+          onchange: null,
+          addListener() {},
+          removeListener() {},
+          addEventListener() {},
+          removeEventListener() {},
+          dispatchEvent() {
+            return false;
+          },
+        };
+      }
+      return originalMatchMedia(query);
+    };
+  });
+});
+
 // Static and Astro URLs differ for project and note detail pages.
 // `astro: null` means the page is intentionally deleted in the migration
 // (spec D4) and is baselined but never compared.
