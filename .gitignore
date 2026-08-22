@@ -85,6 +85,11 @@ dist/
 # Test screenshots (regenerated)
 tests/screenshots/
 
+# Playwright run artifacts (regenerated; baseline PNGs under tests/visual/__snapshots__ ARE tracked)
+test-results/
+playwright-report/
+blob-report/
+
 # Project-scoped Claude skills (local only)
 .claude/skills/
 
