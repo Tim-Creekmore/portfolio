@@ -27,20 +27,17 @@ export default defineConfig({
     // Widened for headroom rather than reducing parallelism, since every
     // later task re-runs this same suite.
     timeout: 15000,
-    // Zero tolerance, deliberately. With Vanta suppressed (see
-    // tests/visual/pages.spec.js), captures on this toolchain are exactly
-    // pixel-reproducible: the same page served twice (static-vs-static,
-    // and separately astro-vs-astro) diffs to 0 pixels every time across
-    // repeated runs. Full detail, including a caveat about comparing a
-    // static baseline against a *different* build (astro) of a
-    // gradient-heavy page — cross-build sub-pixel dithering can appear
-    // there even with no real content change — is in
-    // .superpowers/sdd/2026-08-21-astro-consolidation/harness-repair-report.md.
-    // That caveat does not affect this setting's validity: every page's
-    // *ongoing* baseline comparison (either astro-vs-static for an
-    // unmodified port, or astro-vs-astro once a page has an intentional
-    // change and its baseline is recaptured from the astro build) has
-    // been verified stable at these exact values.
+    // Zero tolerance, deliberately. Vanta.NET's live WebGL background renders
+    // into every screenshot because Playwright's `reducedMotion: 'reduce'`
+    // never actually suppresses it—verified: window.matchMedia still reports
+    // false. During migration, a loose threshold masked this; a navigation bar
+    // covering 7% of pixels passed as unchanged. Zero is achievable because
+    // test.beforeEach (pages.spec.js) suppresses Vanta via two CDN request
+    // aborts (three.js, vanta.net) and window.matchMedia override—these are
+    // a pair; weakening one requires reconsidering the other. Caveat: a static
+    // baseline vs. a differently-built astro output can surface sub-pixel
+    // dithering, but same-build runs are deterministic. Before loosening,
+    // re-verify with repeated identical runs.
     toHaveScreenshot: {
       threshold: 0,
       maxDiffPixelRatio: 0,
