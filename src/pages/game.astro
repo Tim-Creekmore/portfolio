@@ -3,14 +3,88 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 ---
-<BaseLayout title="Game Lab | Timothy Creekmore" description="Unity URP systems lab source scaffold." active="game">
-  <Nav active="game" />
-  <main id="main-content" class="px-6 pt-28 pb-16">
-    <section class="max-w-5xl mx-auto glass-panel p-6 md:p-10">
-      <p class="eyebrow mb-4">Game lab</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">A systems lab disguised as a medieval world.</h1>
-      <p class="text-gray-700 leading-relaxed">Astro source version of the Unity systems page. The current live page remains `/game/` until migration is complete.</p>
+<BaseLayout
+  title="Voxel game — In dev | Timothy Creekmore"
+  description="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass. Timothy Creekmore."
+  ogDescription="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass."
+  active="game"
+  bodyClass="min-h-screen bg-slate-950 text-gray-100 antialiased"
+>
+  <Nav variant="game" />
+
+  <main id="main-content" class="pt-28 px-4 pb-16 max-w-6xl mx-auto min-h-[80vh]">
+
+    <section class="glass-panel p-6 md:p-10">
+      <div class="grid lg:grid-cols-[1fr_0.9fr] gap-10 items-center">
+        <div>
+          <p class="eyebrow mb-4">Game lab &middot; Unity URP</p>
+          <h1 class="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">A systems lab disguised as a medieval world.</h1>
+          <p class="text-lg text-slate-400 leading-relaxed mb-8">
+            Procedural terrain, biome boundaries, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. This page is here to show the engineering taste behind the side project, even before the web build lands.
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-2 rounded-full border border-amber-200/30 px-4 py-2 text-sm text-slate-500">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
+              Actively in development
+            </span>
+            <a href="/portfolio/#projects" class="glow-link">See portfolio projects &rarr;</a>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">World</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Biomes</h2>
+            <p class="text-sm text-slate-400">Temperate, frontier, and mountain data assets drive placement and presentation.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Visuals</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Shaders</h2>
+            <p class="text-sm text-slate-400">Geometry grass, stylized sky, material tuning, and warm low-poly atmosphere.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Systems</p>
+            <h2 class="text-xl font-semibold text-white mb-2">C# tooling</h2>
+            <p class="text-sm text-slate-400">Editor builders, registries, save data, procedural placers, and scene setup scripts.</p>
+          </div>
+          <div class="metric-card p-5">
+            <p class="eyebrow mb-2">Goal</p>
+            <h2 class="text-xl font-semibold text-white mb-2">Playable web build</h2>
+            <p class="text-sm text-slate-400">The current splash will become a browser-playable showcase when the build is ready.</p>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <section class="mt-10 glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-3 text-center">Systems demonstrated</p>
+      <h2 class="text-3xl font-bold text-center text-white mb-8">Why the game lab belongs in a portfolio</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <article class="metric-card p-5">
+          <h3 class="text-lg font-semibold text-white mb-2">Data-driven worlds</h3>
+          <p class="text-sm text-slate-400">Biome assets and registries keep terrain, foliage, roads, and villages configurable.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-lg font-semibold text-white mb-2">Procedural systems</h3>
+          <p class="text-sm text-slate-400">Terrain chunks, placement logic, and scene setup show repeatable systems design.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-lg font-semibold text-white mb-2">Editor tooling</h3>
+          <p class="text-sm text-slate-400">Custom builders and setup scripts reduce manual scene work and speed iteration.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-lg font-semibold text-white mb-2">Visual polish</h3>
+          <p class="text-sm text-slate-400">URP materials, sky, water, and grass create a consistent atmosphere.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="mt-10 text-slate-500 text-sm text-center">
+      <a href="/" class="glow-link">&larr; Hub home</a>
+      &nbsp;&middot;&nbsp;
+      <a href="/portfolio/#contact" class="glow-link">Contact</a>
+    </div>
   </main>
-  <Footer />
+
+  <Footer variant="game" />
 </BaseLayout>
