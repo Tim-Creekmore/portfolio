@@ -12,6 +12,14 @@ export default defineConfig({
     reducedMotion: 'reduce',
   },
   expect: {
+    // Default 5000ms is too tight for full-page screenshots (some pages
+    // exceed 2MB) under this machine's default 8-worker fullyParallel
+    // concurrency: screenshots were observed timing out mid-capture with
+    // no pixel diff (no -actual.png/-diff.png produced, only the
+    // baseline), i.e. resource contention, not visual non-determinism.
+    // Widened for headroom rather than reducing parallelism, since every
+    // later task re-runs this same suite.
+    timeout: 15000,
     toHaveScreenshot: {
       maxDiffPixelRatio: 0.01,
       animations: 'disabled',
