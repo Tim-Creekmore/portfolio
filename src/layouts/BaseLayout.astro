@@ -4,7 +4,7 @@ import Seo from '../components/Seo.astro';
 interface Props {
   title: string;
   description: string;
-  active?: 'home' | 'portfolio' | 'game';
+  active: 'home' | 'portfolio' | 'game';
   bodyClass?: string;
   ogType?: string;
   ogTitle?: string;
@@ -14,12 +14,21 @@ interface Props {
 const {
   title,
   description,
-  active = 'home',
+  active,
   bodyClass = 'bg-gray-100 text-gray-800',
   ogType = 'website',
   ogTitle,
   ogDescription,
 } = Astro.props;
+
+const HUBS = ['home', 'portfolio', 'game'];
+if (!HUBS.includes(active)) {
+  throw new Error(
+    `BaseLayout.astro: invalid active ${JSON.stringify(active)}. ` +
+    `Expected one of ${HUBS.join(', ')}. ` +
+    `This sets <body data-hub>, which hub-nav.js uses for active-link highlighting and aria-current.`
+  );
+}
 ---
 <!DOCTYPE html>
 <html lang="en">
