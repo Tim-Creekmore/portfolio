@@ -14,12 +14,15 @@
  *     never redirected, never stripped. This is the property the
  *     `npx serve` based harness got wrong (see task-1-report.md).
  *   - Anything that resolves outside `root` is refused.
+ *   - Malformed request URIs and any other per-request error return an
+ *     HTTP error response instead of crashing the process — this server
+ *     backs `serve:dist` for later tasks under 8-way parallel workers,
+ *     and one bad request must not take down every worker at once.
  */
 
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 const [, , rootArg, portArg] = process.argv;
 
@@ -63,14 +66,24 @@ function contentTypeFor(filePath) {
 
 /**
  * Resolve a request path to an absolute file path under `root`, or
- * null if nothing servable exists / the resolved path escapes root.
+ * null if nothing servable exists / the resolved path escapes root /
+ * the URI can't be decoded at all (e.g. a bare `%`).
  *
  * Directory-style URLs (`/portfolio/` or `/portfolio`) map to
  * `<dir>/index.html`. Anything with an explicit extension (notably
  * `.html`) is served exactly as named — no rewriting.
  */
 function resolveRequestPath(urlPath) {
-  const decoded = decodeURIComponent(urlPath.split('?')[0].split('#')[0]);
+  const rawPath = urlPath.split('?')[0].split('#')[0];
+
+  let decoded;
+  try {
+    decoded = decodeURIComponent(rawPath);
+  } catch {
+    // Malformed URI (e.g. a bare "%"). Not servable — 404, not a crash.
+    return null;
+  }
+
   const relative = decoded.replace(/^\/+/, '');
   let candidate = path.join(root, relative);
 
@@ -104,23 +117,41 @@ function resolveRequestPath(urlPath) {
 }
 
 const server = http.createServer((req, res) => {
-  const filePath = resolveRequestPath(req.url || '/');
+  try {
+    const filePath = resolveRequestPath(req.url || '/');
 
-  if (!filePath) {
-    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end(`404 Not Found: ${req.url}`);
-    return;
-  }
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
+    if (!filePath) {
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end(`404 Not Found: ${req.url}`);
       return;
     }
-    res.writeHead(200, { 'Content-Type': contentTypeFor(filePath) });
-    res.end(data);
-  });
+
+    fs.readFile(filePath, (err, data) => {
+      try {
+        if (err) {
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end(`404 Not Found: ${req.url}`);
+          return;
+        }
+        res.writeHead(200, { 'Content-Type': contentTypeFor(filePath) });
+        res.end(data);
+      } catch (innerErr) {
+        console.error('static-server: error writing response', innerErr);
+        if (!res.headersSent) {
+          res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        }
+        res.end('500 Internal Server Error');
+      }
+    });
+  } catch (err) {
+    // Defensive: any unexpected throw returns 500 instead of taking down
+    // the process (and every other worker mid-run) with it.
+    console.error('static-server: unhandled request error', err);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+    }
+    res.end('500 Internal Server Error');
+  }
 });
 
 server.listen(port, () => {

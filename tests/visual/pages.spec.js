@@ -11,6 +11,8 @@ const MODE = process.env.VISUAL_MODE || 'static';
 // navigation, before the screenshot is taken, so a wrong response
 // (e.g. a directory listing, a 404 page, a redirect to the wrong
 // place) fails loudly instead of silently becoming the baseline.
+// It is used as `new RegExp(expectTitle)`, so a literal "|" in a
+// title (e.g. "Now | Timothy Creekmore") must be escaped as "\|".
 const PAGES = [
   { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Systems Thinker' },
   { name: 'portfolio',         static: '/portfolio/',                    astro: '/portfolio/',                        expectTitle: 'Portfolio' },
@@ -23,8 +25,8 @@ const PAGES = [
   { name: 'proj-signature',    static: '/signature-extraction.html',     astro: '/projects/signature-extraction/',    expectTitle: 'Signature Data Extraction' },
   { name: 'proj-sandbox',      static: '/ai-engineering-sandbox.html',   astro: '/projects/ai-engineering-sandbox/',  expectTitle: 'AI Engineering Sandbox' },
   { name: 'resume',            static: '/resume.html',                   astro: '/resume/',                          expectTitle: 'Timothy Creekmore Resume' },
-  { name: 'now',               static: '/now/',                          astro: null,                                 expectTitle: 'Now' },
-  { name: 'uses',              static: '/uses/',                         astro: null,                                 expectTitle: 'Uses' },
+  { name: 'now',               static: '/now/',                          astro: null,                                 expectTitle: 'Now \\| Timothy Creekmore' },
+  { name: 'uses',              static: '/uses/',                         astro: null,                                 expectTitle: 'Uses \\| Timothy Creekmore' },
 ];
 
 for (const p of PAGES) {
