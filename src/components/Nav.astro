@@ -1,25 +1,84 @@
 ---
 interface Props {
-  active?: 'home' | 'portfolio' | 'game';
+  variant: 'home' | 'portfolio' | 'game';
 }
 
-const { active = 'home' } = Astro.props;
+const { variant } = Astro.props;
 ---
-<nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-    <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
-    <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-      <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
-      <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
-      <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
+{variant === 'home' && (
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/portfolio/#current-focus" class="hover:text-teal-600 transition">Now</a>
+        <a href="/notes/" class="hover:text-teal-600 transition">Notes</a>
+        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
+        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
+      </button>
     </div>
-    <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-      <span aria-hidden="true">Menu</span>
-    </button>
-  </div>
-  <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
-    <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
-    <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
-    <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
-  </div>
-</nav>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="/portfolio/#current-focus" class="py-2 hover:text-teal-600">Now</a>
+      <a href="/notes/" class="py-2 hover:text-teal-600">Notes</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+    </div>
+  </nav>
+)}
+{variant === 'portfolio' && (
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs font-medium text-gray-600 flex-1 min-w-0 pl-4">
+        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
+        <a href="/portfolio/#about" class="hover:text-teal-600 transition">About</a>
+        <a href="/portfolio/#current-focus" class="hover:text-teal-600 transition">Now</a>
+        <a href="/portfolio/#projects" class="hover:text-teal-600 transition">Projects</a>
+        <a href="/portfolio/#skills" class="hover:text-teal-600 transition">Skills</a>
+        <a href="/portfolio/#contact" class="hover:text-teal-600 transition">Contact</a>
+        <a href="/resume.pdf" data-analytics="Resume Download Nav" class="hover:text-teal-600 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
+        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95 max-h-[70vh] overflow-y-auto">
+      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
+      <a href="#about" class="py-2 hover:text-teal-600">About (this page)</a>
+      <a href="#current-focus" class="py-2 hover:text-teal-600">Current Focus</a>
+      <a href="#projects" class="py-2 hover:text-teal-600">Projects</a>
+      <a href="#skills" class="py-2 hover:text-teal-600">Skills</a>
+      <a href="#contact" class="py-2 hover:text-teal-600">Contact</a>
+      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
+    </div>
+  </nav>
+)}
+{variant === 'game' && (
+  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-violet-500/20 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="font-semibold text-white shrink-0 hover:text-violet-300 transition" data-hub-link="home">Timothy Creekmore</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="/portfolio/" class="hover:text-violet-400 transition" data-hub-link="portfolio">Portfolio</a>
+        <a href="/game/" class="hover:text-violet-400 transition" data-hub-link="game">Game</a>
+        <a href="/resume.pdf" class="hover:text-violet-400 transition">Resume</a>
+      </div>
+      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
+        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
+        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
+      </button>
+    </div>
+    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-violet-500/20 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-slate-200 bg-slate-900/95">
+      <a href="/portfolio/" class="py-2 hover:text-violet-400" data-hub-link="portfolio">Portfolio</a>
+      <a href="/game/" class="py-2 hover:text-violet-400" data-hub-link="game">Game</a>
+      <a href="/resume.pdf" class="py-2 hover:text-violet-400">Resume</a>
+    </div>
+  </nav>
+)}

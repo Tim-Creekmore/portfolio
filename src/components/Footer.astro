@@ -1,10 +1,24 @@
-<footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white">
+---
+interface Props {
+  class?: string;
+  variant?: 'light' | 'game';
+}
+
+const {
+  class: className = 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white',
+  variant = 'light',
+} = Astro.props;
+
+const textClass = variant === 'game' ? 'text-slate-600' : 'text-gray-400';
+const linkClass = variant === 'game' ? 'hover:text-violet-300' : 'hover:text-gray-700';
+---
+<footer class={className}>
   <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
-  <p class="mt-1 text-gray-400">
-    <a href="/" class="hover:text-gray-700">Home</a>
+  <p class={`mt-1 ${textClass}`}>
+    <a href="/" class={linkClass}>Home</a>
     <span aria-hidden="true">&middot;</span>
-    <a href="/portfolio/#contact" class="hover:text-gray-700">Contact</a>
+    <a href="/portfolio/#contact" class={linkClass}>Contact</a>
     <span aria-hidden="true">&middot;</span>
-    <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-gray-700">GitHub</a>
+    <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class={linkClass}>GitHub</a>
   </p>
 </footer>
