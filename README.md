@@ -34,8 +34,8 @@ Live: <https://www.timothycreekmore.com/> (GitHub Pages, custom domain via `CNAM
 │   │   ├── notes/*.mdx         Field note bodies
 │   │   └── projects/*.mdx      Case study bodies
 │   ├── content.config.ts       Content collection schemas
-│   ├── layouts/                BaseLayout, CaseStudyLayout, NoteLayout, ResumeLayout
-│   ├── components/             Nav, Footer, GlassPanel, MetricCard, NoteParagraph, Seo
+│   ├── layouts/                BaseLayout, NoteLayout, ResumeLayout (+ CaseStudyLayout, unused — see below)
+│   ├── components/             Nav, Footer, NoteParagraph, Seo (+ GlassPanel, MetricCard, unused — see below)
 │   └── styles/tailwind.src.css Tailwind input (directives + site overrides)
 ├── public/                     Copied verbatim into dist/ by astro build
 │   ├── assets/css/tailwind.css     Built, minified Tailwind output (committed)
@@ -62,6 +62,8 @@ Live: <https://www.timothycreekmore.com/> (GitHub Pages, custom domain via `CNAM
 ```
 
 `sitemap.xml` is no longer committed — `@astrojs/sitemap` generates `dist/sitemap-index.xml` (and `dist/sitemap-0.xml`) at build time.
+
+`src/layouts/CaseStudyLayout.astro`, `src/components/GlassPanel.astro`, and `src/components/MetricCard.astro` currently have no importers anywhere in the site — Astro never builds them, so they don't ship. They're retained intentionally for a planned content pass (e.g. wiring the portfolio project grid to the `projects` content collection) rather than deleted; treat them as scaffolding, not live parts of the current build.
 
 ## Local development
 
