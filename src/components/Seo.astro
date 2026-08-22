@@ -55,12 +55,16 @@ const personSchema = {
 <meta property="og:description" content={ogDescription} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImage} />
-<meta property="profile:first_name" content="Timothy" />
-<meta property="profile:last_name" content="Creekmore" />
+{ogType === 'profile' && (
+  <>
+    <meta property="profile:first_name" content="Timothy" />
+    <meta property="profile:last_name" content="Creekmore" />
+  </>
+)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={ogTitle} />
 <meta name="twitter:description" content={ogDescription} />
 <meta name="twitter:image" content={ogImage} />
 
-<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(personSchema).replace(/</g, '\\u003c')} />
