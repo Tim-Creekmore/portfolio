@@ -1,0 +1,36 @@
+---
+interface Props {
+  active: 'work' | 'notes' | 'game' | 'resume';
+}
+const { active } = Astro.props;
+
+const SECTIONS = ['work', 'notes', 'game', 'resume'];
+if (!SECTIONS.includes(active)) {
+  throw new Error(
+    `Nav.astro: invalid active ${JSON.stringify(active)}. ` +
+    `Expected one of ${SECTIONS.join(', ')}. ` +
+    `A page rendering Nav without a valid value would ship with no navigation.`
+  );
+}
+
+const LINKS = [
+  { href: '/',        key: 'work',   label: 'Work' },
+  { href: '/notes/',  key: 'notes',  label: 'Notes' },
+  { href: '/game/',   key: 'game',   label: 'Game' },
+  { href: '/resume/', key: 'resume', label: 'Résumé' },
+];
+---
+<nav id="hub-navbar" class="border-b border-gray-200">
+  <div class="max-w-3xl mx-auto px-6 py-3 sm:py-0 sm:h-14 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+    <a href="/" class="text-sm font-medium text-gray-900 hover:opacity-70 transition">Timothy Creekmore</a>
+    <div class="flex items-center gap-5 text-xs">
+      {LINKS.map((l) => (
+        <a
+          href={l.href}
+          class="text-gray-600 hover:text-teal-600 transition"
+          aria-current={l.key === active ? 'page' : undefined}
+        >{l.label}</a>
+      ))}
+    </div>
+  </div>
+</nav>

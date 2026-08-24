@@ -76,10 +76,26 @@ crashlytics-buildid.txt
 
 # Node / Tailwind build
 node_modules/
-package-lock.json
+dist/
+.astro/
 
 # Unity Bee build cache
 **/Library/Bee/
 
 # Test screenshots (regenerated)
 tests/screenshots/
+
+# Playwright run artifacts (regenerated; baseline PNGs under tests/visual/__snapshots__ ARE tracked)
+test-results/
+playwright-report/
+blob-report/
+
+# Project-scoped Claude skills (local only)
+.claude/skills/
+
+# Claude worktrees (embedded git repos, local only)
+game/.claude/worktrees/
+.superpowers/
+
+# Local preview screenshots (scratch)
+.live-shots/

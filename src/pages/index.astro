@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(projects.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })));
+
+const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout
+  title="Timothy Creekmore — Software Developer"
+  description="Software developer at Lifeplus. Production systems, Unity systems work, and short write-ups on what actually broke."
+  ogTitle="Timothy Creekmore — Software Developer"
+  ogDescription="Production systems, Unity systems work, and short write-ups on what actually broke."
+  ogType="profile"
+>
+  <div class="grid-field" aria-hidden="true"></div>
+  <Nav active="work" />
+
+  <main id="main-content" class="max-w-3xl mx-auto px-6">
+
+    <header class="pt-16 pb-14">
+      <p class="eyebrow mb-4">Software developer · Lifeplus</p>
+      <h1 class="text-4xl md:text-5xl mb-5" style="font-family:'Instrument Serif',Georgia,serif;line-height:1.03;letter-spacing:-0.015em;">
+        I build the boring parts properly.
+      </h1>
+      <p class="text-gray-600 leading-relaxed max-w-xl">
+        Production software at Lifeplus, systems work in Unity, and short write-ups on what actually broke.
+      </p>
+    </header>
+
+    <section aria-labelledby="work-heading" class="rule pt-8">
+      <h2 id="work-heading" class="eyebrow mb-8">Selected work</h2>
+      {rendered.map((p) => (
+        <article class="grid grid-cols-[5rem_1fr] gap-5 pb-10 mb-10 rule-b">
+          <div class="rail pr-3">
+            {p.data.org ?? 'Personal'}<br />{p.data.period}
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">{p.data.title}</h3>
+            <div class="prose-entry text-sm text-gray-700 leading-relaxed"><p.Content /></div>
+            <p class="tick mt-4">{p.data.tech.join(' · ')}</p>
+            {p.data.link && <p class="mt-2 text-sm"><a href={p.data.link.href} class="text-teal-600 hover:underline">{p.data.link.label} &rarr;</a></p>}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section aria-labelledby="notes-heading" class="rule pt-8">
+      <h2 id="notes-heading" class="eyebrow mb-8">Field notes</h2>
+      <ul class="space-y-5 list-none p-0">
+        {notes.map((n) => (
+          <li>
+            <a href={`/notes/${n.id.replace(/\.mdx?$/, '')}/`} class="block group">
+              <span class="text-base font-semibold text-gray-900 group-hover:text-teal-600 transition">{n.data.title}</span>
+              <span class="block text-sm text-gray-600 mt-1">{n.data.summary}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="about-heading" class="rule pt-8">
+      <h2 id="about-heading" class="eyebrow mb-6">About</h2>
+      <div class="text-gray-700 leading-relaxed space-y-4 max-w-xl">
+        <p>I write production software at Lifeplus — features, internal tooling and workflow support on a real team, shipping into a system where a wrong result means goods go to the wrong place.</p>
+        <p>Before that I studied Computer Science and Data Science at Lyon College, and spent seven years repairing appliances. That second one turns out to matter more than it sounds: diagnosis under uncertainty, and the discipline not to trust your first theory.</p>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading" class="rule pt-8 pb-4">
+      <h2 id="contact-heading" class="eyebrow mb-6">Contact</h2>
+      <p class="text-gray-700 mb-4 max-w-xl">Open to talking about software, data work, or systems problems.</p>
+      <p class="text-sm">
+        <a id="contact-email" href="#contact" data-user="timcreekmore2002" data-domain="gmail.com" class="text-teal-600 hover:underline">click to reveal email</a>
+        <span class="text-gray-400 mx-2">·</span>
+        <a href="/resume.pdf" class="text-teal-600 hover:underline">Résumé (PDF)</a>
+      </p>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script slot="scripts" is:inline>
+    (function () {
+      var el = document.getElementById('contact-email');
+      if (!el) return;
+      var reveal = function () {
+        var addr = el.dataset.user + '@' + el.dataset.domain;
+        el.href = 'mailto:' + addr;
+        el.textContent = addr;
+        el.removeEventListener('mouseenter', reveal);
+        el.removeEventListener('focus', reveal);
+      };
+      el.addEventListener('mouseenter', reveal);
+      el.addEventListener('focus', reveal);
+      el.addEventListener('click', function (e) {
+        if (el.getAttribute('href') === '#contact') { e.preventDefault(); reveal(); }
+      });
+    })();
+  </script>
+</BaseLayout>

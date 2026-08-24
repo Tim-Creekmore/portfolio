@@ -2,13 +2,28 @@
   "name": "timothycreekmore-com",
   "version": "1.0.0",
   "private": true,
-  "description": "Static site for timothycreekmore.com (hub, portfolio, shop, content, game splash).",
+  "description": "Personal brand site for Timothy Creekmore: software craft, AI/data projects, and systems work.",
   "scripts": {
-    "build:css": "tailwindcss -i ./assets/css/tailwind.src.css -o ./assets/css/tailwind.css --minify",
-    "watch:css": "tailwindcss -i ./assets/css/tailwind.src.css -o ./assets/css/tailwind.css --watch",
-    "serve": "npx serve ."
+    "build": "npm run check:css && npm run build:css && npx astro build && npm run check:links",
+    "build:css": "tailwindcss -i ./src/styles/tailwind.src.css -o ./public/assets/css/tailwind.css --minify",
+    "build:resume": "node scripts/build-resume.mjs",
+    "check:css": "node scripts/check-css.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "audit:lighthouse": "npx lighthouse http://localhost:3000 --only-categories=performance,accessibility,best-practices,seo",
+    "watch:css": "tailwindcss -i ./src/styles/tailwind.src.css -o ./public/assets/css/tailwind.css --watch",
+    "serve": "npx serve .",
+    "serve:static": "node scripts/static-server.mjs . 3000",
+    "serve:dist": "node scripts/static-server.mjs dist 3000",
+    "visual": "playwright test",
+    "astro:dev": "astro dev",
+    "astro:build": "astro build",
+    "astro:preview": "astro preview"
   },
   "devDependencies": {
+    "@astrojs/mdx": "^4.3.1",
+    "@astrojs/sitemap": "^3.5.0",
+    "@playwright/test": "^1.62.1",
+    "astro": "^5.8.1",
     "tailwindcss": "^3.4.17"
   }
 }

@@ -1,0 +1,53 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  // Static detail pages use Title Case in <title> but sentence case in
+  // <h1>. When they genuinely differ, pass pageTitle explicitly rather
+  // than deriving one from the other.
+  pageTitle?: string;
+  description: string;
+  eyebrow: string;
+}
+
+const { title, pageTitle, description, eyebrow } = Astro.props;
+const fullTitle = pageTitle ?? `${title} | Timothy Creekmore`;
+---
+<BaseLayout title={fullTitle} description={description} bodyClass="bg-gray-100 text-gray-800">
+  <div class="grid-field" aria-hidden="true"></div>
+  <Nav active="notes" />
+  <main id="main-content" class="px-6 py-16">
+    <article class="max-w-3xl mx-auto glass-panel p-6 md:p-10">
+      <p class="eyebrow mb-4">{eyebrow}</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-6">{title}</h1>
+      <div class="note-prose">
+        <slot />
+      </div>
+      <p class="mt-8"><a href="/notes/" class="text-teal-600 hover:underline">&larr; Back to notes</a></p>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /*
+   * Astro's scoped `<style>` never reaches slotted content (it only
+   * rewrites elements this component's own template renders), so a plain
+   * selector here would silently do nothing. `:global()` opts this rule
+   * out of scoping entirely, turning it into a true global CSS rule that
+   * does reach the MDX-rendered <p> tags inside <slot />. Verified against
+   * the built dist HTML and the parity gate, not assumed.
+   *
+   * Static paragraphs are `mb-4` on every paragraph except the last
+   * (which relies on the back-link's own `mt-8` for spacing). Using
+   * `margin-top` on non-first paragraphs instead of `margin-bottom` on
+   * non-last ones reproduces that exactly without depending on CSS
+   * margin-collapsing behavior across the note-prose wrapper boundary.
+   */
+  .note-prose :global(p + p) {
+    margin-top: 1rem;
+  }
+</style>

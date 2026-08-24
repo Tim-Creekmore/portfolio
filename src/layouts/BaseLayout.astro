@@ -1,0 +1,39 @@
+---
+import Seo from '../components/Seo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  bodyClass?: string;
+  ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  bodyClass = '',
+  ogType = 'website',
+  ogTitle,
+  ogDescription,
+  ogImage,
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Seo title={title} description={description} ogType={ogType} ogTitle={ogTitle} ogDescription={ogDescription} ogImage={ogImage} />
+    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+    <slot name="head" />
+  </head>
+  <body class={bodyClass} data-site-theme="light">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <slot />
+    <script src="/assets/js/hub-nav.js" defer></script>
+    <slot name="scripts" />
+  </body>
+</html>

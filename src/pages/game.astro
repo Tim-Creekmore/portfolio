@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout
+  title="Voxel game — In dev | Timothy Creekmore"
+  description="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass. Timothy Creekmore."
+  ogDescription="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass."
+>
+  <div class="grid-field" aria-hidden="true"></div>
+  <Nav active="game" />
+
+  <main id="main-content" class="max-w-3xl mx-auto px-6">
+
+    <header class="pt-16 pb-14">
+      <p class="eyebrow mb-4">Game lab &middot; Unity URP</p>
+      <h1 class="text-4xl md:text-5xl mb-5" style="font-family:'Instrument Serif',Georgia,serif;line-height:1.03;letter-spacing:-0.015em;">
+        A systems lab disguised as a medieval world.
+      </h1>
+      <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
+        Procedural terrain, biome boundaries, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. This page is here to show the engineering taste behind the side project, even before the web build lands.
+      </p>
+      <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-600">
+        <span class="w-2 h-2 rounded-full" style="background: var(--accent);" aria-hidden="true"></span>
+        Actively in development
+      </span>
+    </header>
+
+    <section aria-labelledby="world-heading" class="rule pt-8 pb-10">
+      <h2 id="world-heading" class="eyebrow mb-8">World and systems</h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="metric-card p-5">
+          <p class="eyebrow mb-2">World</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Biomes</h3>
+          <p class="text-sm text-gray-600">Temperate, frontier, and mountain data assets drive placement and presentation.</p>
+        </div>
+        <div class="metric-card p-5">
+          <p class="eyebrow mb-2">Visuals</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Shaders</h3>
+          <p class="text-sm text-gray-600">Geometry grass, stylized sky, material tuning, and warm low-poly atmosphere.</p>
+        </div>
+        <div class="metric-card p-5">
+          <p class="eyebrow mb-2">Systems</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">C# tooling</h3>
+          <p class="text-sm text-gray-600">Editor builders, registries, save data, procedural placers, and scene setup scripts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-heading" class="rule pt-8 pb-10">
+      <h2 id="why-heading" class="eyebrow mb-8">Why the game lab belongs in a portfolio</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <article class="metric-card p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-2">Data-driven worlds</h3>
+          <p class="text-sm text-gray-600">Biome assets and registries keep terrain, foliage, roads, and villages configurable.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-2">Procedural systems</h3>
+          <p class="text-sm text-gray-600">Terrain chunks, placement logic, and scene setup show repeatable systems design.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-2">Editor tooling</h3>
+          <p class="text-sm text-gray-600">Custom builders and setup scripts reduce manual scene work and speed iteration.</p>
+        </article>
+        <article class="metric-card p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-2">Visual polish</h3>
+          <p class="text-sm text-gray-600">URP materials, sky, water, and grass create a consistent atmosphere.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="roadmap-heading" class="rule pt-8">
+      <div class="flex items-baseline justify-between mb-8">
+        <h2 id="roadmap-heading" class="eyebrow">Roadmap</h2>
+        <p class="tick">Updated Aug 2026</p>
+      </div>
+
+      <ol class="list-none p-0 m-0">
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
+          <span class="phase-dot done" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Shipped &middot; Apr 2026</p>
+            <p class="font-semibold text-gray-900 text-sm mb-1">Phase A · Core systems</p>
+            <p class="text-sm text-gray-600">Camera modes, death system, combat, squads, arena.</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
+          <span class="phase-dot done" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Shipped &middot; Jun 2026</p>
+            <p class="font-semibold text-gray-900 text-sm mb-1">Phase A5 · Polish and persistence</p>
+            <p class="text-sm text-gray-600">Ambient pass, save/load, enemy state, playtest fixes.</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
+          <span class="phase-dot wip" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Building</p>
+            <p class="font-semibold text-gray-900 text-sm mb-1">Phase B · Biome system</p>
+            <p class="text-sm text-gray-600">Data assets and registry, editor builder, placement and boundaries.</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4">
+          <span class="phase-dot todo" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Next</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase C · Browser-playable build</p>
+            <p class="text-sm text-gray-500">Turn the splash into a demo people can play in a tab.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Site-wide overrides on top of Tailwind */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+/* Skip-to-main: hidden until focused, then pops to the top-left over the nav */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  color: var(--accent, #23405e);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  outline: 2px solid var(--accent, #23405e);
+}
+
+/* Light structural skin — see docs/superpowers/specs/2026-08-23-portfolio-redesign-design.md */
+body[data-site-theme="light"] {
+  --ground: #f6f3ec;
+  --surface: #fffdf8;
+  --ink: #17171a;
+  --ink-2: #4b4740;
+  --ink-3: #726d62;
+  --rule: #e0d9c9;
+  --accent: #23405e;
+
+  background: var(--ground);
+  color: var(--ink);
+}
+
+/* The drafting grid. Fades down the page so it never competes with content. */
+body[data-site-theme="light"] .grid-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    linear-gradient(#dcd5c6 1px, transparent 1px),
+    linear-gradient(90deg, #dcd5c6 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
+}
+/* :not(.skip-link) is the fix for the 24px header-offset bug: .skip-link
+   relies on `position: absolute` (declared above) to sit off-screen at
+   `left: -9999px` without reserving space in normal flow. This catch-all
+   used to override that to `position: relative` (needed for the
+   z-index-layering of nav/main/footer above .grid-field), which put the
+   still-invisible skip-link back into flow and made it reserve a ~24px
+   line box at the top of the page — pushing every direct child below it
+   down by that amount. NoteLayout.astro previously patched around this
+   with a page-local `!important` override; excluding .skip-link here
+   fixes it once, for every page that uses this theme. */
+body[data-site-theme="light"] > *:not(.skip-link) { position: relative; z-index: 1; }
+
+body[data-site-theme="light"] .eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+body[data-site-theme="light"] .rule { border-top: 1px solid var(--rule); }
+
+body[data-site-theme="light"] .rail {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  line-height: 1.75;
+  color: var(--ink-3);
+  border-right: 1px solid var(--rule);
+}
+
+body[data-site-theme="light"] .tick {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+/* Structural card surfaces carried over from the old theme. Restrained on
+   purpose: hairline border and a small radius, no shadow or blur — the
+   design's visual interest comes from structure and the drafting grid. */
+body[data-site-theme="light"] .glass-panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+body[data-site-theme="light"] .metric-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
+/* Override the Tailwind utilities the markup uses, the same mechanism the old
+   theme used — so ported markup keeps working without class churn. */
+body[data-site-theme="light"] .bg-white,
+body[data-site-theme="light"] .bg-gray-50,
+body[data-site-theme="light"] .bg-gray-100 { background-color: var(--surface) !important; }
+
+body[data-site-theme="light"] .text-gray-900,
+body[data-site-theme="light"] .text-white { color: var(--ink) !important; }
+
+body[data-site-theme="light"] .text-gray-700,
+body[data-site-theme="light"] .text-gray-600 { color: var(--ink-2) !important; }
+
+body[data-site-theme="light"] .text-gray-500,
+body[data-site-theme="light"] .text-gray-400 { color: var(--ink-3) !important; }
+
+body[data-site-theme="light"] .border-gray-100,
+body[data-site-theme="light"] .border-gray-200 { border-color: var(--rule) !important; }
+
+body[data-site-theme="light"] .text-teal-600,
+body[data-site-theme="light"] .text-teal-700,
+body[data-site-theme="light"] .hover\:text-teal-600:hover { color: var(--accent) !important; }
+
+/* Active nav link: server-rendered aria-current is the single source of
+   truth for both assistive tech and the visible state — no JS class needed. */
+body[data-site-theme="light"] nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+body[data-site-theme="light"] .rule-b { border-bottom: 1px solid var(--rule); }
+body[data-site-theme="light"] .rule-b:last-child { border-bottom: 0; }
+body[data-site-theme="light"] .prose-entry h2 {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 1rem 0 0.3rem;
+}
+body[data-site-theme="light"] .prose-entry h2:first-child { margin-top: 0; }
+body[data-site-theme="light"] .prose-entry p { margin: 0 0 0.5rem; }
+
+body[data-site-theme="light"] .phase-dot {
+  width: 15px; height: 15px; border-radius: 50%; margin-top: 3px; display: block;
+}
+body[data-site-theme="light"] .phase-dot.done { background: var(--accent); border: 1px solid var(--accent); }
+body[data-site-theme="light"] .phase-dot.wip  { background: var(--ground); border: 2px solid var(--accent); }
+body[data-site-theme="light"] .phase-dot.todo { background: var(--ground); border: 1px dashed var(--ink-3); }
