@@ -96,3 +96,6 @@ blob-report/
 # Claude worktrees (embedded git repos, local only)
 game/.claude/worktrees/
 .superpowers/
+
+# Local preview screenshots (scratch)
+.live-shots/
