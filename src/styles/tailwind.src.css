@@ -148,7 +148,12 @@ body[data-site-theme="light"] nav a[aria-current="page"] {
 
 body[data-site-theme="light"] .rule-b { border-bottom: 1px solid var(--rule); }
 body[data-site-theme="light"] .rule-b:last-child { border-bottom: 0; }
-body[data-site-theme="light"] .prose-entry h2 {
+/* h4, not h2: these sit inside an entry whose title is an h3, which sits
+   under the section's h2. Authoring them as `##` in the MDX produced an h2
+   nested under an h3 -- nine mis-levelled headings across the three entries,
+   which screen readers announce as a broken outline. The rendered appearance
+   is unchanged. */
+body[data-site-theme="light"] .prose-entry h4 {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6rem;
   letter-spacing: 0.16em;
@@ -156,7 +161,7 @@ body[data-site-theme="light"] .prose-entry h2 {
   color: var(--ink-3);
   margin: 1rem 0 0.3rem;
 }
-body[data-site-theme="light"] .prose-entry h2:first-child { margin-top: 0; }
+body[data-site-theme="light"] .prose-entry h4:first-child { margin-top: 0; }
 body[data-site-theme="light"] .prose-entry p { margin: 0 0 0.5rem; }
 
 body[data-site-theme="light"] .phase-dot {
