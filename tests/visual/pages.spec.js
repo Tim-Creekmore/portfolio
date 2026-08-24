@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const MODE = process.env.VISUAL_MODE || 'static';
-
 // Vanta.NET is live WebGL and renders into every desktop screenshot unless
 // actively suppressed — Playwright's `reducedMotion: 'reduce'` context
 // option does NOT make `window.matchMedia('(prefers-reduced-motion:
@@ -41,10 +39,6 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-// Static and Astro URLs differ for project and note detail pages.
-// `astro: null` means the page is intentionally deleted in the migration
-// (spec D4) and is baselined but never compared.
-//
 // `expectTitle` is a distinctive substring of the page's real <title>,
 // read directly from each source file. It is asserted right after
 // navigation, before the screenshot is taken, so a wrong response
@@ -52,36 +46,23 @@ test.beforeEach(async ({ page }) => {
 // place) fails loudly instead of silently becoming the baseline.
 // It is used as `new RegExp(expectTitle)`, so a literal "|" in a
 // title (e.g. "Now | Timothy Creekmore") must be escaped as "\|".
-// CUTOVER NOTE (Task 13, commit cce9d70): the static site this
-// `static:` column points at was deleted at cutover — all root `.html`
-// files, `portfolio/`, `game/index.html`, `notes/*.html`, `now/`, `uses/`,
-// `shop/`, and `content/` are gone from the working tree as of that commit.
-// `VISUAL_MODE=static` can therefore no longer run; every `static:` URL
-// below now 404s against a checkout at or after this commit. The columns
-// are kept (not deleted) because they document what the pre-migration site
-// looked like and are what the committed baselines under
-// `tests/visual/__snapshots__/` were originally captured from. The
-// baselines remain the reference for `VISUAL_MODE=astro` (the default/only
-// runnable mode going forward) — do not re-baseline against them expecting
-// `static:` to still work.
+//
+// These baselines represent the redesigned site as of this commit. The
+// suite now has exactly one mode — the static site these tests used to
+// also check against no longer exists, so there is nothing left to switch.
 const PAGES = [
-  { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Software Developer' },
-  { name: 'game',              static: '/game/',                         astro: '/game/',                             expectTitle: 'Voxel game' },
-  { name: 'notes',             static: '/notes/',                        astro: '/notes/',                            expectTitle: 'Field Notes' },
-  { name: 'note-repair',       static: '/notes/repair-debugging.html',   astro: '/notes/repair-debugging/',           expectTitle: 'Appliance Repair Taught Me About Debugging' },
-  { name: 'note-ocr',          static: '/notes/ocr-human-review.html',   astro: '/notes/ocr-human-review/',           expectTitle: 'OCR Projects Need Human Review' },
-  { name: 'note-biomes',       static: '/notes/biomes-data-assets.html', astro: '/notes/biomes-data-assets/',         expectTitle: 'Designing Biomes as Data Assets' },
-  { name: 'resume',            static: '/resume.html',                   astro: '/resume/',                          expectTitle: 'Timothy Creekmore Resume' },
-  { name: 'now',               static: '/now/',                          astro: null,                                 expectTitle: 'Now \\| Timothy Creekmore' },
-  { name: 'uses',              static: '/uses/',                         astro: null,                                 expectTitle: 'Uses \\| Timothy Creekmore' },
+  { name: 'home',        astro: '/',                          expectTitle: 'Software Developer' },
+  { name: 'game',        astro: '/game/',                     expectTitle: 'Voxel game' },
+  { name: 'notes',       astro: '/notes/',                    expectTitle: 'Field Notes' },
+  { name: 'note-repair', astro: '/notes/repair-debugging/',   expectTitle: 'Appliance Repair Taught Me About Debugging' },
+  { name: 'note-ocr',    astro: '/notes/ocr-human-review/',   expectTitle: 'OCR Projects Need Human Review' },
+  { name: 'note-biomes', astro: '/notes/biomes-data-assets/', expectTitle: 'Designing Biomes as Data Assets' },
+  { name: 'resume',      astro: '/resume/',                   expectTitle: 'Timothy Creekmore Resume' },
 ];
 
 for (const p of PAGES) {
   test(`${p.name}`, async ({ page }) => {
-    const path = MODE === 'static' ? p.static : p.astro;
-    test.skip(path === null, `${p.name} is deleted in the Astro build`);
-
-    await page.goto(path, { waitUntil: 'networkidle' });
+    await page.goto(p.astro, { waitUntil: 'networkidle' });
     // Correctness gate: fail loudly if this isn't actually the expected
     // page (wrong file served, directory listing, 404, bad redirect)
     // instead of silently baselining the wrong screenshot.
