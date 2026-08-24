@@ -4,7 +4,7 @@ import Seo from '../components/Seo.astro';
 interface Props {
   title: string;
   description: string;
-  active: 'home' | 'portfolio' | 'game';
+  active: 'work' | 'notes' | 'game' | 'resume';
   bodyClass?: string;
   ogType?: string;
   ogTitle?: string;
@@ -16,14 +16,14 @@ const {
   title,
   description,
   active,
-  bodyClass = 'bg-gray-100 text-gray-800',
+  bodyClass = '',
   ogType = 'website',
   ogTitle,
   ogDescription,
   ogImage,
 } = Astro.props;
 
-const HUBS = ['home', 'portfolio', 'game'];
+const HUBS = ['work', 'notes', 'game', 'resume'];
 if (!HUBS.includes(active)) {
   throw new Error(
     `BaseLayout.astro: invalid active ${JSON.stringify(active)}. ` +

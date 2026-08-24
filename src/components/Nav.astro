@@ -1,114 +1,36 @@
 ---
 interface Props {
-  variant: 'home' | 'portfolio' | 'game' | 'project';
+  active: 'work' | 'notes' | 'game' | 'resume';
 }
+const { active } = Astro.props;
 
-const { variant } = Astro.props;
-
-const VARIANTS = ['home', 'portfolio', 'game', 'project'];
-if (!VARIANTS.includes(variant)) {
+const SECTIONS = ['work', 'notes', 'game', 'resume'];
+if (!SECTIONS.includes(active)) {
   throw new Error(
-    `Nav.astro: invalid variant ${JSON.stringify(variant)}. ` +
-    `Expected one of ${VARIANTS.join(', ')}. ` +
-    `A page rendering Nav without a valid variant would ship with no navigation.`
+    `Nav.astro: invalid active ${JSON.stringify(active)}. ` +
+    `Expected one of ${SECTIONS.join(', ')}. ` +
+    `A page rendering Nav without a valid value would ship with no navigation.`
   );
 }
+
+const LINKS = [
+  { href: '/',        key: 'work',   label: 'Work' },
+  { href: '/notes/',  key: 'notes',  label: 'Notes' },
+  { href: '/game/',   key: 'game',   label: 'Game' },
+  { href: '/resume/', key: 'resume', label: 'Résumé' },
+];
 ---
-{variant === 'home' && (
-  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
-        <a href="/portfolio/#current-focus" class="hover:text-teal-600 transition">Now</a>
-        <a href="/notes/" class="hover:text-teal-600 transition">Notes</a>
-        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
-      </div>
-      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
-        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
-      </button>
+<nav id="hub-navbar" class="border-b border-gray-200">
+  <div class="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between gap-4">
+    <a href="/" class="text-sm font-medium text-gray-900 hover:opacity-70 transition">Timothy Creekmore</a>
+    <div class="flex items-center gap-5 text-xs">
+      {LINKS.map((l) => (
+        <a
+          href={l.href}
+          class="text-gray-600 hover:text-teal-600 transition"
+          aria-current={l.key === active ? 'page' : undefined}
+        >{l.label}</a>
+      ))}
     </div>
-    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
-      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
-      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
-      <a href="/portfolio/#current-focus" class="py-2 hover:text-teal-600">Now</a>
-      <a href="/notes/" class="py-2 hover:text-teal-600">Notes</a>
-      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
-    </div>
-  </nav>
-)}
-{variant === 'portfolio' && (
-  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
-      <div class="hidden md:flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs font-medium text-gray-600 flex-1 min-w-0 pl-4">
-        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
-        <a href="/portfolio/#about" class="hover:text-teal-600 transition">About</a>
-        <a href="/portfolio/#current-focus" class="hover:text-teal-600 transition">Now</a>
-        <a href="/portfolio/#projects" class="hover:text-teal-600 transition">Projects</a>
-        <a href="/portfolio/#skills" class="hover:text-teal-600 transition">Skills</a>
-        <a href="/portfolio/#contact" class="hover:text-teal-600 transition">Contact</a>
-        <a href="/resume.pdf" data-analytics="Resume Download Nav" class="hover:text-teal-600 transition">Resume</a>
-      </div>
-      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <i class="fas fa-bars text-xl" id="hub-nav-icon-open" aria-hidden="true"></i>
-        <i class="fas fa-times text-xl hidden" id="hub-nav-icon-close" aria-hidden="true"></i>
-      </button>
-    </div>
-    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95 max-h-[70vh] overflow-y-auto">
-      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
-      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
-      <a href="#about" class="py-2 hover:text-teal-600">About (this page)</a>
-      <a href="#current-focus" class="py-2 hover:text-teal-600">Current Focus</a>
-      <a href="#projects" class="py-2 hover:text-teal-600">Projects</a>
-      <a href="#skills" class="py-2 hover:text-teal-600">Skills</a>
-      <a href="#contact" class="py-2 hover:text-teal-600">Contact</a>
-      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
-    </div>
-  </nav>
-)}
-{variant === 'game' && (
-  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-violet-500/20 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <a href="/" class="font-semibold text-white shrink-0 hover:text-violet-300 transition" data-hub-link="home">Timothy Creekmore</a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-        <a href="/portfolio/" class="hover:text-violet-400 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/game/" class="hover:text-violet-400 transition" data-hub-link="game">Game</a>
-        <a href="/resume.pdf" class="hover:text-violet-400 transition">Resume</a>
-      </div>
-      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
-        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
-      </button>
-    </div>
-    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-violet-500/20 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-slate-200 bg-slate-900/95">
-      <a href="/portfolio/" class="py-2 hover:text-violet-400" data-hub-link="portfolio">Portfolio</a>
-      <a href="/game/" class="py-2 hover:text-violet-400" data-hub-link="game">Game</a>
-      <a href="/resume.pdf" class="py-2 hover:text-violet-400">Resume</a>
-    </div>
-  </nav>
-)}
-{variant === 'project' && (
-  <nav id="hub-navbar" class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <a href="/" class="font-semibold text-gray-900 shrink-0 hover:opacity-80 transition" data-hub-link="home">Timothy Creekmore</a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-        <a href="/portfolio/" class="hover:text-teal-600 transition" data-hub-link="portfolio">Portfolio</a>
-        <a href="/game/" class="hover:text-teal-600 transition" data-hub-link="game">Game</a>
-        <a href="/resume.pdf" class="hover:text-teal-600 transition">Resume</a>
-      </div>
-      <button type="button" id="hub-nav-toggle" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100" aria-label="Open menu" aria-expanded="false" aria-controls="hub-mobile-nav">
-        <span id="hub-nav-icon-open" aria-hidden="true">Menu</span>
-        <span id="hub-nav-icon-close" class="hidden" aria-hidden="true">Close</span>
-      </button>
-    </div>
-    <div id="hub-mobile-nav" class="hidden md:hidden border-t border-gray-100 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-gray-700 bg-white/95">
-      <a href="/portfolio/" class="py-2 hover:text-teal-600" data-hub-link="portfolio">Portfolio</a>
-      <a href="/game/" class="py-2 hover:text-teal-600" data-hub-link="game">Game</a>
-      <a href="/resume.pdf" class="py-2 hover:text-teal-600">Resume</a>
-    </div>
-  </nav>
-)}
+  </div>
+</nav>

@@ -1,36 +1,12 @@
 ---
-interface Props {
-  variant: 'home' | 'portfolio' | 'game';
-}
-
-const { variant } = Astro.props;
-
-const VARIANTS = ['home', 'portfolio', 'game'];
-if (!VARIANTS.includes(variant)) {
-  throw new Error(
-    `Footer.astro: invalid variant ${JSON.stringify(variant)}. ` +
-    `Expected one of ${VARIANTS.join(', ')}. ` +
-    `A page rendering Footer without a valid variant would ship with an unstyled footer.`
-  );
-}
-
-const FOOTER_CLASS = {
-  home: 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white',
-  portfolio: 'text-center text-gray-500 text-sm py-8 border-t border-gray-200 bg-white relative z-10',
-  game: 'text-center text-slate-500 text-sm py-8 border-t border-violet-500/20 bg-slate-900/40',
-} as const;
-
-const textClass = variant === 'game' ? 'text-slate-600' : 'text-gray-400';
-const linkClass = variant === 'game' ? 'hover:text-violet-300' : 'hover:text-gray-700';
-const className = FOOTER_CLASS[variant];
 ---
-<footer class={className}>
-  <p>&copy; <span id="footer-year">2026</span> Timothy Creekmore</p>
-  <p class={`mt-1 ${textClass}`}>
-    <a href="/" class={linkClass}>Home</a>
-    <span aria-hidden="true">&middot;</span>
-    <a href="/portfolio/#contact" class={linkClass}>Contact</a>
-    <span aria-hidden="true">&middot;</span>
-    <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class={linkClass}>GitHub</a>
-  </p>
+<footer class="rule mt-20">
+  <div class="max-w-3xl mx-auto px-6 py-10 flex flex-wrap gap-x-5 gap-y-2 justify-between text-xs text-gray-500">
+    <span>&copy; <span id="footer-year">2026</span> Timothy Creekmore</span>
+    <span class="flex gap-5">
+      <a href="/notes/" class="hover:text-teal-600 transition">Notes</a>
+      <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition">GitHub</a>
+      <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition">LinkedIn</a>
+    </span>
+  </div>
 </footer>
