@@ -11,28 +11,30 @@ import Footer from '../../components/Footer.astro';
   <div class="grid-field" aria-hidden="true"></div>
   <Nav active="notes" />
   <main id="main-content" class="pt-12 pb-16">
-    <section class="max-w-3xl mx-auto px-6 glass-panel p-6 md:p-10">
-      <p class="eyebrow mb-4">Field Notes</p>
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Short practical notes</h1>
-      <p class="text-lg text-gray-600 max-w-3xl leading-relaxed mb-10">Not a formal blog. More like a workbench log: lessons from software, data projects, AI workflows, game systems, and repair work.</p>
-      <div class="grid md:grid-cols-3 gap-5">
-        <a href="/notes/repair-debugging/" class="metric-card p-5 block hover:border-[#23405e] transition">
-          <p class="eyebrow mb-2">Repair to software</p>
-          <h2 class="text-xl font-semibold text-gray-900 mb-2">What appliance repair taught me about debugging software</h2>
-          <p class="text-sm text-gray-700">Diagnosis, constraints, customer communication, and why the first theory is often wrong.</p>
-        </a>
-        <a href="/notes/ocr-human-review/" class="metric-card p-5 block hover:border-[#23405e] transition">
-          <p class="eyebrow mb-2">AI/Data</p>
-          <h2 class="text-xl font-semibold text-gray-900 mb-2">Why OCR projects need human review from day one</h2>
-          <p class="text-sm text-gray-700">The Signature Extraction lesson: automate what is reliable, flag what is not.</p>
-        </a>
-        <a href="/notes/biomes-data-assets/" class="metric-card p-5 block hover:border-[#23405e] transition">
-          <p class="eyebrow mb-2">Game lab</p>
-          <h2 class="text-xl font-semibold text-gray-900 mb-2">Designing biomes as data assets in Unity</h2>
-          <p class="text-sm text-gray-700">Why world variation belongs in data, not hardcoded placement logic.</p>
-        </a>
-      </div>
-    </section>
+    <div class="max-w-3xl mx-auto px-6">
+      <section class="glass-panel p-6 md:p-10">
+        <p class="eyebrow mb-4">Field Notes</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Short practical notes</h1>
+        <p class="text-lg text-gray-600 max-w-3xl leading-relaxed mb-10">Not a formal blog. More like a workbench log: lessons from software, data projects, AI workflows, game systems, and repair work.</p>
+        <div class="grid md:grid-cols-3 gap-5">
+          <a href="/notes/repair-debugging/" class="metric-card p-5 block hover:border-[#23405e] transition">
+            <p class="eyebrow mb-2">Repair to software</p>
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">What appliance repair taught me about debugging software</h2>
+            <p class="text-sm text-gray-700">Diagnosis, constraints, customer communication, and why the first theory is often wrong.</p>
+          </a>
+          <a href="/notes/ocr-human-review/" class="metric-card p-5 block hover:border-[#23405e] transition">
+            <p class="eyebrow mb-2">AI/Data</p>
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">Why OCR projects need human review from day one</h2>
+            <p class="text-sm text-gray-700">The Signature Extraction lesson: automate what is reliable, flag what is not.</p>
+          </a>
+          <a href="/notes/biomes-data-assets/" class="metric-card p-5 block hover:border-[#23405e] transition">
+            <p class="eyebrow mb-2">Game lab</p>
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">Designing biomes as data assets in Unity</h2>
+            <p class="text-sm text-gray-700">Why world variation belongs in data, not hardcoded placement logic.</p>
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
   <Footer />
 </BaseLayout>
