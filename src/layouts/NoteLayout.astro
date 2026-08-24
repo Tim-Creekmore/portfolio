@@ -49,23 +49,23 @@ const fullTitle = pageTitle ?? `${title} | Timothy Creekmore`;
   /*
    * The static detail pages (notes/<slug>.html) have no skip-link at all.
    * BaseLayout always renders one as the first child of <body>, and
-   * tailwind.src.css's warm-dark skin flips it from `position: absolute`
-   * to `position: relative` for layering
-   * (`body[data-site-theme="warm-dark"] > .skip-link`, specificity 0,2,1 —
-   * beats the base .skip-link rule's 0,1,0). Under `position: relative`
-   * the link's `left: -9999px` no longer removes it from flow, so it
-   * reserves its own ~24px line box at the very top of the page, pushing
-   * <main> down by that amount relative to the static original. Elsewhere
-   * on the site this is invisible because the static originals for those
-   * pages also carry a skip-link, so both sides reserve the same space —
-   * only these three pages, which never had one, are affected. This rule
-   * is unscoped (`:global`) because the skip-link is rendered by
+   * tailwind.src.css's light skin flips it from `position: absolute`
+   * to `position: relative` for layering via a catch-all
+   * (`body[data-site-theme="light"] > *`, specificity 0,1,1 — beats the
+   * base .skip-link rule's 0,1,0). Under `position: relative` the link's
+   * `left: -9999px` no longer removes it from flow, so it reserves its
+   * own ~24px line box at the very top of the page, pushing <main> down
+   * by that amount relative to the static original. Elsewhere on the site
+   * this is invisible because the static originals for those pages also
+   * carry a skip-link, so both sides reserve the same space — only these
+   * three pages, which never had one, are affected. This rule is
+   * unscoped (`:global`) because the skip-link is rendered by
    * BaseLayout, not by NoteLayout itself, so scoped selectors can't reach
    * it at all; Astro still only ships this CSS on pages that render
    * NoteLayout, so the fix is limited to the three note detail pages and
    * does not touch any other already-passing page.
    */
-  :global(body[data-site-theme="warm-dark"] > .skip-link) {
+  :global(body[data-site-theme="light"] > .skip-link) {
     position: absolute !important;
   }
 </style>

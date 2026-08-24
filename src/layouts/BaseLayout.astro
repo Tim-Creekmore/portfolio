@@ -39,10 +39,9 @@ if (!HUBS.includes(active)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <Seo title={title} description={description} ogType={ogType} ogTitle={ogTitle} ogDescription={ogDescription} ogImage={ogImage} />
     <link rel="stylesheet" href="/assets/css/tailwind.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
     <slot name="head" />
   </head>
-  <body class={bodyClass} data-hub={active} data-site-theme="warm-dark">
+  <body class={bodyClass} data-hub={active} data-site-theme="light">
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <div id="vanta-bg" class="fixed inset-0 -z-10" aria-hidden="true"></div>
     <slot />

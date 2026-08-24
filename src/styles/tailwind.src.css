@@ -41,218 +41,80 @@ html {
   outline: 2px solid #007ba7;
 }
 
-/* Warm futuristic site skin */
-body[data-site-theme="warm-dark"] {
-  background:
-    radial-gradient(circle at 18% 12%, rgba(245, 158, 11, 0.18), transparent 28rem),
-    radial-gradient(circle at 78% 20%, rgba(20, 184, 166, 0.16), transparent 30rem),
-    radial-gradient(circle at 50% 88%, rgba(124, 58, 237, 0.12), transparent 28rem),
-    #090604;
-  color: #f8eadc;
+/* Light structural skin — see docs/superpowers/specs/2026-08-23-portfolio-redesign-design.md */
+body[data-site-theme="light"] {
+  --ground: #f6f3ec;
+  --surface: #fffdf8;
+  --ink: #17171a;
+  --ink-2: #4b4740;
+  --ink-3: #8b8578;
+  --rule: #e0d9c9;
+  --accent: #23405e;
+
+  background: var(--ground);
+  color: var(--ink);
 }
 
-body[data-site-theme="warm-dark"]::before {
-  content: "";
-  position: fixed;
+/* The drafting grid. Fades down the page so it never competes with content. */
+body[data-site-theme="light"] .grid-field {
+  position: absolute;
   inset: 0;
-  z-index: -20;
+  z-index: 0;
   pointer-events: none;
+  opacity: 0.55;
   background-image:
-    linear-gradient(rgba(251, 146, 60, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(251, 146, 60, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+    linear-gradient(#dcd5c6 1px, transparent 1px),
+    linear-gradient(90deg, #dcd5c6 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
 }
+body[data-site-theme="light"] > * { position: relative; z-index: 1; }
 
-body[data-site-theme="warm-dark"] #vanta-bg {
-  background:
-    radial-gradient(circle at 25% 20%, rgba(245, 158, 11, 0.22), transparent 32rem),
-    radial-gradient(circle at 70% 15%, rgba(45, 212, 191, 0.18), transparent 30rem),
-    linear-gradient(135deg, #090604 0%, #1c120b 48%, #0f172a 100%);
-  z-index: 0 !important;
-  opacity: 0.46;
-  pointer-events: none;
-}
-
-body[data-site-theme="warm-dark"] > header,
-body[data-site-theme="warm-dark"] > main,
-body[data-site-theme="warm-dark"] > section,
-body[data-site-theme="warm-dark"] > footer,
-body[data-site-theme="warm-dark"] > div:not(#vanta-bg),
-body[data-site-theme="warm-dark"] > .skip-link {
-  position: relative;
-  z-index: 1;
-}
-
-body[data-site-theme="warm-dark"] #hub-navbar {
-  background: rgba(12, 8, 5, 0.78) !important;
-  border-color: rgba(251, 146, 60, 0.22) !important;
-  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.32);
-}
-
-body[data-site-theme="warm-dark"] #hub-mobile-nav {
-  background: rgba(12, 8, 5, 0.94) !important;
-  border-color: rgba(251, 146, 60, 0.2) !important;
-}
-
-body[data-site-theme="warm-dark"] .bg-white,
-body[data-site-theme="warm-dark"] .bg-gray-50,
-body[data-site-theme="warm-dark"] .bg-gray-100,
-body[data-site-theme="warm-dark"] .bg-slate-50,
-body[data-site-theme="warm-dark"] .bg-amber-50\/40,
-body[data-site-theme="warm-dark"] .bg-sky-50\/60,
-body[data-site-theme="warm-dark"] .bg-slate-900\/40 {
-  background-color: rgba(24, 17, 12, 0.78) !important;
-  backdrop-filter: blur(18px);
-}
-
-body[data-site-theme="warm-dark"] .bg-gray-50\/50,
-body[data-site-theme="warm-dark"] .bg-amber-50\/50 {
-  background-color: rgba(36, 24, 16, 0.7) !important;
-}
-
-body[data-site-theme="warm-dark"] .bg-gradient-to-br,
-body[data-site-theme="warm-dark"] .bg-gradient-to-b {
-  background-image:
-    radial-gradient(circle at 24% 18%, rgba(245, 158, 11, 0.25), transparent 24rem),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(24, 17, 12, 0.58)) !important;
-}
-
-body[data-site-theme="warm-dark"] #skills {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.18), transparent 24rem),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(24, 17, 12, 0.88)) !important;
-}
-
-body[data-site-theme="warm-dark"] .border-gray-100,
-body[data-site-theme="warm-dark"] .border-gray-200,
-body[data-site-theme="warm-dark"] .border-amber-200,
-body[data-site-theme="warm-dark"] .border-amber-200\/80,
-body[data-site-theme="warm-dark"] .border-sky-200\/80,
-body[data-site-theme="warm-dark"] .border-violet-500\/20 {
-  border-color: rgba(251, 146, 60, 0.22) !important;
-}
-
-body[data-site-theme="warm-dark"] .text-gray-900,
-body[data-site-theme="warm-dark"] .text-gray-800,
-body[data-site-theme="warm-dark"] .text-slate-900,
-body[data-site-theme="warm-dark"] .text-black {
-  color: #fff7ed !important;
-}
-
-body[data-site-theme="warm-dark"] .text-gray-700,
-body[data-site-theme="warm-dark"] .text-gray-600,
-body[data-site-theme="warm-dark"] .text-slate-300,
-body[data-site-theme="warm-dark"] .text-slate-400 {
-  color: #ead7c0 !important;
-}
-
-body[data-site-theme="warm-dark"] .text-gray-500,
-body[data-site-theme="warm-dark"] .text-gray-400,
-body[data-site-theme="warm-dark"] .text-slate-500,
-body[data-site-theme="warm-dark"] .text-slate-600 {
-  color: #c6a98d !important;
-}
-
-body[data-site-theme="warm-dark"] .text-teal-600,
-body[data-site-theme="warm-dark"] .text-teal-700,
-body[data-site-theme="warm-dark"] .hover\:text-teal-600:hover {
-  color: #2dd4bf !important;
-}
-
-body[data-site-theme="warm-dark"] .text-amber-700,
-body[data-site-theme="warm-dark"] .text-amber-800\/80 {
-  color: #fbbf24 !important;
-}
-
-body[data-site-theme="warm-dark"] .bg-teal-600,
-body[data-site-theme="warm-dark"] .hover\:bg-teal-700:hover {
-  background: linear-gradient(135deg, #14b8a6, #f59e0b) !important;
-}
-
-body[data-site-theme="warm-dark"] .bg-teal-50,
-body[data-site-theme="warm-dark"] .bg-amber-50,
-body[data-site-theme="warm-dark"] .bg-violet-50,
-body[data-site-theme="warm-dark"] .bg-sky-50 {
-  background-color: rgba(245, 158, 11, 0.12) !important;
-}
-
-body[data-site-theme="warm-dark"] .rounded-2xl,
-body[data-site-theme="warm-dark"] .rounded-xl {
-  box-shadow:
-    0 20px 70px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-body[data-site-theme="warm-dark"] .shadow,
-body[data-site-theme="warm-dark"] .shadow-sm,
-body[data-site-theme="warm-dark"] .hover\:shadow-lg:hover,
-body[data-site-theme="warm-dark"] .hover\:shadow-md:hover {
-  box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.34),
-    0 0 36px rgba(245, 158, 11, 0.07) !important;
-}
-
-body[data-site-theme="warm-dark"] input,
-body[data-site-theme="warm-dark"] textarea {
-  background: rgba(10, 7, 5, 0.72) !important;
-  border-color: rgba(251, 146, 60, 0.28) !important;
-  color: #fff7ed !important;
-}
-
-body[data-site-theme="warm-dark"] input:focus,
-body[data-site-theme="warm-dark"] textarea:focus {
-  outline: 2px solid rgba(45, 212, 191, 0.5);
-}
-
-body[data-site-theme="warm-dark"] .hub-link-active {
-  color: #fbbf24 !important;
-}
-
-body[data-site-theme="warm-dark"] .skip-link:focus {
-  background: #1c120b;
-  color: #fbbf24;
-  outline-color: #fbbf24;
-}
-
-/* Reusable visual language for the dark/warm portfolio system. */
-body[data-site-theme="warm-dark"] .glass-panel {
-  background: linear-gradient(135deg, rgba(24, 17, 12, 0.82), rgba(15, 23, 42, 0.58)) !important;
-  border: 1px solid rgba(251, 146, 60, 0.22) !important;
-  border-radius: 1.5rem;
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.38),
-    0 0 45px rgba(245, 158, 11, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-}
-
-body[data-site-theme="warm-dark"] .metric-card {
-  background: rgba(10, 7, 5, 0.54) !important;
-  border: 1px solid rgba(45, 212, 191, 0.22) !important;
-  border-radius: 1rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-body[data-site-theme="warm-dark"] .eyebrow {
-  color: #fbbf24 !important;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
+body[data-site-theme="light"] .eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
 }
 
-body[data-site-theme="warm-dark"] .warm-rule {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(251, 146, 60, 0.45), rgba(45, 212, 191, 0.35), transparent);
+body[data-site-theme="light"] .rule { border-top: 1px solid var(--rule); }
+
+body[data-site-theme="light"] .rail {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  line-height: 1.75;
+  color: var(--ink-3);
+  border-right: 1px solid var(--rule);
 }
 
-body[data-site-theme="warm-dark"] .glow-link {
-  color: #2dd4bf !important;
-  font-weight: 600;
+body[data-site-theme="light"] .tick {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
 }
 
-body[data-site-theme="warm-dark"] .glow-link:hover {
-  color: #fbbf24 !important;
-  text-decoration: underline;
-}
+/* Override the Tailwind utilities the markup uses, the same mechanism the old
+   theme used — so ported markup keeps working without class churn. */
+body[data-site-theme="light"] .bg-white,
+body[data-site-theme="light"] .bg-gray-50,
+body[data-site-theme="light"] .bg-gray-100 { background-color: var(--surface) !important; }
+
+body[data-site-theme="light"] .text-gray-900,
+body[data-site-theme="light"] .text-white { color: var(--ink) !important; }
+
+body[data-site-theme="light"] .text-gray-700,
+body[data-site-theme="light"] .text-gray-600 { color: var(--ink-2) !important; }
+
+body[data-site-theme="light"] .text-gray-500,
+body[data-site-theme="light"] .text-gray-400 { color: var(--ink-3) !important; }
+
+body[data-site-theme="light"] .border-gray-100,
+body[data-site-theme="light"] .border-gray-200 { border-color: var(--rule) !important; }
+
+body[data-site-theme="light"] .text-teal-600,
+body[data-site-theme="light"] .text-teal-700,
+body[data-site-theme="light"] .hover\:text-teal-600:hover { color: var(--accent) !important; }
