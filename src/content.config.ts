@@ -4,12 +4,15 @@ const projects = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    summary: z.string(),
-    status: z.enum(['featured', 'in-progress', 'lab']),
-    tools: z.array(z.string()),
-    metrics: z.array(z.string()).optional(),
-    url: z.string(),
-    repo: z.string().optional()
+    // 'employed' vs 'self-directed' is load-bearing: the spec's whole point is
+    // that a portfolio shows what you'd build unasked, not just what you were
+    // paid for. Rendering can label or group on this.
+    kind: z.enum(['employed', 'self-directed']),
+    org: z.string().optional(),
+    period: z.string(),
+    order: z.number(),
+    tech: z.array(z.string()),
+    link: z.object({ href: z.string(), label: z.string() }).optional()
   })
 });
 

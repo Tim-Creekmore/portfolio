@@ -1,0 +1,20 @@
+---
+title: Auditing a data-integrity bug across production history
+kind: employed
+org: Lifeplus
+period: "2026"
+order: 1
+tech: ["SQL", "T-SQL", "TypeScript", "Database migrations"]
+---
+
+## Problem
+
+A per-transaction flag had been written incorrectly by an earlier bug. Nobody knew how many historical records were wrong, and a blind mass-update across a live production table was not an acceptable way to find out.
+
+## Built
+
+An audit that recomputes the correct value for every record and reports disagreements without writing anything, then repairs only what the fix is responsible for — with a threshold that aborts the run if the disagreement count comes back higher than expected.
+
+## Outcome
+
+Scanned hundreds of thousands of production records in about two seconds. Production came back clean, making the repair a verified no-op. A pre-production environment was repaired. A third tripped the abort threshold and was deliberately left alone for investigation rather than mass-written.
