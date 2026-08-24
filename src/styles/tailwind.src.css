@@ -90,6 +90,21 @@ body[data-site-theme="light"] .tick {
   color: var(--ink-3);
 }
 
+/* Structural card surfaces carried over from the old theme. Restrained on
+   purpose: hairline border and a small radius, no shadow or blur — the
+   design's visual interest comes from structure and the drafting grid. */
+body[data-site-theme="light"] .glass-panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+body[data-site-theme="light"] .metric-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
 /* Override the Tailwind utilities the markup uses, the same mechanism the old
    theme used — so ported markup keeps working without class churn. */
 body[data-site-theme="light"] .bg-white,
