@@ -4,7 +4,6 @@ import Seo from '../components/Seo.astro';
 interface Props {
   title: string;
   description: string;
-  active: 'work' | 'notes' | 'game' | 'resume';
   bodyClass?: string;
   ogType?: string;
   ogTitle?: string;
@@ -15,22 +14,12 @@ interface Props {
 const {
   title,
   description,
-  active,
   bodyClass = '',
   ogType = 'website',
   ogTitle,
   ogDescription,
   ogImage,
 } = Astro.props;
-
-const HUBS = ['work', 'notes', 'game', 'resume'];
-if (!HUBS.includes(active)) {
-  throw new Error(
-    `BaseLayout.astro: invalid active ${JSON.stringify(active)}. ` +
-    `Expected one of ${HUBS.join(', ')}. ` +
-    `This sets <body data-hub>, which hub-nav.js uses for active-link highlighting and aria-current.`
-  );
-}
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +30,7 @@ if (!HUBS.includes(active)) {
     <link rel="stylesheet" href="/assets/css/tailwind.css" />
     <slot name="head" />
   </head>
-  <body class={bodyClass} data-hub={active} data-site-theme="light">
+  <body class={bodyClass} data-site-theme="light">
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
     <script src="/assets/js/hub-nav.js" defer></script>
