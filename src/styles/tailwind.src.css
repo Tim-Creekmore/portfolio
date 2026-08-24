@@ -83,12 +83,29 @@ body[data-site-theme="light"] .eyebrow {
 
 body[data-site-theme="light"] .rule { border-top: 1px solid var(--rule); }
 
+/* Below sm the rail sits above the entry as one horizontal line instead of
+   taking a 5rem column. On a 375px screen that column plus its gap consumed
+   100px of 327px, squeezing the entry text to ~32 characters per line -- too
+   narrow to read comfortably. Stacking returns the full measure. */
 body[data-site-theme="light"] .rail {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6rem;
   line-height: 1.75;
   color: var(--ink-3);
-  border-right: 1px solid var(--rule);
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.3rem;
+}
+
+@media (min-width: 640px) {
+  body[data-site-theme="light"] .rail {
+    display: block;
+    border-bottom: 0;
+    padding-bottom: 0;
+    border-right: 1px solid var(--rule);
+  }
+  body[data-site-theme="light"] .rail span { display: block; }
 }
 
 body[data-site-theme="light"] .tick {
