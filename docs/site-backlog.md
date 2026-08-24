@@ -42,36 +42,38 @@ the owner's history or judgement calls about his own presentation.
    linked from nowhere. The owner chose to remove it — a cover letter is
    written for one recipient. Deleted in `fbc7f77`.
 
-## Worth doing soon — visible, and it costs credibility
+## Worth doing soon
 
-5. **`/game/` says the same four things twice** across seven cards in two
-   different card styles.
+**DONE (2026-08-24)** except item 06, which needs screenshots from the owner.
 
-6. **`/game/` shows nothing.** It claims geometry-shader grass, low-poly water
-   and visual polish, and contains zero images. The whole site has none. This is
-   the cheapest large improvement available: the work already exists.
-
-7. **Three of seven pages never use the display serif.** `/notes/` and the
-   article pages are heavy sans; the résumé is its own thing. The type system
-   does not read as one system across the site.
-
-8. **`/notes/` is hardcoded rather than collection-driven** and has already
-   drifted from its own content collection once. It should render from the
-   collection like the projects do.
-
-9. **PROBLEM / BUILT / OUTCOME render as `<h2>` nested under an `<h3>`** —
-   nine mis-levelled headings, an accessibility and semantics defect.
-
-10. **The notes carry `pubDate` and never render it.** Dated writing reads as
-    maintained; undated writing reads as abandoned.
-
-11. **Home entries measure ~32 characters per line at 375px.** Too narrow to
-    read comfortably.
-
-12. **`og:image` is an SVG**, so every LinkedIn and Slack share renders a blank
-    card. Needs a 1200×630 PNG at `public/assets/images/og-card.png`.
-
-13. **Stale JSON-LD.**
+- ~~05 `/game/` said the same four things twice~~ — two overlapping sections of
+  seven cards in two card styles merged into one section of four, keeping every
+  distinct idea. The "why this belongs in a portfolio" framing went with it.
+- **06 `/game/` shows nothing. STILL OPEN — needs the owner.** The page claims
+  geometry-shader grass, low-poly water and visual polish and contains zero
+  images; the whole site has none. Cheapest large improvement available, and the
+  page carrying the non-employer work is the one that looks least finished.
+- ~~07 Three of seven pages never used the display serif~~ — the Instrument
+  Serif h1 treatment was an inline style duplicated on two pages; now one rule
+  covering all of them. Home and game verified pixel-identical after the move.
+- ~~08 `/notes/` hardcoded rather than collection-driven~~ — now rendered from
+  the collection. It had already drifted: the biomes card read "Why world
+  variation belongs in data" against the note's own "World variation belongs in
+  data".
+- ~~09 Nine mis-levelled headings~~ — Problem/Built/Outcome were `h2` under an
+  `h3`; now `h4`. Fixed with zero pixel change.
+- ~~10 Notes carried `pubDate` and never rendered it~~ — replaced with an
+  author-set `order`. All three shared one date, so the sort fell to
+  content-layer yield and the home page reordered between builds.
+- ~~11 Home entries ~32 characters per line at 375px~~ — the metadata rail took
+  100px of 327px at every width; below `sm` it now stacks above the entry.
+  Measured 32 to 47 characters. Desktop unchanged.
+- ~~12 `og:image` was an SVG, so every share rendered blank~~ — added
+  `scripts/build-og-card.mjs`, which renders a real 1200x630 PNG from the site's
+  own palette, type and grid texture. The orphaned SVG is removed.
+- ~~13 Stale JSON-LD~~ — `knowsAbout` was the graduate list, leading with Data
+  Science and naming R while omitting TypeScript, React and testing. Now
+  consistent with the resume.
 
 ## Housekeeping
 
