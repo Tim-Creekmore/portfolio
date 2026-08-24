@@ -77,12 +77,12 @@ the owner's history or judgement calls about his own presentation.
 
 ## Also outstanding, outside this repo
 
-- **Publication permission for the employer-attributed work has not been
-  confirmed.** The two Lifeplus entries obey the agreed disclosure rules — no
-  identifiers, addresses, ticket keys, vendor names, or internal system,
-  database, table or procedure names, and volume figures rounded hard — but
-  whether the work may be described publicly at all is governed by the
-  employment agreement, not by how carefully it has been anonymised.
+- **RESOLVED (2026-08-24):** Publication permission for the employer-attributed
+  work has been confirmed by the site owner. The two Lifeplus entries stay. The
+  disclosure rules they were written under still apply to anything added later:
+  no production identifiers, addresses, internal IP addresses, ticket keys,
+  carrier/printer/ERP vendor names, or internal system, database, table or
+  stored-procedure names; operational figures rounded hard.
 - **DONE (2026-08-24):** GitHub Pages source set to "GitHub Actions"; the
   branch was merged and the site deployed. All 7 pages, all 4 legacy redirects
   and `/resume.pdf` verified live on `www.timothycreekmore.com`.
