@@ -85,3 +85,20 @@ the owner's history or judgement calls about his own presentation.
   employment agreement, not by how carefully it has been anonymised.
 - **GitHub Pages source must be set to "GitHub Actions" before the migration
   branch is merged**, or the deploy fails against the old configuration.
+
+## Owner's own note (2026-08-24)
+
+**More texture.** The site owner reviewed the finished build and approved it for
+shipping, with one forward-looking wish: more texture.
+
+Useful starting point — the texture already exists and is simply understated.
+`.grid-field` (`src/styles/tailwind.src.css:46`) draws a 1px drafting grid in
+`#dcd5c6` at `opacity: 0.55` over the `#f6f3ec` ground, and renders on six of
+the seven pages (`index`, `game`, `notes/index`, and all three articles via
+`NoteLayout`). It is deliberately absent from `/resume/`, which is a print
+surface.
+
+So this is a dial, not a rebuild: raise the opacity, tighten or vary the grid
+pitch, or add a second texture layer. Any change here is caught by the
+zero-tolerance visual suite, so re-baseline deliberately and confirm the diff
+shows only the intended change.
