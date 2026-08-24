@@ -1,50 +1,15 @@
 /**
- * Shared hub navigation: mobile toggle + active section highlight.
- * Expects #hub-navbar, #hub-nav-toggle, #hub-mobile-nav in the DOM.
- * Set <body data-hub="home|portfolio|shop|game|content"> on each page.
+ * Shared hub navigation: year stamp + analytics binding.
+ * Active-link state is server-rendered via aria-current on Nav.astro's
+ * links; there is no mobile menu (single-row nav, no hub-nav-toggle).
  */
 (function () {
-  function highlightActive() {
-    var hub = document.body.getAttribute('data-hub');
-    if (!hub) return;
-    document.querySelectorAll('[data-hub-link]').forEach(function (el) {
-      if (el.getAttribute('data-hub-link') === hub) {
-        el.classList.add('hub-link-active');
-        el.setAttribute('aria-current', 'page');
-      }
-    });
-  }
-
-  function bindMobile() {
-    var btn = document.getElementById('hub-nav-toggle');
-    var panel = document.getElementById('hub-mobile-nav');
-    var iconOpen = document.getElementById('hub-nav-icon-open');
-    var iconClose = document.getElementById('hub-nav-icon-close');
-    if (!btn || !panel) return;
-    btn.addEventListener('click', function () {
-      var nowHidden = panel.classList.toggle('hidden');
-      btn.setAttribute('aria-expanded', nowHidden ? 'false' : 'true');
-      if (iconOpen) iconOpen.classList.toggle('hidden', !nowHidden);
-      if (iconClose) iconClose.classList.toggle('hidden', nowHidden);
-    });
-    panel.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        panel.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-        if (iconOpen) iconOpen.classList.remove('hidden');
-        if (iconClose) iconClose.classList.add('hidden');
-      });
-    });
-  }
-
   function stampYear() {
     var el = document.getElementById('footer-year');
     if (el) el.textContent = String(new Date().getFullYear());
   }
 
   function init() {
-    highlightActive();
-    bindMobile();
     stampYear();
     bindAnalyticsEvents();
   }

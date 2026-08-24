@@ -9,12 +9,6 @@ html {
   scroll-padding-top: 5.5rem;
 }
 
-/* Active section in shared hub navigation */
-.hub-link-active {
-  color: #007ba7 !important;
-  font-weight: 600;
-}
-
 /* Skip-to-main: hidden until focused, then pops to the top-left over the nav */
 .skip-link {
   position: absolute;
@@ -126,3 +120,10 @@ body[data-site-theme="light"] .border-gray-200 { border-color: var(--rule) !impo
 body[data-site-theme="light"] .text-teal-600,
 body[data-site-theme="light"] .text-teal-700,
 body[data-site-theme="light"] .hover\:text-teal-600:hover { color: var(--accent) !important; }
+
+/* Active nav link: server-rendered aria-current is the single source of
+   truth for both assistive tech and the visible state — no JS class needed. */
+body[data-site-theme="light"] nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 500;
+}
