@@ -15,13 +15,6 @@ html {
   font-weight: 600;
 }
 
-/* Disable the Vanta hero animation for users that ask for less motion */
-@media (prefers-reduced-motion: reduce) {
-  #vanta-bg canvas {
-    display: none !important;
-  }
-}
-
 /* Skip-to-main: hidden until focused, then pops to the top-left over the nav */
 .skip-link {
   position: absolute;
