@@ -91,6 +91,17 @@ for (const p of PAGES) {
       const el = document.getElementById('footer-year');
       return el === null || el.textContent.trim().length === 4;
     });
+    // display=swap (Seo.astro) paints in a fallback font immediately and
+    // swaps to the real face once it loads. `networkidle` only guarantees
+    // the font files finished downloading, not that the swap has painted --
+    // a capture inside that window would record fallback-font glyph
+    // metrics, which at this suite's zero-tolerance threshold is a diff.
+    // Do not remove this as "redundant with networkidle": it closes a real
+    // gap networkidle leaves open, even though it did not turn out to be
+    // the cause of the notes-mobile flake this was added to chase (that
+    // one traces to anti-aliasing jitter on a rounded-corner border, not
+    // to fonts -- see task-7-report.md, fix round 2).
+    await page.evaluate(() => document.fonts.ready);
     await expect(page).toHaveScreenshot(`${p.name}.png`, { fullPage: true });
   });
 }
