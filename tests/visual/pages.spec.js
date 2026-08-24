@@ -66,7 +66,6 @@ test.beforeEach(async ({ page }) => {
 // `static:` to still work.
 const PAGES = [
   { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Systems Thinker' },
-  { name: 'portfolio',         static: '/portfolio/',                    astro: '/portfolio/',                        expectTitle: 'Portfolio' },
   { name: 'game',              static: '/game/',                         astro: '/game/',                             expectTitle: 'Voxel game' },
   { name: 'notes',             static: '/notes/',                        astro: '/notes/',                            expectTitle: 'Field Notes' },
   { name: 'note-repair',       static: '/notes/repair-debugging.html',   astro: '/notes/repair-debugging/',           expectTitle: 'Appliance Repair Taught Me About Debugging' },

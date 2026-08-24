@@ -2,99 +2,103 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(projects.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })));
+
+const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout
-  title="Timothy Creekmore — Software Developer, AI/Data Builder, Systems Thinker"
-  description="Timothy Creekmore — software developer, AI/data builder, and systems thinker building practical models, tools, and interactive systems."
-  ogTitle="Timothy Creekmore — Software Developer, AI/Data Builder, Systems Thinker"
-  ogDescription="Practical technologist building models, tools, and interactive systems."
-  active="home"
-  bodyClass="min-h-screen bg-slate-50 text-gray-800 antialiased"
+  title="Timothy Creekmore — Software Developer"
+  description="Software developer at Lifeplus. Production systems, Unity systems work, and short write-ups on what actually broke."
+  ogTitle="Timothy Creekmore — Software Developer"
+  ogDescription="Production systems, Unity systems work, and short write-ups on what actually broke."
+  ogType="profile"
 >
-  <Nav variant="home" />
+  <div class="grid-field" aria-hidden="true"></div>
+  <Nav active="work" />
 
-  <header class="relative overflow-hidden pt-28 pb-14 md:pt-36 md:pb-20 px-4">
-    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#1c120b] to-[#0d4f6e] opacity-[0.84]"></div>
-    <div class="relative z-10 max-w-5xl mx-auto">
-      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-        <div>
-          <p class="text-amber-200/90 text-sm font-medium tracking-[0.35em] uppercase mb-4">Software craft · AI/data · systems thinking</p>
-          <h1 class="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">
-            Practical technologist building models, tools, and interactive systems.
-          </h1>
-          <p class="text-lg md:text-xl text-slate-200 leading-relaxed mb-8 max-w-3xl">
-            I write production software at Lifeplus, turn messy data into usable systems, and build game/tools projects that keep the engineering muscle sharp.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <a href="/portfolio/" data-analytics="Home Portfolio CTA" class="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition">
-              View portfolio
-            </a>
-            <a href="/game/" data-analytics="Home Game Lab CTA" class="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-amber-200/60 text-amber-100 font-semibold hover:bg-white/10 transition">
-              Explore game lab
-            </a>
+  <main id="main-content" class="max-w-3xl mx-auto px-6">
+
+    <header class="pt-16 pb-14">
+      <p class="eyebrow mb-4">Software developer · Lifeplus</p>
+      <h1 class="text-4xl md:text-5xl mb-5" style="font-family:'Instrument Serif',Georgia,serif;line-height:1.03;letter-spacing:-0.015em;">
+        I build the boring parts properly.
+      </h1>
+      <p class="text-gray-600 leading-relaxed max-w-xl">
+        Production software at Lifeplus, systems work in Unity, and short write-ups on what actually broke.
+      </p>
+    </header>
+
+    <section aria-labelledby="work-heading" class="rule pt-8">
+      <h2 id="work-heading" class="eyebrow mb-8">Selected work</h2>
+      {rendered.map((p) => (
+        <article class="grid grid-cols-[5rem_1fr] gap-5 pb-10 mb-10 rule-b">
+          <div class="rail pr-3">
+            {p.data.org ?? 'Personal'}<br />{p.data.period}
           </div>
-        </div>
-
-        <div class="rounded-3xl border border-gray-200 bg-white p-6 md:p-7 shadow-sm">
-          <p class="text-xs uppercase tracking-[0.3em] text-amber-700 font-semibold mb-5">Quick signal</p>
-          <div class="space-y-5">
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Current focus</p>
-              <a href="/portfolio/#current-focus" class="text-xl font-semibold text-gray-900 hover:text-teal-600 transition">Lifeplus + AI/data projects →</a>
-            </div>
-            <div class="h-px bg-gray-200"></div>
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Technical side lab</p>
-              <a href="/game/" class="text-xl font-semibold text-gray-900 hover:text-violet-400 transition">Unity terrain, biomes, shaders →</a>
-            </div>
-            <div class="h-px bg-gray-200"></div>
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Main CTA</p>
-              <a href="/portfolio/#contact" class="text-xl font-semibold text-gray-900 hover:text-amber-400 transition">Talk about a role or project →</a>
-            </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">{p.data.title}</h3>
+            <div class="prose-entry text-sm text-gray-700 leading-relaxed"><p.Content /></div>
+            <p class="tick mt-4">{p.data.tech.join(' · ')}</p>
+            {p.data.link && <p class="mt-2 text-sm"><a href={p.data.link.href} class="text-teal-600 hover:underline">{p.data.link.label} &rarr;</a></p>}
           </div>
-        </div>
-      </div>
-    </div>
-  </header>
+        </article>
+      ))}
+    </section>
 
-  <main id="main-content" class="max-w-5xl mx-auto px-4 pb-20 relative z-10">
-    <section aria-labelledby="featured-work-heading" class="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-        <div>
-          <p class="text-amber-700 text-sm font-semibold uppercase tracking-[0.3em] mb-2">Start here</p>
-          <h2 id="featured-work-heading" class="text-2xl md:text-3xl font-bold text-gray-900">Two paths, one story</h2>
-        </div>
-        <p class="text-gray-600 text-sm md:text-right max-w-xl">
-          The portfolio is the main proof surface. The game lab is the systems-thinking proof: C#, procedural terrain, visual polish, and iteration discipline.
-        </p>
-      </div>
+    <section aria-labelledby="notes-heading" class="rule pt-8">
+      <h2 id="notes-heading" class="eyebrow mb-8">Field notes</h2>
+      <ul class="space-y-5 list-none p-0">
+        {notes.map((n) => (
+          <li>
+            <a href={`/notes/${n.id.replace(/\.mdx?$/, '')}/`} class="block group">
+              <span class="text-base font-semibold text-gray-900 group-hover:text-teal-600 transition">{n.data.title}</span>
+              <span class="block text-sm text-gray-600 mt-1">{n.data.summary}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-      <div class="grid md:grid-cols-2 gap-5">
-        <a href="/portfolio/" class="group flex flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 hover:border-teal-600/50 transition text-left">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 text-lg mb-4 group-hover:bg-teal-100 transition" aria-hidden="true">◆</span>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Portfolio</h3>
-          <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
-            Projects, experience, skills, resume, cover letter, and contact — the main path for recruiters and collaborators.
-          </p>
-          <span class="text-teal-600 text-sm font-medium group-hover:underline">Open portfolio →</span>
-        </a>
-
-        <a href="/game/" class="group flex flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 hover:border-violet-500/50 transition text-left">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-700 text-lg mb-4 group-hover:bg-violet-100 transition" aria-hidden="true">▦</span>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Game lab</h3>
-          <p class="text-gray-600 text-sm leading-relaxed flex-1 mb-4">
-            A Unity URP world demo showing procedural terrain, biomes, geometry-shader grass, and C# systems architecture.
-          </p>
-          <span class="text-violet-700 text-sm font-medium group-hover:underline">Explore lab →</span>
-        </a>
+    <section aria-labelledby="about-heading" class="rule pt-8">
+      <h2 id="about-heading" class="eyebrow mb-6">About</h2>
+      <div class="text-gray-700 leading-relaxed space-y-4 max-w-xl">
+        <p>I write production software at Lifeplus — features, internal tooling and workflow support on a real team, shipping into a system where a wrong result means goods go to the wrong place.</p>
+        <p>Before that I studied Computer Science and Data Science at Lyon College, and spent seven years repairing appliances. That second one turns out to matter more than it sounds: diagnosis under uncertainty, and the discipline not to trust your first theory.</p>
       </div>
     </section>
 
-    <ul class="mt-12 text-center text-sm text-gray-500 space-y-2">
-      <li><a href="/portfolio/#contact" class="text-teal-600 hover:underline">Contact</a> · <a href="https://github.com/Tim-Creekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/timcreekmore" class="hover:text-gray-800" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-    </ul>
-  </main>
+    <section aria-labelledby="contact-heading" class="rule pt-8 pb-4">
+      <h2 id="contact-heading" class="eyebrow mb-6">Contact</h2>
+      <p class="text-gray-700 mb-4 max-w-xl">Open to talking about software, data work, or systems problems.</p>
+      <p class="text-sm">
+        <a id="contact-email" href="#contact" data-user="timcreekmore2002" data-domain="gmail.com" class="text-teal-600 hover:underline">click to reveal email</a>
+        <span class="text-gray-400 mx-2">·</span>
+        <a href="/resume.pdf" class="text-teal-600 hover:underline">Résumé (PDF)</a>
+      </p>
+    </section>
 
-  <Footer variant="home" />
+  </main>
+  <Footer />
+
+  <script slot="scripts" is:inline>
+    (function () {
+      var el = document.getElementById('contact-email');
+      if (!el) return;
+      var reveal = function () {
+        var addr = el.dataset.user + '@' + el.dataset.domain;
+        el.href = 'mailto:' + addr;
+        el.textContent = addr;
+        el.removeEventListener('mouseenter', reveal);
+        el.removeEventListener('focus', reveal);
+      };
+      el.addEventListener('mouseenter', reveal);
+      el.addEventListener('focus', reveal);
+      el.addEventListener('click', function (e) {
+        if (el.getAttribute('href') === '#contact') { e.preventDefault(); reveal(); }
+      });
+    })();
+  </script>
 </BaseLayout>
