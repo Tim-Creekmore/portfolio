@@ -99,3 +99,6 @@ game/.claude/worktrees/
 
 # Local preview screenshots (scratch)
 .live-shots/
+
+# Claude Code session scratch and worktrees
+.claude/
