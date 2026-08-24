@@ -45,7 +45,8 @@ test.beforeEach(async ({ page }) => {
 // (e.g. a directory listing, a 404 page, a redirect to the wrong
 // place) fails loudly instead of silently becoming the baseline.
 // It is used as `new RegExp(expectTitle)`, so a literal "|" in a
-// title (e.g. "Now | Timothy Creekmore") must be escaped as "\|".
+// title (e.g. "Foo | Bar") must be escaped as "\|". No current row
+// needs this, but any future page whose title uses a pipe will.
 //
 // These baselines represent the redesigned site as of this commit. The
 // suite now has exactly one mode — the static site these tests used to
