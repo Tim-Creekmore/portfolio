@@ -7,7 +7,21 @@ import { getCollection, render } from 'astro:content';
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(projects.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })));
 
-const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Newest first, with a tiebreak, so the order is decided by the content
+// rather than by whatever order the content layer happens to yield. All three
+// notes currently carry the same pubDate, which makes the date comparison a
+// no-op for every pair and leaves the tiebreak as the only thing ordering the
+// list. Without one the Field Notes section reordered between builds and the
+// zero-tolerance visual suite failed on `home` with no source change.
+//
+// Descending id is chosen because it reproduces the order the /notes/ index
+// currently hardcodes (repair, ocr, biomes), so the two pages agree. That is
+// a coincidence of the current three slugs, not a rule: the durable fix is
+// either real distinct pubDates or an explicit `order` field on the notes
+// schema, the way the projects collection already does it.
+const notes = (await getCollection('notes')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || b.id.localeCompare(a.id)
+);
 ---
 <BaseLayout
   title="Timothy Creekmore — Software Developer"

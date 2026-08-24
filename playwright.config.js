@@ -6,16 +6,15 @@ export default defineConfig({
   fullyParallel: true,
   reporter: 'list',
   use: {
+    // There is no `webServer` block: this suite expects a server already
+    // running at baseURL. Build, then `npm run serve:dist`, then `npm run
+    // visual`. See the "Visual regression suite" section of README.md.
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
-    // NOTE: this does NOT suppress Vanta.NET's live WebGL background.
-    // Verified: `window.matchMedia('(prefers-reduced-motion: reduce)')
-    // .matches` still reports `false` inside the page with this option
-    // set (Playwright 1.62.1), so hub-nav.js's own reduced-motion check
-    // never trips. Kept for its actual effect (CSS/JS `prefers-reduced-motion`
-    // media-query-independent animation suppression Playwright performs
-    // itself), but Vanta suppression is handled separately in
-    // tests/visual/pages.spec.js via route interception + a matchMedia
-    // override in an addInitScript — see the comment there.
+    // Emulates `prefers-reduced-motion: reduce` for CSS media queries, which
+    // is what the site's own reduced-motion rule keys off. Note this does not
+    // change what `window.matchMedia` reports to page scripts (verified on
+    // Playwright 1.62.1) — no current page script asks, so nothing depends on
+    // it, but a future one would need its own handling.
     reducedMotion: 'reduce',
   },
   expect: {
@@ -27,17 +26,21 @@ export default defineConfig({
     // Widened for headroom rather than reducing parallelism, since every
     // later task re-runs this same suite.
     timeout: 15000,
-    // Zero tolerance, deliberately. Vanta.NET's live WebGL background renders
-    // into every screenshot because Playwright's `reducedMotion: 'reduce'`
-    // never actually suppresses it—verified: window.matchMedia still reports
-    // false. During migration, a loose threshold masked this; a navigation bar
-    // covering 7% of pixels passed as unchanged. Zero is achievable because
-    // test.beforeEach (pages.spec.js) suppresses Vanta via two CDN request
-    // aborts (three.js, vanta.net) and window.matchMedia override—these are
-    // a pair; weakening one requires reconsidering the other. Caveat: a static
-    // baseline vs. a differently-built astro output can surface sub-pixel
-    // dithering, but same-build runs are deterministic. Before loosening,
-    // re-verify with repeated identical runs.
+    // Zero tolerance, deliberately. During the migration a loose threshold
+    // masked a real regression: a navigation bar covering 7% of the pixels
+    // passed as unchanged. Zero is achievable because the site ships no
+    // animation and no live background — the Vanta.NET/WebGL hero that once
+    // forced a loose threshold was deleted in the redesign.
+    //
+    // The cost of zero tolerance is that it also catches nondeterminism, and
+    // reads it as a regression. Treat an unexplained failure as a real
+    // question about the page, not as a threshold that needs loosening: the
+    // home page's Field Notes list once reordered between builds because
+    // every note shared a pubDate and the sort had no tiebreak, and this
+    // suite is what surfaced it. Caveat: a static baseline compared against a
+    // differently-built Astro output can surface sub-pixel dithering, but
+    // same-build runs are deterministic. Before loosening, re-verify with
+    // repeated identical runs.
     toHaveScreenshot: {
       threshold: 0,
       maxDiffPixelRatio: 0,

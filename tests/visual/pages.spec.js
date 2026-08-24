@@ -1,43 +1,14 @@
 import { test, expect } from '@playwright/test';
 
-// Vanta.NET is live WebGL and renders into every desktop screenshot unless
-// actively suppressed — Playwright's `reducedMotion: 'reduce'` context
-// option does NOT make `window.matchMedia('(prefers-reduced-motion:
-// reduce)').matches` true in this Playwright/Chromium combination (verified:
-// it reports `false` even with the setting applied), so hub-nav.js's own
-// `prefers-reduced-motion` check never trips and Vanta loads and animates.
-// Belt-and-suspenders fix, proven by a throwaway probe spec to bring
-// `#vanta-bg canvas` count to 0 on BOTH desktop and mobile projects:
-//   1. Abort the two CDN requests (three.js, vanta.net) hub-nav.js loads
-//      Vanta from, so the library never arrives and no canvas is ever
-//      created.
-//   2. Override `window.matchMedia` via `addInitScript` (runs before any
-//      page script) so a `prefers-reduced-motion` query reports
-//      `matches: true`, in case Vanta is ever loaded a different way.
-test.beforeEach(async ({ page }) => {
-  await page.route('https://cdnjs.cloudflare.com/ajax/libs/three.js/**', (route) => route.abort());
-  await page.route('https://cdn.jsdelivr.net/npm/vanta@**', (route) => route.abort());
-  await page.addInitScript(() => {
-    const originalMatchMedia = window.matchMedia.bind(window);
-    window.matchMedia = (query) => {
-      if (typeof query === 'string' && query.includes('prefers-reduced-motion')) {
-        return {
-          matches: true,
-          media: query,
-          onchange: null,
-          addListener() {},
-          removeListener() {},
-          addEventListener() {},
-          removeEventListener() {},
-          dispatchEvent() {
-            return false;
-          },
-        };
-      }
-      return originalMatchMedia(query);
-    };
-  });
-});
+// This file used to open with a `beforeEach` that aborted the three.js and
+// vanta.net CDN requests and overrode `window.matchMedia` to force
+// `prefers-reduced-motion: reduce`, all to stop Vanta.NET's live WebGL
+// background from rendering into every screenshot. The redesign deleted that
+// animation: nothing in `src/` or `public/` references Vanta, three.js, or
+// `#vanta-bg` any more, and `hub-nav.js` no longer loads anything from a CDN.
+// The suppression was removed with it. If a live background is ever
+// reintroduced, it will need equivalent suppression here — the zero-tolerance
+// threshold in playwright.config.js cannot absorb an animated surface.
 
 // `expectTitle` is a distinctive substring of the page's real <title>,
 // read directly from each source file. It is asserted right after

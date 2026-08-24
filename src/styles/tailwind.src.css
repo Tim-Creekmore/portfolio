@@ -4,9 +4,13 @@
 
 /* Site-wide overrides on top of Tailwind */
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+/* Smooth scrolling is an animation, so it is opt-out for anyone who has asked
+   the OS for less motion. The site's only in-page target is the skip link,
+   and smooth-scrolling a skip link is disorienting for exactly the users who
+   rely on it. No `scroll-padding-top` here: it existed as clearance for a
+   fixed nav, and the nav is a normal in-flow element that scrolls away. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 /* Skip-to-main: hidden until focused, then pops to the top-left over the nav */
@@ -94,16 +98,20 @@ body[data-site-theme="light"] .tick {
   color: var(--ink-3);
 }
 
-/* Structural card surfaces carried over from the old theme. Restrained on
-   purpose: hairline border and a small radius, no shadow or blur — the
-   design's visual interest comes from structure and the drafting grid. */
-body[data-site-theme="light"] .glass-panel {
+/* The two raised surfaces. Restrained on purpose: hairline border and a small
+   radius, no shadow or blur — the design's visual interest comes from
+   structure and the drafting grid. `.panel` is a full reading surface (the
+   notes index and article bodies); `.card` is a single entry within one.
+   Formerly `.glass-panel` and `.metric-card`, names inherited from the
+   deleted glassmorphism theme that described neither the current appearance
+   (no glass) nor the current use (no metrics). */
+body[data-site-theme="light"] .panel {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 4px;
 }
 
-body[data-site-theme="light"] .metric-card {
+body[data-site-theme="light"] .card {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 3px;
