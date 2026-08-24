@@ -15,10 +15,13 @@ const { title, description } = Astro.props;
     <Seo title={title} description={description} />
     <style is:global>
       :root {
-        --ink: #111827;
-        --muted: #4b5563;
-        --line: #d1d5db;
-        --accent: #007ba7;
+        --ink: #17171a;
+        --ink-2: #4b4740;
+        --ink-3: #726d62;
+        --ground: #f6f3ec;
+        --surface: #fffdf8;
+        --rule: #e0d9c9;
+        --accent: #23405e;
       }
 
       * {
@@ -27,19 +30,28 @@ const { title, description } = Astro.props;
 
       body {
         margin: 0;
-        background: #f3f4f6;
+        background: var(--ground);
         color: var(--ink);
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         font-size: 9.7pt;
         line-height: 1.25;
       }
 
+      /*
+       * Screen: a fluid sheet that never exceeds the print width, so it
+       * never scrolls sideways on a phone. Print gets the exact fixed
+       * 8.5in x 11in dimensions below, scoped to @media print and left
+       * numerically identical to what this page always printed — the PDF
+       * (scripts/build-resume.mjs) renders through Chrome's print engine,
+       * so nothing here may change what @media print resolves to.
+       */
       .page {
-        width: 8.5in;
-        min-height: 11in;
+        width: 100%;
+        max-width: 8.5in;
         margin: 0 auto;
-        padding: 0.42in 0.55in;
-        background: #ffffff;
+        padding: 1.5rem;
+        background: var(--surface);
+        overflow-wrap: break-word;
       }
 
       header {
@@ -51,6 +63,7 @@ const { title, description } = Astro.props;
 
       h1 {
         margin: 0;
+        font-family: 'Instrument Serif', Georgia, serif;
         font-size: 20pt;
         letter-spacing: 0.04em;
         text-transform: uppercase;
@@ -58,7 +71,7 @@ const { title, description } = Astro.props;
 
       .contact {
         margin-top: 0.045in;
-        color: var(--muted);
+        color: var(--ink-2);
         font-size: 9.4pt;
       }
 
@@ -74,10 +87,11 @@ const { title, description } = Astro.props;
       h2 {
         margin: 0 0 0.045in;
         color: var(--accent);
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
         font-size: 10pt;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        border-bottom: 1px solid var(--line);
+        border-bottom: 1px solid var(--rule);
         padding-bottom: 0.03in;
       }
 
@@ -87,6 +101,7 @@ const { title, description } = Astro.props;
 
       .row {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         gap: 0.2in;
         align-items: baseline;
@@ -98,7 +113,7 @@ const { title, description } = Astro.props;
 
       .org,
       .date {
-        color: var(--muted);
+        color: var(--ink-2);
       }
 
       ul {
@@ -129,28 +144,79 @@ const { title, description } = Astro.props;
         margin: 0;
       }
 
+      /*
+       * These are the exact values the unscoped .page/body rules used to
+       * carry unconditionally (before this task's responsive fix), moved
+       * here verbatim so print output is byte-for-byte the same 8.5in x
+       * 11in sheet it always was.
+       */
       @media print {
         body {
           background: #ffffff;
         }
 
         .page {
+          width: 8.5in;
+          min-height: 11in;
           margin: 0;
+          padding: 0.42in 0.55in;
+          background: #ffffff;
           box-shadow: none;
+        }
+
+        .row {
+          flex-wrap: nowrap;
         }
       }
     </style>
     <style is:global>
-      .no-print { text-align: center; padding: 1rem; font-family: Arial, Helvetica, sans-serif; background: #f6f3ec; }
-      .no-print a { margin: 0 0.5rem; color: #23405e; }
+      .no-print-bar {
+        text-align: center;
+        padding: 1rem;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: var(--ground);
+      }
+      .no-print-bar a { margin: 0 0.5rem; color: var(--accent); }
+
+      .resume-footer {
+        border-top: 1px solid var(--rule);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      .resume-footer-inner {
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--ink-3);
+      }
+      .resume-footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+      .resume-footer a { color: var(--ink-3); text-decoration: none; }
+      .resume-footer a:hover { color: var(--accent); }
+
       @media print { .no-print { display: none !important; } }
     </style>
   </head>
   <body>
-    <div class="no-print">
-      <a href="/portfolio/">&larr; Back to portfolio</a>
+    <div class="no-print no-print-bar">
+      <a href="/">&larr; Back to timothycreekmore.com</a>
       <a href="/resume.pdf" download>Download PDF</a>
     </div>
     <slot />
+    <footer class="no-print resume-footer">
+      <div class="resume-footer-inner">
+        <span>&copy; <span id="footer-year">2026</span> Timothy Creekmore</span>
+        <span class="resume-footer-links">
+          <a href="/notes/">Notes</a>
+          <a href="/#contact">Contact</a>
+          <a href="https://github.com/Tim-Creekmore" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/timcreekmore" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </span>
+      </div>
+    </footer>
+    <script src="/assets/js/hub-nav.js" defer></script>
   </body>
 </html>
