@@ -21,11 +21,11 @@ html {
   top: 0.5rem;
   padding: 0.5rem 1rem;
   background: #ffffff;
-  color: #007ba7;
+  color: var(--accent, #23405e);
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   font-weight: 600;
-  outline: 2px solid #007ba7;
+  outline: 2px solid var(--accent, #23405e);
 }
 
 /* Light structural skin — see docs/superpowers/specs/2026-08-23-portfolio-redesign-design.md */
@@ -34,7 +34,7 @@ body[data-site-theme="light"] {
   --surface: #fffdf8;
   --ink: #17171a;
   --ink-2: #4b4740;
-  --ink-3: #8b8578;
+  --ink-3: #726d62;
   --rule: #e0d9c9;
   --accent: #23405e;
 
@@ -56,7 +56,17 @@ body[data-site-theme="light"] .grid-field {
   -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
   mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
 }
-body[data-site-theme="light"] > * { position: relative; z-index: 1; }
+/* :not(.skip-link) is the fix for the 24px header-offset bug: .skip-link
+   relies on `position: absolute` (declared above) to sit off-screen at
+   `left: -9999px` without reserving space in normal flow. This catch-all
+   used to override that to `position: relative` (needed for the
+   z-index-layering of nav/main/footer above .grid-field), which put the
+   still-invisible skip-link back into flow and made it reserve a ~24px
+   line box at the top of the page — pushing every direct child below it
+   down by that amount. NoteLayout.astro previously patched around this
+   with a page-local `!important` override; excluding .skip-link here
+   fixes it once, for every page that uses this theme. */
+body[data-site-theme="light"] > *:not(.skip-link) { position: relative; z-index: 1; }
 
 body[data-site-theme="light"] .eyebrow {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
