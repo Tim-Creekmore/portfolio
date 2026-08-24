@@ -83,8 +83,22 @@ the owner's history or judgement calls about his own presentation.
   database, table or procedure names, and volume figures rounded hard — but
   whether the work may be described publicly at all is governed by the
   employment agreement, not by how carefully it has been anonymised.
-- **GitHub Pages source must be set to "GitHub Actions" before the migration
-  branch is merged**, or the deploy fails against the old configuration.
+- **DONE (2026-08-24):** GitHub Pages source set to "GitHub Actions"; the
+  branch was merged and the site deployed. All 7 pages, all 4 legacy redirects
+  and `/resume.pdf` verified live on `www.timothycreekmore.com`.
+
+- **The apex domain has no working HTTPS.** `http://timothycreekmore.com`
+  redirects correctly, but `https://timothycreekmore.com` fails to connect,
+  while `www` works. Cause: the apex A record set contains
+  `162.255.119.244` — a parking/forwarding address — alongside the four
+  correct GitHub Pages addresses (`185.199.108-111.153`). GitHub cannot
+  provision a TLS certificate for a name whose DNS points somewhere it does
+  not control, so the apex certificate never completes. Modern browsers
+  increasingly try HTTPS first for a typed bare domain, so someone typing
+  `timothycreekmore.com` can hit a connection failure instead of the site.
+  Fix at the registrar: delete the `162.255.119.244` A record for `@`, keep
+  the four `185.199.*` ones, then confirm "Enforce HTTPS" in Settings → Pages.
+  Requires registrar access, not repo access.
 
 ## Owner's own note (2026-08-24)
 
