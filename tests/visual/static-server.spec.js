@@ -12,7 +12,7 @@ test('malformed request URI returns 404 and does not crash the server', async ({
   expect(malformed.status()).toBe(404);
 
   // The server must still be alive and correct for the next request.
-  const followUp = await request.get(`${baseURL}/portfolio/`, { failOnStatusCode: false });
+  const followUp = await request.get(`${baseURL}/resume/`, { failOnStatusCode: false });
   expect(followUp.status()).toBe(200);
-  expect(await followUp.text()).toContain('<title>Portfolio');
+  expect(await followUp.text()).toContain('<title>Timothy Creekmore Resume');
 });

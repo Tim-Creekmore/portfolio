@@ -65,7 +65,7 @@ test.beforeEach(async ({ page }) => {
 // runnable mode going forward) — do not re-baseline against them expecting
 // `static:` to still work.
 const PAGES = [
-  { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Systems Thinker' },
+  { name: 'home',              static: '/',                              astro: '/',                                  expectTitle: 'Software Developer' },
   { name: 'game',              static: '/game/',                         astro: '/game/',                             expectTitle: 'Voxel game' },
   { name: 'notes',             static: '/notes/',                        astro: '/notes/',                            expectTitle: 'Field Notes' },
   { name: 'note-repair',       static: '/notes/repair-debugging.html',   astro: '/notes/repair-debugging/',           expectTitle: 'Appliance Repair Taught Me About Debugging' },
