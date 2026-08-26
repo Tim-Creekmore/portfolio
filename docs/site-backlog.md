@@ -7,23 +7,38 @@ Everything under "must fix before publishing" in that review was fixed in the
 follow-up wave (`91ffff0..3fb7a9c`) and independently re-verified. What remains
 is recorded here so it is not lost when the scratch workspace is cleared.
 
-**Status (2026-08-24).** Items 2 and 4 have since been resolved on the
-résumé pass. The entire Housekeeping section (14–19) is done, and doing it
-turned up four more items, recorded as 20–23. Items 1, 3, and 5–13 are still
-open. Items marked RESOLVED or DONE are kept rather than deleted so the record
-shows what was decided and why.
+**Status (2026-08-26).** Everything in this file is now either resolved,
+parked by the owner's decision, or blocked on access this repo does not have.
+Items 2 and 4 were resolved on the résumé pass; 5 and 7–13 on the
+worth-doing-soon pass; 14–19 in the housekeeping pass, which turned up 20–23.
+On 2026-08-26 the owner settled 1 (keep the résumé's framing), 3 (remove the
+panel) and 23 (park it), and the texture note turned out to be a defect rather
+than a preference — see "Owner's own note" at the bottom. Item 6 is parked with
+the game work. Items marked RESOLVED, DONE or PARKED are kept rather than
+deleted so the record shows what was decided and why.
 
 ## Needs a decision from the site owner
 
 These were deliberately not changed, because they are statements of fact about
 the owner's history or judgement calls about his own presentation.
 
-1. **Tenure disagrees between the résumé and the site.** The résumé reads
-   "Junior Software Developer — Lifeplus, June 2025 – Present"; the home page
-   rail and the source work-ledger put the developer work in 2026, about five
-   and a half months. Both can be true — employment from June 2025, the
-   developer role from March 2026 — but a reader sees a contradiction. If it is
-   two phases of one job, saying so explicitly is stronger than either version.
+1. **RESOLVED by decision (2026-08-26). No change.** The owner confirmed the
+   facts: employed at Lifeplus from June 2025, onboarding until the current
+   project started in February 2026. "June 2025 – Present" on the résumé is
+   therefore accurate, and it stays.
+
+   Re-checked what the site actually claims before deciding, because the
+   original wording of this item overstated the problem. There is no duration
+   statement anywhere in shipped copy — the "five and a half months" phrasing
+   lived only in the review notes. The sole date signal is `period: "2026"` on
+   the two Lifeplus entries, which renders in the home rail as `Lifeplus /
+   2026`. A project dated after a hire date is the normal shape of a résumé and
+   reads as recent work, not as a later start.
+
+   Considered and rejected: widening the rail to `2025–26`. That would imply
+   the two projects ran eighteen months, which is false, and it is exactly the
+   kind of claim an interviewer probes. Vague-but-true beats precise-but-
+   inflated.
 
 2. **RESOLVED (2026-08-24).** The résumé's skills section was the pre-Lifeplus
    graduate list and omitted the stack the home page's two flagship entries
@@ -32,11 +47,20 @@ the owner's history or judgement calls about his own presentation.
    name the actual work in `1f958e1`. TypeScript, React, Astro, Vitest,
    Playwright, Docker, CI and T-SQL now all appear.
 
-3. **The notes pages wrap their content in a bordered panel; home and game do
-   not.** That surface (renamed from `.glass-panel` to `.panel` in item 17)
-   appears nowhere else on the site. Inherited from the pre-redesign notes
-   pages rather than part of the new structural system, but a reading surface
-   for long-form text is a defensible choice. Purely aesthetic. Still open.
+3. **RESOLVED (2026-08-26): the panel is gone.** The owner delegated the
+   call. Removed, for consistency: the redesign's whole language is rules,
+   whitespace and the drafting grid, and `.panel` was the one raised surface on
+   seven pages — the last structural holdover from the pre-redesign notes
+   pages. Reading measure was never its job; `max-w-3xl` already does that, and
+   still does.
+
+   Removed from both call sites (`NoteLayout.astro`, `notes/index.astro`) and
+   the now-unused rule deleted from the stylesheet. `.card` stays: three note
+   cards sit side by side in a grid and need a boundary to read as separate
+   items, which is the distinction the CSS comment already drew. The notes
+   pages now read on the same paper as every other page, with the grid running
+   under the text rather than stopping at a border — which matters more than it
+   did, because the grid now renders at all (see the texture note below).
 
 4. **RESOLVED (2026-08-24).** `/coverletter.pdf` was publicly fetchable and
    linked from nowhere. The owner chose to remove it — a cover letter is
@@ -49,10 +73,14 @@ the owner's history or judgement calls about his own presentation.
 - ~~05 `/game/` said the same four things twice~~ — two overlapping sections of
   seven cards in two card styles merged into one section of four, keeping every
   distinct idea. The "why this belongs in a portfolio" framing went with it.
-- **06 `/game/` shows nothing. STILL OPEN — needs the owner.** The page claims
+- **06 `/game/` shows nothing. PARKED (2026-08-26).** The page claims
   geometry-shader grass, low-poly water and visual polish and contains zero
-  images; the whole site has none. Cheapest large improvement available, and the
-  page carrying the non-employer work is the one that looks least finished.
+  images; the whole site has none. Still true, and still the cheapest large
+  improvement available on the page as it stands — but the owner has put the
+  game work on hold and expects its direction to change, so the current page is
+  provisional and screenshots of it would be obsolete. Revisit when the new
+  direction is settled; do not spend effort dressing up content that is going
+  to be replaced.
 - ~~07 Three of seven pages never used the display serif~~ — the Instrument
   Serif h1 treatment was an inline style duplicated on two pages; now one rule
   covering all of them. Home and game verified pixel-identical after the move.
@@ -147,13 +175,24 @@ local links resolve, `check:css` clean) and the zero-tolerance visual suite
     around the reason that now actually holds — with item 20 recorded in it as
     the worked example of what zero tolerance buys.
 
-23. **Not done, deliberately: the markup still speaks the dead theme's
-    dialect.** `text-white` and `bg-white`/`bg-gray-*`/`text-gray-*` appear all
-    over the markup and are overridden wholesale in `tailwind.src.css` — a
-    heading class-named `text-white` renders in near-black ink. Same family as
-    item 17, but the CSS comment says the override block is a deliberate
-    choice to avoid class churn when porting, so it is a judgement call rather
-    than an oversight. Left alone; raising it as its own item instead.
+23. **PARKED by the owner (2026-08-26): the markup still speaks the dead
+    theme's dialect.** 48 occurrences across `src/` — dominated by
+    `text-gray-600` (14), `text-gray-900` (12) and `text-gray-700` (6), plus 3
+    `text-white`, `bg-white`, `bg-gray-50` and `bg-gray-100`. None of them do
+    what they say: the block at the end of `tailwind.src.css` overrides every
+    one with `!important` under the `body[data-site-theme="light"]` selector,
+    so a heading class-named `text-white` renders in near-black ink.
+
+    The cost is that the names lie. Anyone reading `index.astro` has to know
+    the override block exists before trusting a colour class, and the override
+    only fires inside that body selector — so anything added outside it would
+    silently render as literal Tailwind grey. Same family as item 17, but the
+    CSS comment records the override as a deliberate choice to avoid class
+    churn when porting, so this is a judgement call rather than an oversight.
+
+    Dead weight, not a bug. When it is done: swap the 48 utilities for
+    semantic classes, delete the override block, and expect every page to come
+    out pixel-identical — which the zero-tolerance visual suite can prove.
 
 ## Also outstanding, outside this repo
 
@@ -176,23 +215,67 @@ local links resolve, `check:css` clean) and the zero-tolerance visual suite
   not control, so the apex certificate never completes. Modern browsers
   increasingly try HTTPS first for a typed bare domain, so someone typing
   `timothycreekmore.com` can hit a connection failure instead of the site.
-  Fix at the registrar: delete the `162.255.119.244` A record for `@`, keep
-  the four `185.199.*` ones, then confirm "Enforce HTTPS" in Settings → Pages.
-  Requires registrar access, not repo access.
+  **The registrar is Namecheap** (identified 2026-08-26, since the owner no
+  longer remembered where the domain was bought). Evidence: the domain's
+  authoritative nameservers are `dns1.registrar-servers.com` and
+  `dns2.registrar-servers.com`, which is Namecheap's BasicDNS, and the stray
+  `162.255.119.244` sits in Namecheap's own parking range — consistent with
+  the record having been created by their default "domain parking" setup and
+  never removed after the domain was pointed at GitHub Pages.
 
-## Owner's own note (2026-08-24)
+  Fix at Namecheap → Domain List → Manage → Advanced DNS: delete the
+  `162.255.119.244` A record for host `@`, keep the four `185.199.*` ones,
+  then confirm "Enforce HTTPS" in the repo's Settings → Pages once the
+  certificate provisions. Requires registrar access, not repo access.
+
+## Owner's own note (2026-08-24) — RESOLVED (2026-08-26), and it was a bug
 
 **More texture.** The site owner reviewed the finished build and approved it for
 shipping, with one forward-looking wish: more texture.
 
-Useful starting point — the texture already exists and is simply understated.
-`.grid-field` (`src/styles/tailwind.src.css:46`) draws a 1px drafting grid in
-`#dcd5c6` at `opacity: 0.55` over the `#f6f3ec` ground, and renders on six of
-the seven pages (`index`, `game`, `notes/index`, and all three articles via
-`NoteLayout`). It is deliberately absent from `/resume/`, which is a print
-surface.
+The 2026-08-24 entry here said the texture "already exists and is simply
+understated" and framed the work as turning a dial. That was wrong, and worth
+recording as a lesson: it was written from reading the CSS rather than from
+measuring the rendered page.
 
-So this is a dial, not a rebuild: raise the opacity, tighten or vary the grid
-pitch, or add a second texture layer. Any change here is caught by the
-zero-tolerance visual suite, so re-baseline deliberately and confirm the diff
-shows only the intended change.
+**The drafting grid never rendered at all.** `.grid-field` is a direct child of
+`<body>`, so it was matched by the catch-all
+`body[data-site-theme="light"] > *:not(.skip-link) { position: relative;
+z-index: 1; }`. Both that selector and `body[data-site-theme="light"]
+.grid-field` carry specificity (0,2,1), and the catch-all comes later in the
+file — so it won, and overrode the grid layer's `position: absolute` with
+`position: relative`. An empty div with no content and no absolute positioning
+lays out at height 0. The grid painted nothing, on every page, from `ae7ce0a`
+(the commit that added the catch-all as the root-cause fix for the 24px header
+offset) onward. The owner was not asking for a subtler thing turned up; he was
+asking for a thing that was not there.
+
+How it hid for so long: the zero-tolerance visual suite could not catch it,
+because the baselines were recorded after the regression, so "no grid" was
+what the suite considered correct. It surfaced only because raising the
+opacity from 0.55 to 0.8 produced **zero** pixel change on home and game — a
+result that should be impossible, and was the tell. Confirmed with
+`getComputedStyle` before and after: `position: relative`, `height: 0` before;
+`position: absolute`, `height: 720` after.
+
+**Fixed** by adding a second exclusion, `:not(.grid-field)`, to the catch-all —
+the same shape as the `.skip-link` exclusion already there, and for the same
+underlying reason: that rule must not clobber the positioning of the two
+children that depend on it. Then the dial was turned, deliberately: opacity
+0.55 → 0.8, and the mask's fade pushed from `transparent 78%` to `transparent
+96%` so the lines survive further down the screen. Visually verified, not
+just asserted.
+
+**Known limit, left as-is.** `body` is not positioned, so the absolutely-
+positioned grid layer sizes to the initial containing block — one viewport
+height, anchored at the document origin — rather than the full scroll length.
+The grid therefore covers the first screenful and nothing below it, which is
+consistent with the mask's original fade-down-the-page intent. Making it span
+the whole document means `body { position: relative }`, a change with a wider
+blast radius than this pass warranted. Raise it as its own item if the owner
+wants texture the whole way down.
+
+Remaining dials, if more is still wanted: tighten or vary the 28px pitch, add a
+finer second grid under the major one, or add a paper-grain layer. Any change
+here is caught by the visual suite, so re-baseline deliberately and confirm the
+diff shows only the intended change.
