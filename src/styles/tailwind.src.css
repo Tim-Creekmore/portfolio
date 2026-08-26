@@ -46,19 +46,25 @@ body[data-site-theme="light"] {
   color: var(--ink);
 }
 
-/* The drafting grid. Fades down the page so it never competes with content. */
+/* The drafting grid — the site's only texture. Raised from opacity 0.55 to
+   0.8 and the fade pushed from 78% to 96% so the lines are faintly legible
+   rather than theoretical. Note the coverage limit: body is not positioned,
+   so this absolutely-positioned layer sizes to the initial containing block
+   (one viewport height, anchored at the document origin), not the full
+   scroll length. Any change here is caught by the zero-tolerance visual
+   suite — re-baseline deliberately. */
 body[data-site-theme="light"] .grid-field {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.8;
   background-image:
     linear-gradient(#dcd5c6 1px, transparent 1px),
     linear-gradient(90deg, #dcd5c6 1px, transparent 1px);
   background-size: 28px 28px;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.62) 50%, transparent 96%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.62) 50%, transparent 96%);
 }
 /* :not(.skip-link) is the fix for the 24px header-offset bug: .skip-link
    relies on `position: absolute` (declared above) to sit off-screen at
@@ -69,8 +75,19 @@ body[data-site-theme="light"] .grid-field {
    line box at the top of the page — pushing every direct child below it
    down by that amount. NoteLayout.astro previously patched around this
    with a page-local `!important` override; excluding .skip-link here
-   fixes it once, for every page that uses this theme. */
-body[data-site-theme="light"] > *:not(.skip-link) { position: relative; z-index: 1; }
+   fixes it once, for every page that uses this theme.
+
+   :not(.grid-field) is a second, separate exclusion, and it fixes a bug this
+   rule caused rather than one it inherited. Both selectors carry specificity
+   (0,2,1), so this one — being later in the file — was overriding the grid
+   layer's own `position: absolute` with `position: relative`. An empty div
+   with no content and no absolute positioning lays out at height 0, so the
+   drafting grid painted nothing, on every page, from the commit that added
+   this rule onward. That is why raising its opacity changed no pixels and
+   why the site read as untextured. Verified with getComputedStyle, not
+   assumed: `position: relative` and `height: 0` before, `position: absolute`
+   and the viewport height after. */
+body[data-site-theme="light"] > *:not(.skip-link):not(.grid-field) { position: relative; z-index: 1; }
 
 body[data-site-theme="light"] .eyebrow {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
