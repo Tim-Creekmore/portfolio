@@ -127,19 +127,18 @@ body[data-site-theme="light"] .tick {
   color: var(--ink-3);
 }
 
-/* The two raised surfaces. Restrained on purpose: hairline border and a small
+/* The one raised surface. Restrained on purpose: hairline border and a small
    radius, no shadow or blur — the design's visual interest comes from
-   structure and the drafting grid. `.panel` is a full reading surface (the
-   notes index and article bodies); `.card` is a single entry within one.
-   Formerly `.glass-panel` and `.metric-card`, names inherited from the
-   deleted glassmorphism theme that described neither the current appearance
-   (no glass) nor the current use (no metrics). */
-body[data-site-theme="light"] .panel {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-}
+   structure and the drafting grid. `.card` is a single discrete entry; it
+   earns its boundary because the notes index lays three of them side by side.
+   Formerly `.metric-card`, a name inherited from the deleted glassmorphism
+   theme that described neither the appearance nor the use.
 
+   Its sibling `.panel` (formerly `.glass-panel`) is gone. It wrapped the notes
+   index and article bodies in a bordered sheet — the last structural holdover
+   from the pre-redesign pages, and the only raised surface on the site. Those
+   pages now read on the same paper as every other page, with the ground running
+   under the text instead of stopping at a border. */
 body[data-site-theme="light"] .card {
   background: var(--surface);
   border: 1px solid var(--rule);
