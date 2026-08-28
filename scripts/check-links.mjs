@@ -37,8 +37,8 @@ function isInsideDist(absPath) {
 // against dist/, returning the concrete file it resolves to, or null if
 // it's broken — either because nothing exists there, or because it
 // escapes dist/ entirely (e.g. "/../package.json"). Internal links may
-// point at either a real file (/resume.pdf, /MAEresults.png) or a route
-// directory served via its index.html (/portfolio/ -> .../index.html),
+// point at either a real file (/resume.pdf) or a route directory served
+// via its index.html (/portfolio/ -> .../index.html),
 // so both are valid resolutions.
 function resolveTarget(cleanPath) {
   if (cleanPath === '' || cleanPath === '/') {

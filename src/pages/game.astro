@@ -15,7 +15,7 @@ import Footer from '../components/Footer.astro';
 
     <header class="pt-16 pb-14">
       <p class="eyebrow mb-4">Game lab &middot; Unity URP</p>
-      <h1 class="text-4xl md:text-5xl mb-5" style="font-family:'Instrument Serif',Georgia,serif;line-height:1.03;letter-spacing:-0.015em;">
+      <h1 class="text-4xl md:text-5xl mb-5">
         A systems lab disguised as a medieval world.
       </h1>
       <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
@@ -27,45 +27,35 @@ import Footer from '../components/Footer.astro';
       </span>
     </header>
 
+    <!-- One section, four ideas. This previously ran as two sections -- "World
+         and systems" (3 cards) and "Why the game lab belongs in a portfolio"
+         (4 cards) -- whose contents overlapped almost entirely: Biomes against
+         Data-driven worlds, Shaders against Visual polish, C# tooling against
+         Editor tooling. Seven cards in two card styles said four things. The
+         second section's framing was also defensive; showing the work well is
+         the argument for it. -->
     <section aria-labelledby="world-heading" class="rule pt-8 pb-10">
       <h2 id="world-heading" class="eyebrow mb-8">World and systems</h2>
-      <div class="grid sm:grid-cols-3 gap-4">
-        <div class="metric-card p-5">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <article class="card p-5">
           <p class="eyebrow mb-2">World</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Biomes</h3>
-          <p class="text-sm text-gray-600">Temperate, frontier, and mountain data assets drive placement and presentation.</p>
-        </div>
-        <div class="metric-card p-5">
-          <p class="eyebrow mb-2">Visuals</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Shaders</h3>
-          <p class="text-sm text-gray-600">Geometry grass, stylized sky, material tuning, and warm low-poly atmosphere.</p>
-        </div>
-        <div class="metric-card p-5">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Biomes as data</h3>
+          <p class="text-sm text-gray-600">Temperate, frontier and mountain data assets, with registries that keep terrain, foliage, roads and villages configurable rather than hardcoded.</p>
+        </article>
+        <article class="card p-5">
           <p class="eyebrow mb-2">Systems</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">C# tooling</h3>
-          <p class="text-sm text-gray-600">Editor builders, registries, save data, procedural placers, and scene setup scripts.</p>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="why-heading" class="rule pt-8 pb-10">
-      <h2 id="why-heading" class="eyebrow mb-8">Why the game lab belongs in a portfolio</h2>
-      <div class="grid md:grid-cols-2 gap-4">
-        <article class="metric-card p-5">
-          <h3 class="text-base font-semibold text-gray-900 mb-2">Data-driven worlds</h3>
-          <p class="text-sm text-gray-600">Biome assets and registries keep terrain, foliage, roads, and villages configurable.</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Procedural placement</h3>
+          <p class="text-sm text-gray-600">Terrain chunks, biome boundaries and placement logic, built to be repeatable rather than arranged once by hand.</p>
         </article>
-        <article class="metric-card p-5">
-          <h3 class="text-base font-semibold text-gray-900 mb-2">Procedural systems</h3>
-          <p class="text-sm text-gray-600">Terrain chunks, placement logic, and scene setup show repeatable systems design.</p>
+        <article class="card p-5">
+          <p class="eyebrow mb-2">Tooling</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Editor tooling in C#</h3>
+          <p class="text-sm text-gray-600">Custom builders, registries, save data and scene setup scripts that cut manual work in the editor.</p>
         </article>
-        <article class="metric-card p-5">
-          <h3 class="text-base font-semibold text-gray-900 mb-2">Editor tooling</h3>
-          <p class="text-sm text-gray-600">Custom builders and setup scripts reduce manual scene work and speed iteration.</p>
-        </article>
-        <article class="metric-card p-5">
-          <h3 class="text-base font-semibold text-gray-900 mb-2">Visual polish</h3>
-          <p class="text-sm text-gray-600">URP materials, sky, water, and grass create a consistent atmosphere.</p>
+        <article class="card p-5">
+          <p class="eyebrow mb-2">Visuals</p>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Shaders and atmosphere</h3>
+          <p class="text-sm text-gray-600">Geometry-shader grass, stylized sky, low-poly water and URP material tuning, tuned for one consistent look.</p>
         </article>
       </div>
     </section>

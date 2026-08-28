@@ -4,9 +4,13 @@
 
 /* Site-wide overrides on top of Tailwind */
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+/* Smooth scrolling is an animation, so it is opt-out for anyone who has asked
+   the OS for less motion. The site's only in-page target is the skip link,
+   and smooth-scrolling a skip link is disorienting for exactly the users who
+   rely on it. No `scroll-padding-top` here: it existed as clearance for a
+   fixed nav, and the nav is a normal in-flow element that scrolls away. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 /* Skip-to-main: hidden until focused, then pops to the top-left over the nav */
@@ -42,19 +46,25 @@ body[data-site-theme="light"] {
   color: var(--ink);
 }
 
-/* The drafting grid. Fades down the page so it never competes with content. */
+/* The drafting grid — the site's only texture. Raised from opacity 0.55 to
+   0.8 and the fade pushed from 78% to 96% so the lines are faintly legible
+   rather than theoretical. Note the coverage limit: body is not positioned,
+   so this absolutely-positioned layer sizes to the initial containing block
+   (one viewport height, anchored at the document origin), not the full
+   scroll length. Any change here is caught by the zero-tolerance visual
+   suite — re-baseline deliberately. */
 body[data-site-theme="light"] .grid-field {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.8;
   background-image:
     linear-gradient(#dcd5c6 1px, transparent 1px),
     linear-gradient(90deg, #dcd5c6 1px, transparent 1px);
   background-size: 28px 28px;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.35) 42%, transparent 78%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.62) 50%, transparent 96%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.62) 50%, transparent 96%);
 }
 /* :not(.skip-link) is the fix for the 24px header-offset bug: .skip-link
    relies on `position: absolute` (declared above) to sit off-screen at
@@ -65,8 +75,19 @@ body[data-site-theme="light"] .grid-field {
    line box at the top of the page — pushing every direct child below it
    down by that amount. NoteLayout.astro previously patched around this
    with a page-local `!important` override; excluding .skip-link here
-   fixes it once, for every page that uses this theme. */
-body[data-site-theme="light"] > *:not(.skip-link) { position: relative; z-index: 1; }
+   fixes it once, for every page that uses this theme.
+
+   :not(.grid-field) is a second, separate exclusion, and it fixes a bug this
+   rule caused rather than one it inherited. Both selectors carry specificity
+   (0,2,1), so this one — being later in the file — was overriding the grid
+   layer's own `position: absolute` with `position: relative`. An empty div
+   with no content and no absolute positioning lays out at height 0, so the
+   drafting grid painted nothing, on every page, from the commit that added
+   this rule onward. That is why raising its opacity changed no pixels and
+   why the site read as untextured. Verified with getComputedStyle, not
+   assumed: `position: relative` and `height: 0` before, `position: absolute`
+   and the viewport height after. */
+body[data-site-theme="light"] > *:not(.skip-link):not(.grid-field) { position: relative; z-index: 1; }
 
 body[data-site-theme="light"] .eyebrow {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -77,14 +98,43 @@ body[data-site-theme="light"] .eyebrow {
   font-weight: 500;
 }
 
+/* The display face, declared once. This lived as an identical inline style on
+   the home and game h1s while /notes/ and the three article pages fell back to
+   the body sans -- three of seven pages never used the display face at all, so
+   the type did not read as one system across the site. Scoped to the light
+   theme, which the resume layout does not use: its sheet keeps its own type. */
+body[data-site-theme="light"] h1 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -0.015em;
+}
+
 body[data-site-theme="light"] .rule { border-top: 1px solid var(--rule); }
 
+/* Below sm the rail sits above the entry as one horizontal line instead of
+   taking a 5rem column. On a 375px screen that column plus its gap consumed
+   100px of 327px, squeezing the entry text to ~32 characters per line -- too
+   narrow to read comfortably. Stacking returns the full measure. */
 body[data-site-theme="light"] .rail {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6rem;
   line-height: 1.75;
   color: var(--ink-3);
-  border-right: 1px solid var(--rule);
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.3rem;
+}
+
+@media (min-width: 640px) {
+  body[data-site-theme="light"] .rail {
+    display: block;
+    border-bottom: 0;
+    padding-bottom: 0;
+    border-right: 1px solid var(--rule);
+  }
+  body[data-site-theme="light"] .rail span { display: block; }
 }
 
 body[data-site-theme="light"] .tick {
@@ -94,16 +144,19 @@ body[data-site-theme="light"] .tick {
   color: var(--ink-3);
 }
 
-/* Structural card surfaces carried over from the old theme. Restrained on
-   purpose: hairline border and a small radius, no shadow or blur — the
-   design's visual interest comes from structure and the drafting grid. */
-body[data-site-theme="light"] .glass-panel {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-}
+/* The one raised surface. Restrained on purpose: hairline border and a small
+   radius, no shadow or blur — the design's visual interest comes from
+   structure and the drafting grid. `.card` is a single discrete entry; it
+   earns its boundary because the notes index lays three of them side by side.
+   Formerly `.metric-card`, a name inherited from the deleted glassmorphism
+   theme that described neither the appearance nor the use.
 
-body[data-site-theme="light"] .metric-card {
+   Its sibling `.panel` (formerly `.glass-panel`) is gone. It wrapped the notes
+   index and article bodies in a bordered sheet — the last structural holdover
+   from the pre-redesign pages, and the only raised surface on the site. Those
+   pages now read on the same paper as every other page, with the ground running
+   under the text instead of stopping at a border. */
+body[data-site-theme="light"] .card {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 3px;
@@ -140,7 +193,12 @@ body[data-site-theme="light"] nav a[aria-current="page"] {
 
 body[data-site-theme="light"] .rule-b { border-bottom: 1px solid var(--rule); }
 body[data-site-theme="light"] .rule-b:last-child { border-bottom: 0; }
-body[data-site-theme="light"] .prose-entry h2 {
+/* h4, not h2: these sit inside an entry whose title is an h3, which sits
+   under the section's h2. Authoring them as `##` in the MDX produced an h2
+   nested under an h3 -- nine mis-levelled headings across the three entries,
+   which screen readers announce as a broken outline. The rendered appearance
+   is unchanged. */
+body[data-site-theme="light"] .prose-entry h4 {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6rem;
   letter-spacing: 0.16em;
@@ -148,7 +206,7 @@ body[data-site-theme="light"] .prose-entry h2 {
   color: var(--ink-3);
   margin: 1rem 0 0.3rem;
 }
-body[data-site-theme="light"] .prose-entry h2:first-child { margin-top: 0; }
+body[data-site-theme="light"] .prose-entry h4:first-child { margin-top: 0; }
 body[data-site-theme="light"] .prose-entry p { margin: 0 0 0.5rem; }
 
 body[data-site-theme="light"] .phase-dot {

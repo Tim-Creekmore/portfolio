@@ -7,14 +7,14 @@ order: 2
 tech: ["TypeScript", "Vitest", "Playwright", "Docker", "SQL", "CI"]
 ---
 
-## Problem
+#### Problem
 
 A test that passes proves nothing on its own — a check that can never fail looks identical to one that works. On a system where a wrong result means mis-shipped goods, a green suite was being trusted without anyone establishing it would go red for the right reasons.
 
-## Built
+#### Built
 
 Coverage across unit, integration, full-API and browser-driven levels, with a standing practice: for every new test, deliberately reintroduce the bug it guards and record that it goes red, plus a control proving it does not fire on a legitimate look-alike.
 
-## Outcome
+#### Outcome
 
 Over a hundred test files and a full-API harness at roughly eleven thousand lines. One change's records covered fourteen injected faults, each confirmed to turn its test red. It caught real gaps: an over-broad string match passed its own test while silently hijacking an unrelated case, found only because the control used verbatim production text rather than an invented one.

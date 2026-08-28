@@ -7,7 +7,11 @@ import { getCollection, render } from 'astro:content';
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(projects.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })));
 
-const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Author-set `order` is total and deterministic, so no tiebreak is needed.
+// This replaced a pubDate sort where all three notes shared one date, leaving
+// the order decided by content-layer yield -- the section reordered between
+// builds and failed the zero-tolerance visual suite with no source change.
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
 ---
 <BaseLayout
   title="Timothy Creekmore — Software Developer"
@@ -23,7 +27,7 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.value
 
     <header class="pt-16 pb-14">
       <p class="eyebrow mb-4">Software developer · Lifeplus</p>
-      <h1 class="text-4xl md:text-5xl mb-5" style="font-family:'Instrument Serif',Georgia,serif;line-height:1.03;letter-spacing:-0.015em;">
+      <h1 class="text-4xl md:text-5xl mb-5">
         I build the boring parts properly.
       </h1>
       <p class="text-gray-600 leading-relaxed max-w-xl">
@@ -34,9 +38,9 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.pubDate.value
     <section aria-labelledby="work-heading" class="rule pt-8">
       <h2 id="work-heading" class="eyebrow mb-8">Selected work</h2>
       {rendered.map((p) => (
-        <article class="grid grid-cols-[5rem_1fr] gap-5 pb-10 mb-10 rule-b">
-          <div class="rail pr-3">
-            {p.data.org ?? 'Personal'}<br />{p.data.period}
+        <article class="grid grid-cols-1 sm:grid-cols-[5rem_1fr] gap-2 sm:gap-5 pb-10 mb-10 rule-b">
+          <div class="rail sm:pr-3">
+            <span>{p.data.org ?? 'Personal'}</span><span>{p.data.period}</span>
           </div>
           <div>
             <h3 class="text-lg font-semibold text-gray-900 mb-3">{p.data.title}</h3>

@@ -14,7 +14,7 @@ const {
   ogType = 'website',
   ogTitle = title,
   ogDescription = description,
-  ogImage: ogImagePath = '/assets/images/og-card.svg',
+  ogImage: ogImagePath = '/assets/images/og-card.png',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -26,18 +26,22 @@ const personSchema = {
   '@type': 'Person',
   name: 'Timothy Creekmore',
   url: 'https://www.timothycreekmore.com/',
-  image: 'https://www.timothycreekmore.com/assets/images/og-card.svg',
+  image: 'https://www.timothycreekmore.com/assets/images/og-card.png',
   jobTitle: 'Software Developer',
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Lyon College' },
+  // Kept in step with the resume's skills section. The previous list was the
+  // pre-Lifeplus graduate one -- it led with Data Science and named R, which
+  // the resume no longer claims, while omitting the stack the portfolio's two
+  // flagship entries lead with.
   knowsAbout: [
-    'Data Science',
-    'Machine Learning',
-    'AI Engineering',
     'Software Development',
+    'Software Testing',
+    'TypeScript',
+    'React',
     'Python',
-    'R',
-    'Java',
     'SQL',
+    'AI Engineering',
+    'Machine Learning',
   ],
   sameAs: [
     'https://github.com/Tim-Creekmore',
