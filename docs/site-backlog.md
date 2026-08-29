@@ -7,6 +7,12 @@ Everything under "must fix before publishing" in that review was fixed in the
 follow-up wave (`91ffff0..3fb7a9c`) and independently re-verified. What remains
 is recorded here so it is not lost when the scratch workspace is cleared.
 
+**Status (2026-08-28).** Shipped. The post-launch wave merged as PR #3
+(`9855fed`) and is live. Nothing in this file is open work inside the repo:
+what remains is one item finishing on GitHub's side (the apex certificate) and
+two the owner parked deliberately (06, 23). Kept as the record of what was
+decided and why, not as a to-do list.
+
 **Status (2026-08-26).** Everything in this file is now either resolved,
 parked by the owner's decision, or blocked on access this repo does not have.
 Items 2 and 4 were resolved on the résumé pass; 5 and 7–13 on the
@@ -205,28 +211,57 @@ local links resolve, `check:css` clean) and the zero-tolerance visual suite
 - **DONE (2026-08-24):** GitHub Pages source set to "GitHub Actions"; the
   branch was merged and the site deployed. All 7 pages, all 4 legacy redirects
   and `/resume.pdf` verified live on `www.timothycreekmore.com`.
+- **DONE (2026-08-28):** the post-launch review wave shipped as PR #3 (14
+  commits, merged as `9855fed`). Re-verified live: all 7 pages and
+  `/resume.pdf` return 200, and the drafting grid renders in a clean browser
+  (`position: absolute`, `opacity: 0.8`, full viewport height). One gotcha
+  worth knowing for future deploys: `/assets/css/tailwind.css` has no content
+  hash and is served with `max-age=600`, so anyone who visited in the ten
+  minutes before a deploy sees stale CSS until the timer expires. A hard
+  refresh fixes it. Raised with the owner, who chose to leave it as-is; the
+  durable fix is a hashed filename.
 
-- **The apex domain has no working HTTPS.** `http://timothycreekmore.com`
-  redirects correctly, but `https://timothycreekmore.com` fails to connect,
-  while `www` works. Cause: the apex A record set contains
-  `162.255.119.244` — a parking/forwarding address — alongside the four
-  correct GitHub Pages addresses (`185.199.108-111.153`). GitHub cannot
-  provision a TLS certificate for a name whose DNS points somewhere it does
-  not control, so the apex certificate never completes. Modern browsers
-  increasingly try HTTPS first for a typed bare domain, so someone typing
-  `timothycreekmore.com` can hit a connection failure instead of the site.
-  **The registrar is Namecheap** (identified 2026-08-26, since the owner no
-  longer remembered where the domain was bought). Evidence: the domain's
-  authoritative nameservers are `dns1.registrar-servers.com` and
-  `dns2.registrar-servers.com`, which is Namecheap's BasicDNS, and the stray
-  `162.255.119.244` sits in Namecheap's own parking range — consistent with
-  the record having been created by their default "domain parking" setup and
-  never removed after the domain was pointed at GitHub Pages.
+- **The apex domain had no working HTTPS. DNS fixed 2026-08-28; certificate
+  was still provisioning when this was written.** `http://timothycreekmore.com`
+  redirected correctly, but `https://timothycreekmore.com` failed to connect,
+  while `www` worked. GitHub cannot provision a TLS certificate for a name
+  whose DNS points somewhere it does not control, so the apex certificate
+  never completed. Modern browsers try HTTPS first for a typed bare domain, so
+  someone typing `timothycreekmore.com` hit a connection failure instead of the
+  site — and `/resume/` prints the domain as bare text (`resume.astro:14`
+  links to `www` but *displays* `timothycreekmore.com`), so that is the exact
+  path a recruiter reading the PDF takes.
 
-  Fix at Namecheap → Domain List → Manage → Advanced DNS: delete the
-  `162.255.119.244` A record for host `@`, keep the four `185.199.*` ones,
-  then confirm "Enforce HTTPS" in the repo's Settings → Pages once the
-  certificate provisions. Requires registrar access, not repo access.
+  Registrar is **Namecheap**, identified from the authoritative nameservers
+  (`dns*.registrar-servers.com`, their BasicDNS).
+
+  **The diagnosis above was wrong in a way worth recording.** It said to delete
+  a stray `162.255.119.244` A record on `@`. No such record existed in the
+  Namecheap UI — the owner checked. That address is Namecheap's redirect
+  server, and it was being *synthesised* by a **URL Redirect Record** on `@`
+  (apex → `http://www.timothycreekmore.com`, unmasked). Deleting A rows would
+  never have worked; the redirect record regenerates the address. The error
+  came from reading `nslookup` output and inferring the zone's contents rather
+  than looking at the zone. Same failure mode as the `.grid-field` bug below:
+  inferring state instead of observing it.
+
+  Fixed by deleting the URL Redirect Record. Verified against the authoritative
+  nameserver: the apex A set is now exactly the four `185.199.*` addresses, and
+  the SOA serial moved (`1745376367` → `1787935710`), confirming a real zone
+  republish rather than a cache artifact. Nothing is lost by removing the
+  redirect — GitHub Pages performs apex → `www` itself, over HTTPS, which is
+  the thing Namecheap's HTTP-only redirect could never do.
+
+  Remaining: GitHub reported `cert.state: dns_changed` ("Detected a change to
+  DNS settings. Requesting a new certificate") with the existing certificate
+  still covering `www` only. Provisioning can take up to 24 hours. If it has
+  not completed, remove and re-add the custom domain in Settings → Pages to
+  force a fresh attempt. Check with:
+
+      curl -s -o /dev/null -w "%{http_code}
+" https://timothycreekmore.com/
+
+  Anything other than `000` means the certificate landed.
 
 ## Owner's own note (2026-08-24) — RESOLVED (2026-08-26), and it was a bug
 
