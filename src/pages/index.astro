@@ -3,15 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection, render } from 'astro:content';
+import { sortNotes, formatNoteDate } from '../lib/notes';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(projects.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })));
 
-// Author-set `order` is total and deterministic, so no tiebreak is needed.
-// This replaced a pubDate sort where all three notes shared one date, leaving
-// the order decided by content-layer yield -- the section reordered between
-// builds and failed the zero-tolerance visual suite with no source change.
-const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+const notes = sortNotes(await getCollection('notes'));
 ---
 <BaseLayout
   title="Timothy Creekmore — Software Developer"
@@ -60,6 +57,7 @@ const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.dat
             <a href={`/notes/${n.id.replace(/\.mdx?$/, '')}/`} class="block group">
               <span class="text-base font-semibold text-gray-900 group-hover:text-teal-600 transition">{n.data.title}</span>
               <span class="block text-sm text-gray-600 mt-1">{n.data.summary}</span>
+              <span class="tick block mt-1">{formatNoteDate(n.data.pubDate)}</span>
             </a>
           </li>
         ))}

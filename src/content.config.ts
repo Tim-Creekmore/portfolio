@@ -21,13 +21,21 @@ const notes = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    // Explicit ordering, matching the projects collection. Replaces pubDate:
-    // all three notes carried the same date, which made every date comparison
-    // a no-op and left the sort order decided by whatever the content layer
-    // happened to yield -- the home page reordered between builds and failed
-    // the zero-tolerance visual suite with no source change. An integer the
-    // author sets cannot go ambiguous, and these are evergreen pieces rather
-    // than dated posts, so a publication date was never load-bearing.
+    // When this note was published. Restored after being removed once: the
+    // removal was right for three standalone evergreen essays, and wrong for
+    // what this collection is now -- a running journal added to over time,
+    // including updates to ongoing projects. A journal with no dates cannot
+    // show that it is still being written, which is the main thing it is for,
+    // and an "update" with no date is not an update.
+    //
+    // The original failure was three *identical* placeholder dates, which made
+    // every comparison a no-op and left ordering to the content layer. Real
+    // distinct dates plus the `order` tiebreak below fix that properly. See
+    // src/lib/notes.ts for the sort both render sites share.
+    pubDate: z.coerce.date(),
+    // Tiebreak for notes that share a date, and the reason the sort is total
+    // rather than merely usually-stable. Also still the manual ordering knob
+    // if a note ever needs pinning out of date order.
     order: z.number(),
     // The short label shown above each note's title on /notes/ and the home
     // page. Explicit rather than derived from tags[0]: the labels do not
