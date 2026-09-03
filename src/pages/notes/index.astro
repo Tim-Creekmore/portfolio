@@ -3,12 +3,14 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { sortNotes, formatNoteDate } from '../../lib/notes';
 
 // Rendered from the collection, not hardcoded. The previous hardcoded markup
 // had already drifted once -- it kept citing a project that had been deleted --
 // and a second copy of every title and summary is a second thing to forget to
-// update. `order` is author-set and total, so this is deterministic.
-const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+// update. The sort itself lives in src/lib/notes.ts so this page and the home
+// page cannot disagree about order.
+const notes = sortNotes(await getCollection('notes'));
 ---
 <BaseLayout
   title="Field Notes | Timothy Creekmore"
@@ -29,6 +31,7 @@ const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.dat
               <p class="eyebrow mb-2">{n.data.category}</p>
               <h2 class="text-xl font-semibold text-gray-900 mb-2">{n.data.title}</h2>
               <p class="text-sm text-gray-700">{n.data.summary}</p>
+              <p class="tick mt-3">{formatNoteDate(n.data.pubDate)}</p>
             </a>
           ))}
         </div>

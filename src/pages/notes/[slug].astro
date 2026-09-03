@@ -31,6 +31,6 @@ const { note } = Astro.props;
 const slug = note.id.replace(/\.mdx?$/, '');
 const { Content } = await render(note);
 ---
-<NoteLayout title={note.data.title} pageTitle={PAGE_TITLES[slug]} description={note.data.summary} eyebrow={EYEBROWS[slug]}>
+<NoteLayout title={note.data.title} pageTitle={PAGE_TITLES[slug]} description={note.data.summary} eyebrow={EYEBROWS[slug]} pubDate={note.data.pubDate}>
   <Content components={{ p: NoteParagraph }} />
 </NoteLayout>
