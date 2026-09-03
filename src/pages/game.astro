@@ -2,11 +2,35 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+
+// This page used to sell a Unity 2022.3 URP voxel/medieval world -- biomes as
+// data, geometry-shader grass, low-poly water, "actively in development". That
+// project reached Phase A complete, stalled in May 2026, and has now been
+// scrapped outright rather than continued. Every claim on the old page was
+// false as of the pivot, which is a worse failure than the one backlog item 06
+// recorded (a page claiming visual polish while containing zero images).
+//
+// The replacement is deliberately a build log rather than a pitch. During
+// weeks 1-8 the plan forbids art entirely -- grey boxes only -- so there is
+// nothing to show until roughly November, and a page that promised screenshots
+// would be lying again. A dated log of a fixed-scope project against a hard
+// deadline is honest for the whole 17 weeks, and it has the useful property of
+// maintaining itself: the plan already requires a clip every week.
+
+// The week marker and the clip log are author-set, NOT derived from the build
+// date. Computing "current week" from `new Date()` would be a nicer trick and
+// the wrong call twice over: the zero-tolerance visual suite would fail on
+// every build once the week rolled over, and this repo just finished making
+// note dates immune to the build machine (`timeZone: 'UTC'` in src/lib/notes.ts
+// is load-bearing for the same reason). Content that changes without a commit
+// cannot be reviewed before it ships. Update these by hand alongside the clip.
+const PHASE_LABEL = 'Starts 7 September';
+const PHASE_NOTE = '17 weeks · to 31 Dec 2026';
 ---
 <BaseLayout
-  title="Voxel game — In dev | Timothy Creekmore"
-  description="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass. Timothy Creekmore."
-  ogDescription="Medieval open-world demo in Unity URP — procedural terrain, biomes, geometry-shader grass."
+  title="Extraction shooter — Build log | Timothy Creekmore"
+  description="A solo sci-fi extraction shooter in Unreal Engine 5, built in 136 hours across 17 weeks and shipped 31 December 2026. Timothy Creekmore."
+  ogDescription="A solo sci-fi extraction shooter in Unreal Engine 5 — 136 hours, 17 weeks, one hard deadline."
 >
   <div class="grid-field" aria-hidden="true"></div>
   <Nav active="game" />
@@ -14,92 +38,143 @@ import Footer from '../components/Footer.astro';
   <main id="main-content" class="max-w-3xl mx-auto px-6">
 
     <header class="pt-16 pb-14">
-      <p class="eyebrow mb-4">Game lab &middot; Unity URP</p>
+      <p class="eyebrow mb-4">Build log &middot; Unreal Engine 5</p>
       <h1 class="text-4xl md:text-5xl mb-5">
-        A systems lab disguised as a medieval world.
+        One map, one weapon, and a way out — by 31 December.
       </h1>
+      <p class="text-gray-600 leading-relaxed max-w-xl mb-4">
+        A solo sci-fi extraction shooter, built in eight hours a week for seventeen weeks. The constraint is the point: 136 hours is enough for one map, one weapon, a handful of bots and a working extraction loop, and it is not enough for anything else.
+      </p>
       <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
-        Procedural terrain, biome boundaries, geometry-shader grass, low-poly water, and a village full of hand-placed buildings. This page is here to show the engineering taste behind the side project, even before the web build lands.
+        This replaces a Unity project that got further than this one has and shipped nothing. The difference this time is a fixed scope, a date that does not move, and a build log written while it happens rather than afterwards.
       </p>
       <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-600">
         <span class="w-2 h-2 rounded-full" style="background: var(--accent);" aria-hidden="true"></span>
-        Actively in development
+        {PHASE_LABEL}
       </span>
     </header>
 
-    <!-- One section, four ideas. This previously ran as two sections -- "World
-         and systems" (3 cards) and "Why the game lab belongs in a portfolio"
-         (4 cards) -- whose contents overlapped almost entirely: Biomes against
-         Data-driven worlds, Shaders against Visual polish, C# tooling against
-         Editor tooling. Seven cards in two card styles said four things. The
-         second section's framing was also defensive; showing the work well is
-         the argument for it. -->
-    <section aria-labelledby="world-heading" class="rule pt-8 pb-10">
-      <h2 id="world-heading" class="eyebrow mb-8">World and systems</h2>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <article class="card p-5">
-          <p class="eyebrow mb-2">World</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Biomes as data</h3>
-          <p class="text-sm text-gray-600">Temperate, frontier and mountain data assets, with registries that keep terrain, foliage, roads and villages configurable rather than hardcoded.</p>
-        </article>
-        <article class="card p-5">
-          <p class="eyebrow mb-2">Systems</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Procedural placement</h3>
-          <p class="text-sm text-gray-600">Terrain chunks, biome boundaries and placement logic, built to be repeatable rather than arranged once by hand.</p>
-        </article>
-        <article class="card p-5">
-          <p class="eyebrow mb-2">Tooling</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Editor tooling in C#</h3>
-          <p class="text-sm text-gray-600">Custom builders, registries, save data and scene setup scripts that cut manual work in the editor.</p>
-        </article>
-        <article class="card p-5">
-          <p class="eyebrow mb-2">Visuals</p>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Shaders and atmosphere</h3>
-          <p class="text-sm text-gray-600">Geometry-shader grass, stylized sky, low-poly water and URP material tuning, tuned for one consistent look.</p>
-        </article>
+    <!-- A testable definition of done, stated up front. The old page's problem
+         was unfalsifiable claims ("engineering taste", "visual polish"); five
+         numbered outcomes can be checked by anyone who runs the build. -->
+    <section aria-labelledby="done-heading" class="rule pt-8 pb-10">
+      <div class="flex items-baseline justify-between mb-6">
+        <h2 id="done-heading" class="eyebrow">What done means</h2>
+        <p class="tick">31 Dec 2026</p>
+      </div>
+      <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
+        A build you can hand to someone with no explanation, where they:
+      </p>
+      <ol class="list-none p-0 m-0 max-w-xl">
+        <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
+          <span class="tick pt-1">01</span>
+          <p class="text-sm text-gray-600">Spawn into one map with one weapon.</p>
+        </li>
+        <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
+          <span class="tick pt-1">02</span>
+          <p class="text-sm text-gray-600">Fight two or three bots in tense, readable encounters.</p>
+        </li>
+        <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
+          <span class="tick pt-1">03</span>
+          <p class="text-sm text-gray-600">Pick up salvage.</p>
+        </li>
+        <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
+          <span class="tick pt-1">04</span>
+          <p class="text-sm text-gray-600">Reach an extraction point and get out — or die and lose the run's haul.</p>
+        </li>
+        <li class="grid grid-cols-[1.75rem_1fr] gap-2">
+          <span class="tick pt-1">05</span>
+          <p class="text-sm text-gray-600">See their permanent gear survive the loss.</p>
+        </li>
+      </ol>
+      <p class="text-sm text-gray-500 leading-relaxed max-w-xl mt-6">
+        No tech tree, no cosmetics, no second weapon, no second map.
+      </p>
+    </section>
+
+    <!-- Five rules is an awkward count for the 2-column card grid the rest of
+         the site uses, and each one needs a sentence of reasoning to be worth
+         reading. A ruled list carries the explanation without inventing a new
+         card style. -->
+    <section aria-labelledby="rules-heading" class="rule pt-8 pb-10">
+      <h2 id="rules-heading" class="eyebrow mb-8">The rules that make it shippable</h2>
+      <div class="max-w-xl">
+        <div class="rule-b pb-4 mb-4">
+          <p class="font-semibold text-gray-900 text-sm mb-1">No art until week 9</p>
+          <p class="text-sm text-gray-600">Grey boxes only. If the game is not tense in grey, texture will not fix it.</p>
+        </div>
+        <div class="rule-b pb-4 mb-4">
+          <p class="font-semibold text-gray-900 text-sm mb-1">No new features after week 8</p>
+          <p class="text-sm text-gray-600">Anything thought of after the freeze goes on the cut list, not into the build.</p>
+        </div>
+        <div class="rule-b pb-4 mb-4">
+          <p class="font-semibold text-gray-900 text-sm mb-1">A 30-second clip every week</p>
+          <p class="text-sm text-gray-600">Non-negotiable, and the only rule with a tripwire attached: two weeks without a clip means the project has stalled, and the response is to cut scope rather than move the date.</p>
+        </div>
+        <div class="rule-b pb-4 mb-4">
+          <p class="font-semibold text-gray-900 text-sm mb-1">Ship broken over ship late</p>
+          <p class="text-sm text-gray-600">A janky build on 31 December beats a beautiful one in March.</p>
+        </div>
+        <div class="rule-b pb-4">
+          <p class="font-semibold text-gray-900 text-sm mb-1">Free assets for plumbing only</p>
+          <p class="text-sm text-gray-600">Animation, background props, foliage. Level design, hero art and audio are mine.</p>
+        </div>
       </div>
     </section>
 
-    <section aria-labelledby="roadmap-heading" class="rule pt-8">
+    <section aria-labelledby="roadmap-heading" class="rule pt-8 pb-10">
       <div class="flex items-baseline justify-between mb-8">
         <h2 id="roadmap-heading" class="eyebrow">Roadmap</h2>
-        <p class="tick">Updated Aug 2026</p>
+        <p class="tick">{PHASE_NOTE}</p>
       </div>
 
       <ol class="list-none p-0 m-0">
         <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
-          <span class="phase-dot done" aria-hidden="true"></span>
-          <div>
-            <p class="tick float-right">Shipped &middot; Apr 2026</p>
-            <p class="font-semibold text-gray-900 text-sm mb-1">Phase A · Core systems</p>
-            <p class="text-sm text-gray-600">Camera modes, death system, combat, squads, arena.</p>
-          </div>
-        </li>
-        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
-          <span class="phase-dot done" aria-hidden="true"></span>
-          <div>
-            <p class="tick float-right">Shipped &middot; Jun 2026</p>
-            <p class="font-semibold text-gray-900 text-sm mb-1">Phase A5 · Polish and persistence</p>
-            <p class="text-sm text-gray-600">Ambient pass, save/load, enemy state, playtest fixes.</p>
-          </div>
-        </li>
-        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
           <span class="phase-dot wip" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Building</p>
-            <p class="font-semibold text-gray-900 text-sm mb-1">Phase B · Biome system</p>
-            <p class="text-sm text-gray-600">Data assets and registry, editor builder, placement and boundaries.</p>
+            <p class="tick float-right">Weeks 1–5 &middot; Sep–Oct</p>
+            <p class="font-semibold text-gray-900 text-sm mb-1">Phase 1 · Prove the loop</p>
+            <p class="text-sm text-gray-600">Engine up and packaged, Blueprints learned properly, a grey-boxed 200m sector, a working extraction volume, and salvage that banks on extraction and drops on death. The whole loop running in grey is the milestone that matters most.</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
+          <span class="phase-dot todo" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Weeks 6–8 &middot; Oct–Nov</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 2 · Make it tense</p>
+            <p class="text-sm text-gray-500">One bot that patrols, notices you and shoots, then a full eight hours on nothing but firefight feel — recoil, hit feedback, time-to-kill. Encounters placed deliberately, and the feature freeze.</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
+          <span class="phase-dot todo" aria-hidden="true"></span>
+          <div>
+            <p class="tick float-right">Weeks 9–15 &middot; Nov–Dec</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 3 · Make it yours</p>
+            <p class="text-sm text-gray-500">Environment art one zone at a time, a Lumen lighting pass, background structures on the horizon, and audio — where the extraction cue is the single highest-value sound in the game.</p>
           </div>
         </li>
         <li class="grid grid-cols-[1.5rem_1fr] gap-4">
           <span class="phase-dot todo" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Next</p>
-            <p class="font-semibold text-gray-500 text-sm mb-1">Phase C · Browser-playable build</p>
-            <p class="text-sm text-gray-500">Turn the splash into a demo people can play in a tab.</p>
+            <p class="tick float-right">Weeks 16–17 &middot; Dec</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 4 · Land it</p>
+            <p class="text-sm text-gray-500">A buffer week that is deliberately empty so overruns have somewhere to go, then package, play it start to finish three times, and fix only what breaks.</p>
           </div>
         </li>
       </ol>
+    </section>
+
+    <!-- Deliberately empty until the first clip exists. An empty log that says
+         so is honest; a placeholder reel would repeat the mistake this page was
+         rewritten to fix. -->
+    <section aria-labelledby="clips-heading" class="rule pt-8 pb-16">
+      <div class="flex items-baseline justify-between mb-6">
+        <h2 id="clips-heading" class="eyebrow">Clip log</h2>
+        <p class="tick">0 of 17</p>
+      </div>
+      <p class="text-gray-600 leading-relaxed max-w-xl">
+        Thirty seconds a week, recorded whether the week went well or not. The first eight are grey boxes by design, so this will look like a game late and play like one early. First clip lands the week of 13 September.
+      </p>
     </section>
 
   </main>
