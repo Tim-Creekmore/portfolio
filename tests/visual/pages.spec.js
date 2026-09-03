@@ -24,7 +24,7 @@ import { test, expect } from '@playwright/test';
 // also check against no longer exists, so there is nothing left to switch.
 const PAGES = [
   { name: 'home',        astro: '/',                          expectTitle: 'Software Developer' },
-  { name: 'game',        astro: '/game/',                     expectTitle: 'Voxel game' },
+  { name: 'game',        astro: '/game/',                     expectTitle: 'Extraction shooter' },
   { name: 'notes',       astro: '/notes/',                    expectTitle: 'Field Notes' },
   { name: 'note-repair', astro: '/notes/repair-debugging/',   expectTitle: 'Appliance Repair Taught Me About Debugging' },
   { name: 'note-ocr',    astro: '/notes/ocr-human-review/',   expectTitle: 'OCR Projects Need Human Review' },

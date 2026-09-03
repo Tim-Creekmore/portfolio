@@ -74,19 +74,18 @@ the owner's history or judgement calls about his own presentation.
 
 ## Worth doing soon
 
-**DONE (2026-08-24)** except item 06, which needs screenshots from the owner.
+**DONE (2026-08-24)**, and item 06 closed 2026-09-03 — see the game-pivot
+entry at the end of this file.
 
 - ~~05 `/game/` said the same four things twice~~ — two overlapping sections of
   seven cards in two card styles merged into one section of four, keeping every
   distinct idea. The "why this belongs in a portfolio" framing went with it.
-- **06 `/game/` shows nothing. PARKED (2026-08-26).** The page claims
-  geometry-shader grass, low-poly water and visual polish and contains zero
-  images; the whole site has none. Still true, and still the cheapest large
-  improvement available on the page as it stands — but the owner has put the
-  game work on hold and expects its direction to change, so the current page is
-  provisional and screenshots of it would be obsolete. Revisit when the new
-  direction is settled; do not spend effort dressing up content that is going
-  to be replaced.
+- ~~06 `/game/` shows nothing~~ — **RESOLVED (2026-09-03)**, by replacing the
+  page rather than illustrating it. Parked on 2026-08-26 pending a settled
+  direction; the direction settled as a scrapped Unity project and a new Unreal
+  build, so the page was rewritten. See the 2026-09-03 entry below. The
+  no-screenshots problem is unchanged and now deliberate: the new plan forbids
+  art until week 9, so there is nothing worth showing until roughly November.
 - ~~07 Three of seven pages never used the display serif~~ — the Instrument
   Serif h1 treatment was an inline style duplicated on two pages; now one rule
   covering all of them. Home and game verified pixel-identical after the move.
@@ -314,3 +313,61 @@ Remaining dials, if more is still wanted: tighten or vary the 28px pitch, add a
 finer second grid under the major one, or add a paper-grain layer. Any change
 here is caught by the visual suite, so re-baseline deliberately and confirm the
 diff shows only the intended change.
+
+
+## The game pivot (2026-09-03) — `/game/` rewritten, and three pages corrected
+
+The Unity URP voxel/medieval project is scrapped, not paused. Replacing it: a
+solo sci-fi extraction shooter in Unreal Engine 5, 8 hrs/week for 17 weeks,
+starting 2026-09-07 and shipping 2026-12-31. Fixed scope — one map, one weapon,
+two or three bots, salvage, an extraction point, and gear that survives a lost
+run.
+
+**This was a correctness problem, not a content refresh.** `/game/` asserted
+"Game lab · Unity URP", biomes as data, geometry-shader grass and "Actively in
+development". Every one of those became false on the pivot, which is worse than
+the defect item 06 recorded. Two other pages carried the same break: the home
+page's hero and both meta descriptions said "systems work in Unity", and the
+`game-lab` project card said "a third [phase] in progress" with period
+`Ongoing`.
+
+**What replaced it.** A build log, not a pitch: a testable five-point definition
+of done, the five rules that constrain the work, a four-phase roadmap, and an
+empty clip log that says it is empty. The old page's failure mode was
+unfalsifiable claims ("engineering taste", "visual polish"); every claim on the
+new one can be checked by someone who runs the build, or by waiting.
+
+**Deliberately not computed from the build date.** The phase marker and clip
+count are author-set constants. Deriving "current week" from `new Date()` would
+fail the zero-tolerance visual suite on the first build after a week rolled
+over, and it contradicts the discipline `src/lib/notes.ts` just established,
+where `timeZone: 'UTC'` exists so the build machine cannot change what a date
+says. Content that changes without a commit cannot be reviewed before it ships.
+The trade is a manual edit each week, which pairs with the clip the plan already
+requires.
+
+**The project card was kept, in past tense, not deleted.** Two phases of Unity
+systems work shipped and that engineering happened; scrapping the project does
+not unbuild it. Period corrected `Ongoing` → `Apr–May 2026`, and the outcome now
+says plainly what went wrong: no deadline and no definition of done, so it grew
+and never shipped.
+
+**Open — the résumé still claims it in present tense.** `src/pages/resume.astro`
+reads "Building a Unity URP world demo with procedural terrain, biome data
+assets, editor tooling, and C# placement systems." That is now false in the same
+way the other three were, but how a side project is described to an employer is
+the owner's call, not a correctness fix to make unilaterally. Raise it; do not
+silently rewrite it.
+
+**Open — the site still hosts no images or video anywhere.** The plan produces
+17 weekly clips, and the notes collection was just rebuilt to be a running
+journal fed by exactly this kind of milestone. Nothing in the repo currently
+serves media, and video committed to a GitHub Pages repo is the same
+bloat mistake the engine project was moved out to avoid. Decide hosting before
+the first clip that is worth embedding, not after seventeen have piled up.
+
+**The engine project now lives outside this repo,** at
+`repos/extraction-shooter`, with Git LFS and Unreal ignore rules configured
+before the first asset lands. The precedent for doing this early is in this
+repo's own history: `3dd3a7c` had to untrack a packaged Windows build after the
+fact. `game/` here is dead history and should be treated as such.
