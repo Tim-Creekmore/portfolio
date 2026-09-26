@@ -3,34 +3,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
-// This page used to sell a Unity 2022.3 URP voxel/medieval world -- biomes as
-// data, geometry-shader grass, low-poly water, "actively in development". That
-// project reached Phase A complete, stalled in May 2026, and has now been
-// scrapped outright rather than continued. Every claim on the old page was
-// false as of the pivot, which is a worse failure than the one backlog item 06
-// recorded (a page claiming visual polish while containing zero images).
+// Second rewrite of this page, for the same reason as the first: the project it
+// described stopped existing.
 //
-// The replacement is deliberately a build log rather than a pitch. During
-// weeks 1-8 the plan forbids art entirely -- grey boxes only -- so there is
-// nothing to show until roughly November, and a page that promised screenshots
-// would be lying again. A dated log of a fixed-scope project against a hard
-// deadline is honest for the whole 17 weeks, and it has the useful property of
-// maintaining itself: the plan already requires a clip every week.
-
-// The week marker and the clip log are author-set, NOT derived from the build
-// date. Computing "current week" from `new Date()` would be a nicer trick and
-// the wrong call twice over: the zero-tolerance visual suite would fail on
-// every build once the week rolled over, and this repo just finished making
-// note dates immune to the build machine (`timeZone: 'UTC'` in src/lib/notes.ts
-// is load-bearing for the same reason). Content that changes without a commit
-// cannot be reviewed before it ships. Update these by hand alongside the clip.
-const PHASE_LABEL = 'Starts 7 September';
-const PHASE_NOTE = '17 weeks · to 31 Dec 2026';
+// Round one was a Unity 2022.3 URP voxel world, stalled in May 2026 and
+// scrapped in September. Round two was a solo sci-fi extraction shooter --
+// "one map, one weapon, and a way out", 17 weeks, five outcomes about bots and
+// salvage. That one was boxed on 24 September 2026 after three weeks, and
+// unlike the Unity project it was boxed while it was working: the greybox
+// sector finished four days early with three routes walked and timed.
+//
+// The temptation is to swap the nouns quietly and imply the shooter never
+// happened. That is the exact failure this page exists to avoid -- backlog
+// item 06 was about a page making claims it could not support. So the pivot is
+// stated here, with the numbers that show the week worked. A portfolio that
+// admits a project stopped is worth more than one implying an unbroken line,
+// because the second kind is never true and readers know it.
+//
+// The clip log is gone. It belonged to the shooter's build-in-public plan, it
+// never recorded a single clip, and this project captures once at the end: six
+// stills and a 45-second flythrough are the deliverable itself, not a cadence.
+// In its place is a shot counter reading 0 of 6, which stays there until week
+// 12. An honest zero beats a placeholder reel.
+//
+// Both markers below stay author-set rather than derived from `new Date()`,
+// for the same two reasons as before: the zero-tolerance visual suite would
+// fail on every build once a week rolled over, and content that changes
+// without a commit cannot be reviewed before it ships.
+const PHASE_LABEL = 'Week 1 starts 28 September';
+const PHASE_NOTE = '13 weeks · to 31 Dec 2026';
 ---
 <BaseLayout
-  title="Extraction shooter — Build log | Timothy Creekmore"
-  description="A solo sci-fi extraction shooter in Unreal Engine 5, built in 136 hours across 17 weeks and shipped 31 December 2026. Timothy Creekmore."
-  ogDescription="A solo sci-fi extraction shooter in Unreal Engine 5 — 136 hours, 17 weeks, one hard deadline."
+  title="Walkthrough world — Build log | Timothy Creekmore"
+  description="A stylised walkthrough world in Unreal Engine 5 — a forest clearing, a creek and a few buildings, shipped 31 December 2026 as six stills and a flythrough. Timothy Creekmore."
+  ogDescription="A stylised walkthrough world in Unreal Engine 5 — six stills, one flythrough, one hard deadline."
 >
   <div class="grid-field" aria-hidden="true"></div>
   <Nav active="game" />
@@ -40,13 +46,13 @@ const PHASE_NOTE = '17 weeks · to 31 Dec 2026';
     <header class="pt-16 pb-14">
       <p class="eyebrow mb-4">Build log &middot; Unreal Engine 5</p>
       <h1 class="text-4xl md:text-5xl mb-5">
-        One map, one weapon, and a way out — by 31 December.
+        A small place worth standing in — by 31 December.
       </h1>
       <p class="text-gray-600 leading-relaxed max-w-xl mb-4">
-        A solo sci-fi extraction shooter, built in eight hours a week for seventeen weeks. The constraint is the point: 136 hours is enough for one map, one weapon, a handful of bots and a working extraction loop, and it is not enough for anything else.
+        A stylised walkthrough world: a forest clearing, a creek with a small bridge, and a handful of buildings. No combat and no systems — it is built to be worth looking at and pleasant to walk through, and it is judged on six images and a short video.
       </p>
       <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
-        This replaces a Unity project that got further than this one has and shipped nothing. The difference this time is a fixed scope, a date that does not move, and a build log written while it happens rather than afterwards.
+        It replaces an extraction shooter that was stopped deliberately, three weeks in, while it was working. That story is at the bottom of this page rather than hidden from it.
       </p>
       <span class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-600">
         <span class="w-2 h-2 rounded-full" style="background: var(--accent);" aria-hidden="true"></span>
@@ -54,70 +60,66 @@ const PHASE_NOTE = '17 weeks · to 31 Dec 2026';
       </span>
     </header>
 
-    <!-- A testable definition of done, stated up front. The old page's problem
-         was unfalsifiable claims ("engineering taste", "visual polish"); five
-         numbered outcomes can be checked by anyone who runs the build. -->
+    <!-- Five checkable outcomes, as before. The difference is that these are
+         artefacts rather than behaviours: a reader can see whether six images
+         exist without installing anything. -->
     <section aria-labelledby="done-heading" class="rule pt-8 pb-10">
       <div class="flex items-baseline justify-between mb-6">
         <h2 id="done-heading" class="eyebrow">What done means</h2>
         <p class="tick">31 Dec 2026</p>
       </div>
       <p class="text-gray-600 leading-relaxed max-w-xl mb-6">
-        A build you can hand to someone with no explanation, where they:
+        Not &ldquo;the world is finished&rdquo; — a place is never finished, and that is how projects like this die. Done is five things that either exist or do not:
       </p>
       <ol class="list-none p-0 m-0 max-w-xl">
         <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
           <span class="tick pt-1">01</span>
-          <p class="text-sm text-gray-600">Spawn into one map with one weapon.</p>
+          <p class="text-sm text-gray-600">Six hero shots, from fixed camera positions chosen in week 2.</p>
         </li>
         <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
           <span class="tick pt-1">02</span>
-          <p class="text-sm text-gray-600">Fight two or three bots in tense, readable encounters.</p>
+          <p class="text-sm text-gray-600">A 45-second flythrough.</p>
         </li>
         <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
           <span class="tick pt-1">03</span>
-          <p class="text-sm text-gray-600">Pick up salvage.</p>
+          <p class="text-sm text-gray-600">A packaged build you can walk around in — interactive, not a render.</p>
         </li>
         <li class="grid grid-cols-[1.75rem_1fr] gap-2 pb-3">
           <span class="tick pt-1">04</span>
-          <p class="text-sm text-gray-600">Reach an extraction point and get out — or die and lose the run's haul.</p>
+          <p class="text-sm text-gray-600">A photo mode: free camera, depth of field, a couple of filters.</p>
         </li>
         <li class="grid grid-cols-[1.75rem_1fr] gap-2">
           <span class="tick pt-1">05</span>
-          <p class="text-sm text-gray-600">See their permanent gear survive the loss.</p>
+          <p class="text-sm text-gray-600">All of it published here, where you are reading this.</p>
         </li>
       </ol>
       <p class="text-sm text-gray-500 leading-relaxed max-w-xl mt-6">
-        No tech tree, no cosmetics, no second weapon, no second map.
+        One scene, roughly 100 by 100 metres. No open world, no second location.
       </p>
     </section>
 
-    <!-- Five rules is an awkward count for the 2-column card grid the rest of
-         the site uses, and each one needs a sentence of reasoning to be worth
-         reading. A ruled list carries the explanation without inventing a new
-         card style. -->
     <section aria-labelledby="rules-heading" class="rule pt-8 pb-10">
       <h2 id="rules-heading" class="eyebrow mb-8">The rules that make it shippable</h2>
       <div class="max-w-xl">
         <div class="rule-b pb-4 mb-4">
-          <p class="font-semibold text-gray-900 text-sm mb-1">No art until week 9</p>
-          <p class="text-sm text-gray-600">Grey boxes only. If the game is not tense in grey, texture will not fix it.</p>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Order of operations decides everything</p>
+          <p class="text-sm text-gray-600">Anything that moves other things comes first: terrain moves trees, water carves terrain, the village footprint moves both. Grass moves nothing, so it is last. Plant before blocking out and half of it gets deleted.</p>
         </div>
         <div class="rule-b pb-4 mb-4">
-          <p class="font-semibold text-gray-900 text-sm mb-1">No new features after week 8</p>
-          <p class="text-sm text-gray-600">Anything thought of after the freeze goes on the cut list, not into the build.</p>
+          <p class="font-semibold text-gray-900 text-sm mb-1">One asset pack, one artist</p>
+          <p class="text-sm text-gray-600">Stylised work falls apart when packs are mixed — outline weight, colour and shape language never agree between artists. Coherence beats variety, and it is what makes this affordable solo.</p>
         </div>
         <div class="rule-b pb-4 mb-4">
-          <p class="font-semibold text-gray-900 text-sm mb-1">A 30-second clip every week</p>
-          <p class="text-sm text-gray-600">Non-negotiable, and the only rule with a tripwire attached: two weeks without a clip means the project has stalled, and the response is to cut scope rather than move the date.</p>
+          <p class="font-semibold text-gray-900 text-sm mb-1">The style comes from light, not shaders</p>
+          <p class="text-sm text-gray-600">Time of day, fog and a colour grade do the work. A hand-written cel shader in week four is the rabbit hole that eats the deadline.</p>
         </div>
         <div class="rule-b pb-4 mb-4">
-          <p class="font-semibold text-gray-900 text-sm mb-1">Ship broken over ship late</p>
-          <p class="text-sm text-gray-600">A janky build on 31 December beats a beautiful one in March.</p>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Detail only where the camera looks</p>
+          <p class="text-sm text-gray-600">The six shots are chosen before any dressing starts. Work outside them is invisible by definition.</p>
         </div>
         <div class="rule-b pb-4">
-          <p class="font-semibold text-gray-900 text-sm mb-1">Free assets for plumbing only</p>
-          <p class="text-sm text-gray-600">Animation, background props, foliage. Level design, hero art and audio are mine.</p>
+          <p class="font-semibold text-gray-900 text-sm mb-1">Ship it rough over ship it late</p>
+          <p class="text-sm text-gray-600">Kept from the last plan, because it is the rule that survived contact. A modest scene published on 31 December beats a better one still being lit in March.</p>
         </div>
       </div>
     </section>
@@ -132,48 +134,67 @@ const PHASE_NOTE = '17 weeks · to 31 Dec 2026';
         <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
           <span class="phase-dot wip" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Weeks 1–5 &middot; Sep–Oct</p>
-            <p class="font-semibold text-gray-900 text-sm mb-1">Phase 1 · Prove the loop</p>
-            <p class="text-sm text-gray-600">Engine up and packaged, Blueprints learned properly, a grey-boxed 200m sector, a working extraction volume, and salvage that banks on extraction and drops on death. The whole loop running in grey is the milestone that matters most.</p>
+            <p class="tick float-right">Weeks 1–3 &middot; Sep–Oct</p>
+            <p class="font-semibold text-gray-900 text-sm mb-1">Phase 1 · Block it out</p>
+            <p class="text-sm text-gray-600">Terrain sculpted grey — the clearing, the creek bed, the shelf the village sits on. Buildings and bridge as plain boxes. A rough lighting pass so the shapes can be judged, then the six camera positions get chosen and written down.</p>
           </div>
         </li>
         <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
           <span class="phase-dot todo" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Weeks 6–8 &middot; Oct–Nov</p>
-            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 2 · Make it tense</p>
-            <p class="text-sm text-gray-500">One bot that patrols, notices you and shoots, then a full eight hours on nothing but firefight feel — recoil, hit feedback, time-to-kill. Encounters placed deliberately, and the feature freeze.</p>
+            <p class="tick float-right">Weeks 4–5 &middot; Oct</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 2 · Ground and water</p>
+            <p class="text-sm text-gray-500">The creek, which carves the terrain as it goes and so has to arrive before anything is planted. Then the landscape material — grass, dirt, rock, and mud at the water's edge.</p>
           </div>
         </li>
         <li class="grid grid-cols-[1.5rem_1fr] gap-4 pb-6">
           <span class="phase-dot todo" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Weeks 9–15 &middot; Nov–Dec</p>
-            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 3 · Make it yours</p>
-            <p class="text-sm text-gray-500">Environment art one zone at a time, a Lumen lighting pass, background structures on the horizon, and audio — where the extraction cue is the single highest-value sound in the game.</p>
+            <p class="tick float-right">Weeks 6–10 &middot; Nov–Dec</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 3 · Dress it</p>
+            <p class="text-sm text-gray-500">Foliage biggest to smallest — trees for silhouette, then bushes, then grass to hide the seams. The blockout boxes become real buildings, props go where the shots look, and a detail pass softens every hard line where things meet the ground.</p>
           </div>
         </li>
         <li class="grid grid-cols-[1.5rem_1fr] gap-4">
           <span class="phase-dot todo" aria-hidden="true"></span>
           <div>
-            <p class="tick float-right">Weeks 16–17 &middot; Dec</p>
-            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 4 · Land it</p>
-            <p class="text-sm text-gray-500">A buffer week that is deliberately empty so overruns have somewhere to go, then package, play it start to finish three times, and fix only what breaks.</p>
+            <p class="tick float-right">Weeks 11–13 &middot; Dec</p>
+            <p class="font-semibold text-gray-500 text-sm mb-1">Phase 4 · Finish it</p>
+            <p class="text-sm text-gray-500">The real lighting pass, which is where a stylised scene is won or lost. Then photo mode, the six captures, the flythrough, a packaged build, and publishing — with four days of buffer that are deliberately empty.</p>
           </div>
         </li>
       </ol>
     </section>
 
-    <!-- Deliberately empty until the first clip exists. An empty log that says
-         so is honest; a placeholder reel would repeat the mistake this page was
-         rewritten to fix. -->
-    <section aria-labelledby="clips-heading" class="rule pt-8 pb-16">
+    <!-- The pivot, stated plainly and with numbers. This section is why the
+         rest of the page can be believed: anyone can see what the previous
+         project was, when it stopped, and what existed at the time. -->
+    <section aria-labelledby="pivot-heading" class="rule pt-8 pb-10">
       <div class="flex items-baseline justify-between mb-6">
-        <h2 id="clips-heading" class="eyebrow">Clip log</h2>
-        <p class="tick">0 of 17</p>
+        <h2 id="pivot-heading" class="eyebrow">What happened to the shooter</h2>
+        <p class="tick">Boxed 24 Sep 2026</p>
+      </div>
+      <p class="text-gray-600 leading-relaxed max-w-xl mb-4">
+        For three weeks this page described a solo sci-fi extraction shooter, and it got further than the Unity project ever did. By the end of week three there was a 200-metre greybox sector with three routes from spawn to extraction, each walked and timed: <span class="tick">55.6s</span> across the open middle, <span class="tick">77.1s</span> through a covered warren, <span class="tick">75.4s</span> the long way round. A working extraction loop — walk in, hold five seconds, get out. That week's goal was met four days early.
+      </p>
+      <p class="text-gray-600 leading-relaxed max-w-xl mb-4">
+        It was stopped anyway. The weeks ahead were enemy AI, weapon feel, loot tables and balancing — months of systems work, for a first shipped game, by someone whose interest is art, light and level design. Continuing meant choosing the least interesting version of the next fourteen weeks.
+      </p>
+      <p class="text-gray-600 leading-relaxed max-w-xl">
+        Nothing was thrown away. The sector, the loop and the notes are tagged in the repository at the point they stopped, and the workflow around them — the plan, the board, the session log — carried straight over to this project. Stopping something that works is a different act from abandoning something that does not, and only one of the two is worth repeating.
+      </p>
+    </section>
+
+    <!-- Deliberately empty until week 12, with the same discipline as the clip
+         log it replaces: a placeholder image would repeat the failure this page
+         was first rewritten to fix. -->
+    <section aria-labelledby="shots-heading" class="rule pt-8 pb-16">
+      <div class="flex items-baseline justify-between mb-6">
+        <h2 id="shots-heading" class="eyebrow">The shots</h2>
+        <p class="tick">0 of 6</p>
       </div>
       <p class="text-gray-600 leading-relaxed max-w-xl">
-        Thirty seconds a week, recorded whether the week went well or not. The first eight are grey boxes by design, so this will look like a game late and play like one early. First clip lands the week of 13 September.
+        Six images and one flythrough, captured in week 12 from positions chosen in week 2. Nothing appears here before then — the scene spends nine weeks as grey shapes, bare terrain and half-planted trees, and none of that is worth showing.
       </p>
     </section>
 
